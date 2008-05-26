@@ -1,0 +1,5 @@
+#summary Friend-Finder-Szenario
+#labels Phase-Requirements
+
+Zu finden unter Downloads
+http://gps-friend-finder.googlecode.com/files/FriendFinder-Szenario.pdf

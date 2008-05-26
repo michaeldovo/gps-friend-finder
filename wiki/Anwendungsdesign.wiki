@@ -1,0 +1,2 @@
+#labels Phase-Design
+UML-Entwurf kommt Montag Abend, dann zu finden unter Downloads bzw. im SVN.

@@ -17,7 +17,9 @@ public class Person {
      * to show your "target" more nicely than with just the mobilenumber
      */
     private String name;
-
+    private String mobilenumber;
+    private GPSposition position;
+    
     public String getName() {
         return name;
     }
@@ -25,9 +27,7 @@ public class Person {
     public void setName(String name) {
         this.name = name;
     }
-    private String mobilenumber;
-    private GPSposition position;
-
+   
     public String getMobilenumber() {
         return mobilenumber;
     }

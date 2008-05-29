@@ -8,12 +8,13 @@ package main;
 import io.P2PConnection;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
+import javax.microedition.m2g.SVGImage;
 import javax.microedition.pim.Contact;
 import javax.microedition.pim.PIM;
 import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.lcdui.pda.PIMBrowser;
+import org.netbeans.microedition.svg.SVGSplashScreen;
 import org.netbeans.microedition.util.SimpleCancellableTask;
-import smsconnect.SMSRequest;
 
 /**
  * @author Chris2u
@@ -32,6 +33,8 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private Alert alertAskRetry;
     private Form FFGuideScreen;
     private ImageItem directionImage;
+    private FFGuideCanvas ffGuideCanvas;
+    private SVGSplashScreen svgSplashScreen;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -44,6 +47,8 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private SimpleCancellableTask task1;
     private Ticker ticker2;
     private Image image;
+    private SVGImage svgImage;
+    private SVGImage svgImage1;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -140,39 +145,45 @@ public class MainMIDlet extends MIDlet implements CommandListener {
                 // write pre-action user code here
                 switchDisplayable(null, getPimBrowser());//GEN-LINE:|7-commandAction|10|19-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|11|56-preAction
+            }//GEN-BEGIN:|7-commandAction|11|94-preAction
+        } else if (displayable == svgSplashScreen) {
+            if (command == SVGSplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|11|94-preAction
+                // write pre-action user code here
+//GEN-LINE:|7-commandAction|12|94-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|13|56-preAction
         } else if (displayable == waitForConfirmationScreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|11|56-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|13|56-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|12|56-postAction
+                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|14|56-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|13|55-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|15|55-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen());//GEN-LINE:|7-commandAction|14|55-postAction
+                switchDisplayable(null, getSvgSplashScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|16|55-postAction
                 // write post-action user code here
-            } else if (command == stopCommand) {//GEN-LINE:|7-commandAction|15|75-preAction
+            } else if (command == stopCommand) {//GEN-LINE:|7-commandAction|17|75-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|16|75-postAction
+                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|18|75-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|17|30-preAction
+            }//GEN-BEGIN:|7-commandAction|19|30-preAction
         } else if (displayable == waitForSMSscreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|17|30-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|19|30-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|18|30-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|20|30-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|19|29-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|21|29-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|20|29-postAction
+                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|22|29-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|21|72-preAction
+            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|23|72-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|22|72-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|24|72-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|23|7-postCommandAction
-        }//GEN-END:|7-commandAction|23|7-postCommandAction
+            }//GEN-BEGIN:|7-commandAction|25|7-postCommandAction
+        }//GEN-END:|7-commandAction|25|7-postCommandAction
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|24|
-    //</editor-fold>//GEN-END:|7-commandAction|24|
+    }//GEN-BEGIN:|7-commandAction|26|
+    //</editor-fold>//GEN-END:|7-commandAction|26|
 
 
 
@@ -540,6 +551,76 @@ public class MainMIDlet extends MIDlet implements CommandListener {
         return image;
     }
     //</editor-fold>//GEN-END:|89-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: ffGuideCanvas ">//GEN-BEGIN:|91-getter|0|91-preInit
+    /**
+     * Returns an initiliazed instance of ffGuideCanvas component.
+     * @return the initialized component instance
+     */
+    public FFGuideCanvas getFfGuideCanvas() {
+        if (ffGuideCanvas == null) {//GEN-END:|91-getter|0|91-preInit
+            // write pre-init user code here
+            ffGuideCanvas = new FFGuideCanvas();//GEN-BEGIN:|91-getter|1|91-postInit
+            ffGuideCanvas.setTitle("ffGuideCanvas");//GEN-END:|91-getter|1|91-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|91-getter|2|
+        return ffGuideCanvas;
+    }
+    //</editor-fold>//GEN-END:|91-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: svgSplashScreen ">//GEN-BEGIN:|92-getter|0|92-preInit
+    /**
+     * Returns an initiliazed instance of svgSplashScreen component.
+     * @return the initialized component instance
+     */
+    public SVGSplashScreen getSvgSplashScreen() {
+        if (svgSplashScreen == null) {//GEN-END:|92-getter|0|92-preInit
+            // write pre-init user code here
+            svgSplashScreen = new SVGSplashScreen(getSvgImage1(), getDisplay());//GEN-BEGIN:|92-getter|1|92-postInit
+            svgSplashScreen.setTitle("svgSplashScreen");
+            svgSplashScreen.setCommandListener(this);//GEN-END:|92-getter|1|92-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|92-getter|2|
+        return svgSplashScreen;
+    }
+    //</editor-fold>//GEN-END:|92-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: svgImage ">//GEN-BEGIN:|95-getter|0|95-preInit
+    /**
+     * Returns an initiliazed instance of svgImage component.
+     * @return the initialized component instance
+     */
+    public SVGImage getSvgImage() {
+        if (svgImage == null) {//GEN-END:|95-getter|0|95-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|95-getter|1|95-@java.io.IOException
+                svgImage = (SVGImage) SVGImage.createImage(getClass().getResourceAsStream("/Arrow.svg"), null);
+            } catch (java.io.IOException e) {//GEN-END:|95-getter|1|95-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|95-getter|2|95-postInit
+        }//GEN-BEGIN:|95-getter|3|
+        return svgImage;
+    }
+    //</editor-fold>//GEN-END:|95-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: svgImage1 ">//GEN-BEGIN:|96-getter|0|96-preInit
+    /**
+     * Returns an initiliazed instance of svgImage1 component.
+     * @return the initialized component instance
+     */
+    public SVGImage getSvgImage1() {
+        if (svgImage1 == null) {//GEN-END:|96-getter|0|96-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|96-getter|1|96-@java.io.IOException
+                svgImage1 = (SVGImage) SVGImage.createImage(getClass().getResourceAsStream("/thumbsUp.svg"), null);
+            } catch (java.io.IOException e) {//GEN-END:|96-getter|1|96-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|96-getter|2|96-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|96-getter|3|
+        return svgImage1;
+    }
+    //</editor-fold>//GEN-END:|96-getter|3|
 
 
 

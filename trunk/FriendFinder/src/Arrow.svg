@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" 
+     baseProfile="tiny" 
+     xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink"  
+     id="svg-root"
+     height="225.765" width="177.346">
+    <g id="Arrow">
+        <desc>Arrow</desc>
+        <g>
+            <g fill="#000000" stroke="#000000" stroke-width="1" stroke-miterlimit="2.6131">
+                <path d="M 11715,13039 L 11725,13071 11725,13090 11715,13141 11694,13192 11643,13223 11592,13233 9408,13233 9357,13223 9316,13192 9287,13141 9275,13090 9275,13071 9287,13039 10373,10592 10424,10529 10506,10500 10576,10529 10629,10602 11715,13039 Z"/>
+                <path d="M 10050,16500 L 10050,12686 10950,12686 10950,16500 10050,16500 Z"/>
+            </g>
+        </g>
+    </g>
+</svg>

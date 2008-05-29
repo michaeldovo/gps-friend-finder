@@ -1,14 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package gps;
 
-/**
- *
- * @author Chris2u
- */
-public class GPSposition {
+public class GPSposition{
+    
+    private double Latitude;
+    private double Longitude;
+    
+    public double getLatitude() {
+        return Latitude;
+    }
 
+    public void setLatitude(double Latitude) {
+        this.Latitude = Latitude;
+    }
+
+    public double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(double Longitude) {
+        this.Longitude = Longitude;
+    }
 }

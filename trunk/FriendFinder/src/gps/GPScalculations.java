@@ -1,5 +1,8 @@
 package gps;
 
+import io.BTConnection;
+import io.Listener;
+
 /**
  *
  * @author CoolCat
@@ -10,9 +13,15 @@ public class GPScalculations {
     private GPSposition oldpos;
     private GPSposition targetpos;
     private TestData test=new TestData();
+    private String btString;
+    BTConnection bt;
+    private Listener listen;
     
     //Initialisierung von targetpos und currentpos
-    public void start(){ 
+    public void start(){  
+        bt=new BTConnection(listen);
+        bt.start();
+        bt.run();       
         test.start();
         if(targetpos==null){
             setTargetPosition();
@@ -64,10 +73,35 @@ public class GPScalculations {
         targetpos=getTargetPos();
     }
     
-    //Noch zu Implementieren
-    //Daten vom GPS
     private GPSposition getPosGPS(){
-        return test.getOwnpos();
+        GPSposition posGPS=new GPSposition();
+        double latitude;
+        double longitude;
+        double grad;
+        double min;
+        btString=bt.readGPSData();
+        int count=btString.indexOf(",");
+        count=btString.indexOf(",", count+1);
+        int count2=btString.indexOf(",", count+1);
+        latitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+        grad=Math.floor(latitude/100);
+        min=latitude-grad*100;
+        latitude=grad+min*60;
+        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("S")){
+            latitude=-1*latitude;
+        }
+        count=btString.indexOf(",", count2+1);
+        count2=btString.indexOf(",", count+1);
+        longitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+        grad=Math.floor(longitude/100);
+        min=longitude-grad*100;
+        longitude=grad+min/60;
+        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("W")){
+            longitude=-1*longitude;
+        }
+        posGPS.setLatitude(latitude);
+        posGPS.setLongitude(longitude);
+        return posGPS;
     }
     
     //Noch zu Implementieren

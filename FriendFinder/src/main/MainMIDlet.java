@@ -33,8 +33,8 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private Alert alertAskRetry;
     private Form FFGuideScreen;
     private ImageItem directionImage;
-    private FFGuideCanvas ffGuideCanvas;
     private SVGSplashScreen svgSplashScreen;
+    private FFGuideCanvas ffGuideCanvas;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -46,8 +46,8 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private Ticker ticker1;
     private SimpleCancellableTask task1;
     private Ticker ticker2;
-    private Image image;
     private SVGImage svgImage;
+    private Image image;
     private SVGImage svgImage1;
     //</editor-fold>//GEN-END:|fields|0|
 
@@ -578,6 +578,7 @@ public class MainMIDlet extends MIDlet implements CommandListener {
             // write pre-init user code here
             svgSplashScreen = new SVGSplashScreen(getSvgImage1(), getDisplay());//GEN-BEGIN:|92-getter|1|92-postInit
             svgSplashScreen.setTitle("svgSplashScreen");
+            svgSplashScreen.setTicker(Person.other().getMessage());
             svgSplashScreen.setCommandListener(this);//GEN-END:|92-getter|1|92-postInit
             // write post-init user code here
         }//GEN-BEGIN:|92-getter|2|

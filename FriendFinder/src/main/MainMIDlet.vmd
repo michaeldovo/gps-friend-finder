@@ -199,21 +199,22 @@
                         <Property name="appearanceMode" typeID="Pint" value="V0"/>
                     </Component>
                 </Component>
-                <Component componentID="91" typeID="Cmain.FFGuideCanvas">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VffGuideCanvas"/>
-                    <Property name="title" typeID="Pjava.lang.String" value="VffGuideCanvas"/>
-                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
-                </Component>
                 <Component componentID="92" typeID="Corg.netbeans.microedition.svg.SVGSplashScreen">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VsvgSplashScreen"/>
                     <Property name="commands" typeID="1C#CommandEventSource" value="A1:3_R94"/>
                     <Property name="title" typeID="Pjava.lang.String" value="VsvgSplashScreen"/>
+                    <Property name="ticker" typeID="Cjavax.microedition.lcdui.Ticker" value="UPerson.other().getMessage()"/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
                     <Property name="svgImage" typeID="Cjavax.microedition.m2g.SVGImage" value="R96"/>
                     <Component componentID="94" typeID="C#SVGSplashScreenDismissCommandEventSource">
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R92"/>
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R93"/>
                     </Component>
+                </Component>
+                <Component componentID="91" typeID="Cmain.FFGuideCanvas">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VffGuideCanvas"/>
+                    <Property name="title" typeID="Pjava.lang.String" value="VffGuideCanvas"/>
+                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
                 </Component>
             </Component>
             <Component componentID="11" typeID="C#CommandsCategory">
@@ -291,6 +292,12 @@
                     <Property name="priority" typeID="Pint" value="V0"/>
                     <Property name="ordinary" typeID="Pboolean" value="Vfalse"/>
                 </Component>
+                <Component componentID="98" typeID="C#SMSComposerSendCommand">
+                    <Property name="label" typeID="Pjava.lang.String" value="VSend"/>
+                    <Property name="type" typeID="Pint" value="V4"/>
+                    <Property name="priority" typeID="Pint" value="V0"/>
+                    <Property name="ordinary" typeID="Pboolean" value="Vfalse"/>
+                </Component>
             </Component>
             <Component componentID="12" typeID="C#ResourcesCategory">
                 <Component componentID="31" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
@@ -307,13 +314,13 @@
                     <Property name="instanceName" typeID="Pjava.lang.String" value="Vticker2"/>
                     <Property name="string" typeID="Pjava.lang.String" value="VBitte warten Sie, während ihre Anfrage versendet wird"/>
                 </Component>
-                <Component componentID="89" typeID="Cjavax.microedition.lcdui.Image">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vimage"/>
-                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/back_f2.png"/>
-                </Component>
                 <Component componentID="95" typeID="Cjavax.microedition.m2g.SVGImage">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VsvgImage"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/Arrow.svg"/>
+                </Component>
+                <Component componentID="89" typeID="Cjavax.microedition.lcdui.Image">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vimage"/>
+                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/back_f2.png"/>
                 </Component>
                 <Component componentID="96" typeID="Cjavax.microedition.m2g.SVGImage">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VsvgImage1"/>
@@ -323,15 +330,15 @@
         </Component>
     </Document>
     <FlowScene version="1">
-        <Node componentID="70" descriptorID="componentNode70" x="844" y="424"/>
-        <Node componentID="91" descriptorID="componentNode91" x="33" y="338"/>
-        <Node componentID="26" descriptorID="componentNode26" x="550" y="266"/>
         <Node componentID="92" descriptorID="componentNode92" x="246" y="234"/>
-        <Node componentID="13" descriptorID="componentNode13" x="301" y="51"/>
-        <Node componentID="2" descriptorID="componentNode2" x="50" y="50"/>
+        <Node componentID="91" descriptorID="componentNode91" x="32" y="338"/>
+        <Node componentID="26" descriptorID="componentNode26" x="536" y="241"/>
+        <Node componentID="70" descriptorID="componentNode70" x="844" y="424"/>
         <Node componentID="60" descriptorID="componentNode60" x="839" y="282"/>
-        <Node componentID="54" descriptorID="componentNode54" x="518" y="433"/>
+        <Node componentID="86" descriptorID="componentNode86" x="147" y="430"/>
+        <Node componentID="2" descriptorID="componentNode2" x="50" y="50"/>
         <Node componentID="50" descriptorID="componentNode50" x="487" y="59"/>
-        <Node componentID="86" descriptorID="componentNode86" x="147" y="429"/>
+        <Node componentID="54" descriptorID="componentNode54" x="518" y="433"/>
+        <Node componentID="13" descriptorID="componentNode13" x="301" y="51"/>
     </FlowScene>
 </VisualDesign>

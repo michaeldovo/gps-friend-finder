@@ -48,7 +48,10 @@ public class GPScalculations {
         }
         return direction;
     }
-
+    /**
+     * 
+     * @return Distance in km
+     */
     public double getDistance() {
         return calcDistance();
     }

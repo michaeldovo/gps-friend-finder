@@ -20,4 +20,9 @@ public class Property {
     public static final String AppId = "_*_FriendFinder_*_";
     public static final String VersionId = "0.1_*_";
     
+// ******
+// HTTP
+// ******
+    public static final int updateInterval = 30;
+    
 }

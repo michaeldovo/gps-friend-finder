@@ -1,5 +1,6 @@
 package io;
 
+import gps.GPSposition;
 import java.io.IOException;
 //import java.security.MessageDigest;
 import java.util.Random;
@@ -17,6 +18,7 @@ public class P2PConnection {
     
     private String sessionId;
     private SMSRequest request;
+    private HTTPConnection conn;
        
     public static P2PConnection getInstance() {
         if (inst==null) throw new IllegalStateException("The Connection hasn't been initialized.");
@@ -29,6 +31,24 @@ public class P2PConnection {
     
     public static P2PConnection establish(String sessionId) {
         return inst = new P2PConnection(sessionId);
+    }
+    
+    public void update() {
+        
+    }
+    
+    public boolean write(String message) {
+        conn.send((Person.me().getPosition().toString(), message);
+    }
+    
+    public void read() {
+        /**
+         * [0] GPSString
+         * [1] message or null if no message available
+         */
+        String[] answer = conn.read();
+        Person.other().setPosition(new GPSposition(answer[0]));
+        Person.other().setMessage(answer[1]));
     }
 
     public Person getMe() {

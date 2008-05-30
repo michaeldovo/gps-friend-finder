@@ -18,7 +18,16 @@ public class Person {
      */
     private String name;
     private String mobilenumber;
-    private GPSposition position;
+    private volatile GPSposition position;
+    private volatile String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
     
     public String getName() {
         return name;

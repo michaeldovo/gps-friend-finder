@@ -39,16 +39,25 @@ public class GPScalculations {
         else return false;
     }
     
+    public void updateTarget(){
+        setTargetPosition();
+    }
+    
     public GPSposition getPosition() {
+        setCurrentPosition();
         return currentpos;
     }
 
-    //Ausgabe der Richtung zum Ziel
-    //Gemessen in(0-360) Grad im Uhrzeigersinn 
-    //von der Laufrichtung
+   /**
+    * Ausgabe der Richtung zum Ziel
+    * Gemessen in(0-360) Grad im Uhrzeigersinn 
+    * von der Laufrichtung
+    */
     public double getDirection() {
-        oldpos=currentpos;
-        setCurrentPosition();
+        if(oldpos.getLatitude()!=currentpos.getLatitude()&&oldpos.getLongitude()!=currentpos.getLongitude()){
+            oldpos=currentpos;
+            setCurrentPosition();   
+        }
         double targetDirection=calcTargetDir();
         double moveDirection=calcMoveDir();
         double direction=moveDirection-targetDirection;

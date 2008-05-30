@@ -13,7 +13,6 @@ public class TestMain {
 
     public static void main(String[]args){
         GPScalculations tester=new GPScalculations();
-        
         tester.start();
         System.out.print("Current Pos: " + tester.getPosition().getLatitude() + " Latitude, " + tester.getPosition().getLongitude() + " Longitude.");
         

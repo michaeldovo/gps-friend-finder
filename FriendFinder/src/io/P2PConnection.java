@@ -38,7 +38,8 @@ public class P2PConnection {
     }
     
     public boolean write(String message) {
-        conn.send((Person.me().getPosition().toString(), message);
+        return true;
+//        conn.send((Person.me().getPosition().toString(), message);
     }
     
     public void read() {
@@ -47,8 +48,8 @@ public class P2PConnection {
          * [1] message or null if no message available
          */
         String[] answer = conn.read();
-        Person.other().setPosition(new GPSposition(answer[0]));
-        Person.other().setMessage(answer[1]));
+//        Person.other().setPosition(new GPSposition(answer[0]));
+//        Person.other().setMessage(answer[1]));
     }
 
     public Person getMe() {

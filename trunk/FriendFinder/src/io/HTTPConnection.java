@@ -239,4 +239,16 @@ public class HTTPConnection{
             establishHTTP(url);
         }
     }
+    
+    public void send(String GPSPosition, String message){
+        
+    }
+    
+    public String[] read(){
+        String []serverDaten = new String[2];
+        serverDaten[0] = "53324 423424";
+        serverDaten[1] = "Mein Handy spinnt, wo bin ich?";
+        
+        return serverDaten;
+    }
 }

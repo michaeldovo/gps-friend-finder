@@ -17,6 +17,7 @@ import org.netbeans.microedition.svg.SVGWaitScreen;
 import org.netbeans.microedition.util.SimpleCancellableTask;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
+import smsconnect.SMSservice;
 
 /**
  * @author Chris2u
@@ -68,7 +69,7 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private void initialize() {//GEN-END:|0-initialize|0|0-preInitialize
         // write pre-initialize user code here
 //GEN-LINE:|0-initialize|1|0-postInitialize
-        // write post-initialize user code here
+        SMSservice.register();
     }//GEN-BEGIN:|0-initialize|2|
     //</editor-fold>//GEN-END:|0-initialize|2|
 

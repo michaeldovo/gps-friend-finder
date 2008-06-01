@@ -688,6 +688,14 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
      * @param unconditional if true, then the MIDlet has to be unconditionally terminated and all resources has to be released.
      */
     public void destroyApp(boolean unconditional) {
+        try {
+            if (SMSservice.getMessageConnection() != null) {
+                SMSservice.getMessageConnection().setMessageListener(null);
+                SMSservice.getMessageConnection().close();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public class updateGuideScreen implements Runnable {

@@ -171,11 +171,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             }//GEN-BEGIN:|7-commandAction|11|79-preAction
         } else if (displayable == alertAskRetry) {
             if (command == cancelCommand1) {//GEN-END:|7-commandAction|11|79-preAction
-                task1.cancel();
+                waitForConfirmTask.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|12|79-postAction
                 // write post-action user code here
             } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|13|81-preAction
-                task1.cancel();
+                waitForConfirmTask.cancel();
                 switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|14|81-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|15|127-preAction
@@ -185,7 +185,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|16|127-postAction
                 // write post-action user code here
             } else if (command == okCommand3) {//GEN-LINE:|7-commandAction|17|123-preAction
-                task2.cancel();
+                updateGuideTask.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|18|123-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|19|51-preAction
@@ -853,7 +853,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         
         public void run() {
             
-            SVGImage i = getSvgImage();
+            SVGImage i = getGuideImage();
             // rotate arrow
             SVGElement arrow = (SVGElement) i.getDocument().getElementById("arrow");
             SVGMatrix transformMatrix = arrow.getMatrixTrait("transform");

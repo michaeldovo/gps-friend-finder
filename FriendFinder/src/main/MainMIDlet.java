@@ -58,13 +58,12 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Command okCommand3;
     private Command cancelCommand3;
     private Command backCommand;
-    private SimpleCancellableTask task;
-    private Ticker ticker1;
-    private SimpleCancellableTask task1;
-    private Ticker ticker2;
-    private SVGImage svgImage;
-    private Image image;
-    private SimpleCancellableTask task2;
+    private SimpleCancellableTask sendSMSTask;
+    private Ticker waitForConfirmMessage;
+    private SimpleCancellableTask waitForConfirmTask;
+    private Ticker sendSMSMessage;
+    private SVGImage guideImage;
+    private SimpleCancellableTask updateGuideTask;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -186,7 +185,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|16|127-postAction
                 // write post-action user code here
             } else if (command == okCommand3) {//GEN-LINE:|7-commandAction|17|123-preAction
-                // write pre-action user code here
+                task2.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|18|123-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|19|51-preAction
@@ -273,11 +272,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             // write pre-init user code here
             waitForSMSscreen = new WaitScreen(getDisplay());//GEN-BEGIN:|26-getter|1|26-postInit
             waitForSMSscreen.setTitle("Anfrage versenden");
-            waitForSMSscreen.setTicker(getTicker2());
+            waitForSMSscreen.setTicker(getSendSMSMessage());
             waitForSMSscreen.addCommand(getCancelCommand());
             waitForSMSscreen.setCommandListener(this);
             waitForSMSscreen.setText("");
-            waitForSMSscreen.setTask(getTask());//GEN-END:|26-getter|1|26-postInit
+            waitForSMSscreen.setTask(getSendSMSTask());//GEN-END:|26-getter|1|26-postInit
             // write post-init user code here
         }//GEN-BEGIN:|26-getter|2|
         return waitForSMSscreen;
@@ -329,23 +328,23 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
     //</editor-fold>//GEN-END:|20-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: task ">//GEN-BEGIN:|31-getter|0|31-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: sendSMSTask ">//GEN-BEGIN:|31-getter|0|31-preInit
     /**
-     * Returns an initiliazed instance of task component.
+     * Returns an initiliazed instance of sendSMSTask component.
      * @return the initialized component instance
      */
-    public SimpleCancellableTask getTask() {
-        if (task == null) {//GEN-END:|31-getter|0|31-preInit
+    public SimpleCancellableTask getSendSMSTask() {
+        if (sendSMSTask == null) {//GEN-END:|31-getter|0|31-preInit
             // write pre-init user code here
-            task = new SimpleCancellableTask();//GEN-BEGIN:|31-getter|1|31-execute
-            task.setExecutable(new org.netbeans.microedition.util.Executable() {
+            sendSMSTask = new SimpleCancellableTask();//GEN-BEGIN:|31-getter|1|31-execute
+            sendSMSTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|31-getter|1|31-execute
                     P2PConnection.request((Contact) getPimBrowser().getSelectedItem());
                 }//GEN-BEGIN:|31-getter|2|31-postInit
             });//GEN-END:|31-getter|2|31-postInit
             // write post-init user code here
         }//GEN-BEGIN:|31-getter|3|
-        return task;
+        return sendSMSTask;
     }
     //</editor-fold>//GEN-END:|31-getter|3|
 
@@ -377,27 +376,27 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             // write pre-init user code here
             waitForConfirmationScreen = new WaitScreen(getDisplay());//GEN-BEGIN:|54-getter|1|54-postInit
             waitForConfirmationScreen.setTitle("Warte auf Zustimmung ...");
-            waitForConfirmationScreen.setTicker(getTicker1());
+            waitForConfirmationScreen.setTicker(getWaitForConfirmMessage());
             waitForConfirmationScreen.addCommand(getStopCommand());
             waitForConfirmationScreen.setCommandListener(this);
             waitForConfirmationScreen.setText("");
-            waitForConfirmationScreen.setTask(getTask1());//GEN-END:|54-getter|1|54-postInit
+            waitForConfirmationScreen.setTask(getWaitForConfirmTask());//GEN-END:|54-getter|1|54-postInit
             // write post-init user code here
         }//GEN-BEGIN:|54-getter|2|
         return waitForConfirmationScreen;
     }
     //</editor-fold>//GEN-END:|54-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: task1 ">//GEN-BEGIN:|57-getter|0|57-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitForConfirmTask ">//GEN-BEGIN:|57-getter|0|57-preInit
     /**
-     * Returns an initiliazed instance of task1 component.
+     * Returns an initiliazed instance of waitForConfirmTask component.
      * @return the initialized component instance
      */
-    public SimpleCancellableTask getTask1() {
-        if (task1 == null) {//GEN-END:|57-getter|0|57-preInit
+    public SimpleCancellableTask getWaitForConfirmTask() {
+        if (waitForConfirmTask == null) {//GEN-END:|57-getter|0|57-preInit
             // write pre-init user code here
-            task1 = new SimpleCancellableTask();//GEN-BEGIN:|57-getter|1|57-execute
-            task1.setExecutable(new org.netbeans.microedition.util.Executable() {
+            waitForConfirmTask = new SimpleCancellableTask();//GEN-BEGIN:|57-getter|1|57-execute
+            waitForConfirmTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|57-getter|1|57-execute
                     int counter = 60;
                     while (counter>0) {
@@ -413,22 +412,22 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             });//GEN-END:|57-getter|2|57-postInit
             // write post-init user code here
         }//GEN-BEGIN:|57-getter|3|
-        return task1;
+        return waitForConfirmTask;
     }
     //</editor-fold>//GEN-END:|57-getter|3|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: ticker1 ">//GEN-BEGIN:|58-getter|0|58-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitForConfirmMessage ">//GEN-BEGIN:|58-getter|0|58-preInit
     /**
-     * Returns an initiliazed instance of ticker1 component.
+     * Returns an initiliazed instance of waitForConfirmMessage component.
      * @return the initialized component instance
      */
-    public Ticker getTicker1() {
-        if (ticker1 == null) {//GEN-END:|58-getter|0|58-preInit
+    public Ticker getWaitForConfirmMessage() {
+        if (waitForConfirmMessage == null) {//GEN-END:|58-getter|0|58-preInit
             // write pre-init user code here
-            ticker1 = new Ticker("Bitte warten Sie, bis die Gegenpartei Ihrer Anfrage zugestimmt hat.");//GEN-LINE:|58-getter|1|58-postInit
+            waitForConfirmMessage = new Ticker("Bitte warten Sie, bis die Gegenpartei Ihrer Anfrage zugestimmt hat.");//GEN-LINE:|58-getter|1|58-postInit
             // write post-init user code here
         }//GEN-BEGIN:|58-getter|2|
-        return ticker1;
+        return waitForConfirmMessage;
     }
     //</editor-fold>//GEN-END:|58-getter|2|
 
@@ -464,18 +463,18 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
     //</editor-fold>//GEN-END:|68-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: ticker2 ">//GEN-BEGIN:|69-getter|0|69-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: sendSMSMessage ">//GEN-BEGIN:|69-getter|0|69-preInit
     /**
-     * Returns an initiliazed instance of ticker2 component.
+     * Returns an initiliazed instance of sendSMSMessage component.
      * @return the initialized component instance
      */
-    public Ticker getTicker2() {
-        if (ticker2 == null) {//GEN-END:|69-getter|0|69-preInit
+    public Ticker getSendSMSMessage() {
+        if (sendSMSMessage == null) {//GEN-END:|69-getter|0|69-preInit
             // write pre-init user code here
-            ticker2 = new Ticker("Bitte warten Sie, w\u00E4hrend ihre Anfrage versendet wird");//GEN-LINE:|69-getter|1|69-postInit
+            sendSMSMessage = new Ticker("Bitte warten Sie, w\u00E4hrend ihre Anfrage versendet wird");//GEN-LINE:|69-getter|1|69-postInit
             // write post-init user code here
         }//GEN-BEGIN:|69-getter|2|
-        return ticker2;
+        return sendSMSMessage;
     }
     //</editor-fold>//GEN-END:|69-getter|2|
 
@@ -562,44 +561,27 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
 
 
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: image ">//GEN-BEGIN:|89-getter|0|89-preInit
+
+
+
+
+
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: guideImage ">//GEN-BEGIN:|95-getter|0|95-preInit
     /**
-     * Returns an initiliazed instance of image component.
+     * Returns an initiliazed instance of guideImage component.
      * @return the initialized component instance
      */
-    public Image getImage() {
-        if (image == null) {//GEN-END:|89-getter|0|89-preInit
-            // write pre-init user code here
-            try {//GEN-BEGIN:|89-getter|1|89-@java.io.IOException
-                image = Image.createImage("/back_f2.png");
-            } catch (java.io.IOException e) {//GEN-END:|89-getter|1|89-@java.io.IOException
-                e.printStackTrace();
-            }//GEN-LINE:|89-getter|2|89-postInit
-            // write post-init user code here
-        }//GEN-BEGIN:|89-getter|3|
-        return image;
-    }
-    //</editor-fold>//GEN-END:|89-getter|3|
-
-
-
-
-
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: svgImage ">//GEN-BEGIN:|95-getter|0|95-preInit
-    /**
-     * Returns an initiliazed instance of svgImage component.
-     * @return the initialized component instance
-     */
-    public SVGImage getSvgImage() {
-        if (svgImage == null) {//GEN-END:|95-getter|0|95-preInit
+    public SVGImage getGuideImage() {
+        if (guideImage == null) {//GEN-END:|95-getter|0|95-preInit
             // write pre-init user code here
             try {//GEN-BEGIN:|95-getter|1|95-@java.io.IOException
-                svgImage = (SVGImage) SVGImage.createImage(getClass().getResourceAsStream("/Arrow.svg"), null);
+                guideImage = (SVGImage) SVGImage.createImage(getClass().getResourceAsStream("/Arrow.svg"), null);
             } catch (java.io.IOException e) {//GEN-END:|95-getter|1|95-@java.io.IOException
                 e.printStackTrace();
             }//GEN-LINE:|95-getter|2|95-postInit
         }//GEN-BEGIN:|95-getter|3|
-        return svgImage;
+        return guideImage;
     }
     //</editor-fold>//GEN-END:|95-getter|3|
 
@@ -613,11 +595,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     public SVGWaitScreen getFFGuideScreen() {
         if (FFGuideScreen == null) {//GEN-END:|101-getter|0|101-preInit
             // write pre-init user code here
-            FFGuideScreen = new SVGWaitScreen(getSvgImage(), getDisplay());//GEN-BEGIN:|101-getter|1|101-postInit
+            FFGuideScreen = new SVGWaitScreen(getGuideImage(), getDisplay());//GEN-BEGIN:|101-getter|1|101-postInit
             FFGuideScreen.setTitle("Friend Finder Guide");
             FFGuideScreen.addCommand(getStopCommand1());
             FFGuideScreen.setCommandListener(this);
-            FFGuideScreen.setTask(getTask2());//GEN-END:|101-getter|1|101-postInit
+            FFGuideScreen.setTask(getUpdateGuideTask());//GEN-END:|101-getter|1|101-postInit
             // write post-init user code here
         }//GEN-BEGIN:|101-getter|2|
         return FFGuideScreen;
@@ -639,16 +621,16 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
     //</editor-fold>//GEN-END:|107-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: task2 ">//GEN-BEGIN:|106-getter|0|106-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: updateGuideTask ">//GEN-BEGIN:|106-getter|0|106-preInit
     /**
-     * Returns an initiliazed instance of task2 component.
+     * Returns an initiliazed instance of updateGuideTask component.
      * @return the initialized component instance
      */
-    public SimpleCancellableTask getTask2() {
-        if (task2 == null) {//GEN-END:|106-getter|0|106-preInit
+    public SimpleCancellableTask getUpdateGuideTask() {
+        if (updateGuideTask == null) {//GEN-END:|106-getter|0|106-preInit
             // write pre-init user code here
-            task2 = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
-            task2.setExecutable(new org.netbeans.microedition.util.Executable() {
+            updateGuideTask = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
+            updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
                     short direction = 0;
                     double distance = 1.5;
@@ -662,7 +644,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             });//GEN-END:|106-getter|2|106-postInit
             // write post-init user code here
         }//GEN-BEGIN:|106-getter|3|
-        return task2;
+        return updateGuideTask;
     }
     //</editor-fold>//GEN-END:|106-getter|3|
 

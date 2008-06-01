@@ -6,6 +6,7 @@
 package main;
 
 import io.P2PConnection;
+import java.io.IOException;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import javax.microedition.m2g.SVGImage;
@@ -28,7 +29,6 @@ import smsconnect.SMSservice;
 public class MainMIDlet extends MIDlet implements CommandListener, MessageListener {
 
     private boolean midletPaused = false;
-    private MessageConnection mc;
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Form startForm;
@@ -75,20 +75,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
 //GEN-LINE:|0-initialize|1|0-postInitialize
         // try to add SMSService to PUSH-registry
         SMSservice.register();
-        //  Create a server MessageConnection
-        if (mc == null) {
-            try {
-                // Open the messaging inbound port.
-                mc = SMSservice.newMessageConnection();
-                // Start a message processor thread, to process
-                // all messages for mc.
-                mc.setMessageListener(this);
-            }
-            catch(Exception e) {
-                System.out.println
-                  ("initialize.newMessageReceiver" + e);
-            }
+        try {
+            // Start a message processor thread, to process all messages for the connection.
+            SMSservice.getMessageConnection().setMessageListener(this);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+        
     }//GEN-BEGIN:|0-initialize|2|
     //</editor-fold>//GEN-END:|0-initialize|2|
 

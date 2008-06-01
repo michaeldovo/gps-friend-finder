@@ -665,9 +665,17 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
+                    int cycle = 1;
                     while (GPScalculations.getDistance() > 0) {
                         FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
-                        Thread.sleep(1000);
+                        // send and read server-data every 30 seconds
+                        if (cycle++ % 6 == 0) {
+                            cycle = 1;
+                            P2PConnection.getInstance().write(null);
+                            P2PConnection.getInstance().readUpdate();
+                        }
+                        // wait 5 seconds
+                        Thread.sleep(5000);
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
             });//GEN-END:|106-getter|2|106-postInit

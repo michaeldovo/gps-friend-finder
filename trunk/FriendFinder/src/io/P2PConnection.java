@@ -57,6 +57,7 @@ public class P2PConnection {
     }
 
     public void setConnectionEstablished(boolean connectionEstablished) {
+        System.out.println("THE CONNECTION HAS BEEN ESTABLISHED");
         this.connectionEstablished = connectionEstablished;
     }
     

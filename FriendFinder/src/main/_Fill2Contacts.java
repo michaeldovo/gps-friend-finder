@@ -18,10 +18,10 @@ public class _Fill2Contacts extends Thread {
             = (ContactList)(PIM.getInstance().openPIMList(
             PIM.CONTACT_LIST, PIM.READ_WRITE));
          // delete all contacts
-//         while (addressbook.items().hasMoreElements()) {
-//             addressbook.removeContact((Contact) addressbook.items().nextElement());      
-//         }
-        if (addressbook.items().hasMoreElements()) return;
+         while (addressbook.items().hasMoreElements()) {
+             addressbook.removeContact((Contact) addressbook.items().nextElement());      
+         }
+//        if (addressbook.items().hasMoreElements()) return;
         Contact contact = null;
 
         // Each PIMItem — new or found — is associated with
@@ -35,7 +35,7 @@ public class _Fill2Contacts extends Thread {
           contact.addString(Contact.TEL, Contact.ATTR_HOME,
              "555-HOME-NUMBER");
           contact.addString(Contact.TEL, Contact.ATTR_MOBILE,
-             "+4917622382168");
+             "+11111");
         }
         // Here’s a quick search to see if this contact
         // is already present in the addressbook:
@@ -57,7 +57,7 @@ public class _Fill2Contacts extends Thread {
           contact.addString(Contact.TEL, Contact.ATTR_HOME,
              "5555-HOME-NUMBER");
           contact.addString(Contact.TEL, Contact.ATTR_MOBILE,
-             "+4917622281150");
+             "+22222");
         }
         matching = addressbook.items(contact);
         if(matching.hasMoreElements()) {

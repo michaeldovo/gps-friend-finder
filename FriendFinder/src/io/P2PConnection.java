@@ -1,10 +1,10 @@
 package io;
 
-import gps.GPSposition;
 import java.io.IOException;
 //import java.security.MessageDigest;
 import java.util.Random;
 import javax.microedition.pim.Contact;
+import main.MainMIDlet;
 import main.Person;
 import smsconnect.SMSRequest;
 
@@ -14,23 +14,38 @@ import smsconnect.SMSRequest;
  */
 public class P2PConnection {
     private static P2PConnection inst;
-    public static P2PConnection testConnectionFromOther;
-    
+       
     private String sessionId;
     private SMSRequest request;
     private HTTPConnection conn;
+    private boolean connectionEstablished = false;
        
     public static P2PConnection getInstance() {
         if (inst==null) throw new IllegalStateException("The Connection hasn't been initialized.");
         return inst;
     }
     
+    /**
+     * Initiate a FriendFinder-Guide from Person A
+     * @param contact
+     * @return
+     * @throws java.io.IOException
+     */
     public static P2PConnection request(Contact contact) throws IOException {
         return inst = new P2PConnection(contact);
     }
     
-    public static P2PConnection establish(String sessionId) {
-        return inst = new P2PConnection(sessionId);
+    /**
+     * Prepare for confirm of FF-Guide received from Person A at Person B
+     * @param request
+     * @return
+     */
+    public static P2PConnection establish(SMSRequest request) {
+        Person.other().setMobilenumber(request.getPhoneNumber());
+        // ask the user for confirmation
+        MainMIDlet.getInstance().newFFrequest();
+        // TODO: send 2nd handshake back through http
+        return inst = new P2PConnection(request.getSessionId());
     }
     
     public void update() {
@@ -69,12 +84,21 @@ public class P2PConnection {
     private P2PConnection() {
     }
     
+    /**
+     * See .request()
+     * @param contact
+     * @throws java.io.IOException
+     */
     private P2PConnection(Contact contact) throws IOException {
         createSessionId();
         request = new SMSRequest(contact, sessionId);
         String message = request.send();
     }
 
+    /**
+     * See .establish()
+     * @param sessionId
+     */
     private P2PConnection(String sessionId) {
         this.sessionId = sessionId;
     }

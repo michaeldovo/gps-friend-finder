@@ -5,6 +5,7 @@
 
 package smsconnect;
 
+import io.P2PConnection;
 import javax.wireless.messaging.BinaryMessage;
 import javax.wireless.messaging.Message;
 import javax.wireless.messaging.MessageConnection;
@@ -82,8 +83,11 @@ public class MessageReceiver implements Runnable {
         // Process the received message
         if (msg instanceof TextMessage) {
             TextMessage tmsg = (TextMessage)msg;
+            System.out.println("RECEIVED SMS WITH: "+tmsg);
             //  Handle the text message...
-
+            SMSRequest r = SMSRequest.decode(tmsg.getPayloadText());
+            r.setPhoneNumber(tmsg.getAddress());
+            P2PConnection.establish(r);
         }
         else {
             // process received message

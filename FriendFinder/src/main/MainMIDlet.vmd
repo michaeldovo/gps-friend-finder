@@ -230,12 +230,12 @@
                         </Component>
                     </Component>
                     <Component componentID="117" typeID="C#CommandEventSource">
-                        <Property name="eventHandler" typeID="C#EventHandler" value="R118"/>
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R120"/>
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R110"/>
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R116"/>
-                        <Component componentID="118" typeID="C#ExitMidletEventHandler">
+                        <Component componentID="120" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R117"/>
-                            <Property name="mobileDevice" typeID="C#MobileDevice" value="R2"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
                         </Component>
                     </Component>
                 </Component>

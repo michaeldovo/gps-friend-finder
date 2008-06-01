@@ -29,6 +29,9 @@ import smsconnect.SMSservice;
 public class MainMIDlet extends MIDlet implements CommandListener, MessageListener {
 
     private boolean midletPaused = false;
+    private static MainMIDlet inst;
+    
+    public static MainMIDlet getInstance() { return inst; }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Form startForm;
@@ -63,6 +66,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
      * The MainMIDlet constructor.
      */
     public MainMIDlet() {
+        inst = this;
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Methods ">//GEN-BEGIN:|methods|0|
@@ -154,7 +158,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         } else if (displayable == FFrequestScreen) {
             if (command == cancelCommand2) {//GEN-END:|7-commandAction|7|117-preAction
                 // write pre-action user code here
-                exitMIDlet();//GEN-LINE:|7-commandAction|8|117-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|8|117-postAction
                 // write post-action user code here
             } else if (command == okCommand2) {//GEN-LINE:|7-commandAction|9|115-preAction
                 // write pre-action user code here

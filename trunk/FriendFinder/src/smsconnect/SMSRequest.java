@@ -61,12 +61,13 @@ public class SMSRequest {
         String message = toString();
         MessageConnection smsconn = null;
         /** Open the message connection. */
-        smsconn = SMSservice.getMessageConnection();
+        smsconn = (MessageConnection) Connector.open(address);
         TextMessage txtmessage = (TextMessage) smsconn.newMessage(MessageConnection.TEXT_MESSAGE);
         txtmessage.setAddress(address);
         txtmessage.setPayloadText(message);
-        //smsconn.send(txtmessage);
+        smsconn.send(txtmessage);
         smsconn.close();
+        System.out.println("SMS sent");
         return message;
     }
     

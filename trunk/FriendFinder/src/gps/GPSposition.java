@@ -7,10 +7,14 @@ public class GPSposition{
 
     public GPSposition(){}
     
-    public GPSposition(String string) {
-        int count=string.indexOf(";");
-        Latitude=Double.valueOf(string.substring(0, count).trim()).doubleValue();
-        Longitude=Double.valueOf(string.substring(count+1, string.length()).trim()).doubleValue();
+    /**
+     * 
+     * @param gpsstring A GPS-coded string in the format Latitude;Longitude
+     */
+    public GPSposition(String gpsString) {
+        int count=gpsString.indexOf(";");
+        Latitude=Double.valueOf(gpsString.substring(0, count).trim()).doubleValue();
+        Longitude=Double.valueOf(gpsString.substring(count+1, gpsString.length()).trim()).doubleValue();
     }
     
     public double getLatitude() {

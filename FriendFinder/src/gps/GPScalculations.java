@@ -10,17 +10,18 @@ import main.Person;
  */
 public class GPScalculations {
     
-    private GPSposition oldpos;
-    private TestData test=new TestData();
-    private String btString;
-    BTConnection bt;
-    private Listener listen;
+    private static GPSposition oldpos;
+    private static TestData test;
+    private static String btString;
+    private static BTConnection bt;
+    private static Listener listen;
     
     //Initialisierung von targetpos und currentpos
-    public void start(){  
+    public static void start(){  
         bt=new BTConnection(listen);
         bt.start();
-        bt.run();       
+        bt.run(); // TODO: start() beinhaltet run(), oder?
+        test = new TestData();
         test.start();
         if(Person.me().getPosition()==null){
             setCurrentPosition();
@@ -45,7 +46,7 @@ public class GPScalculations {
     * Gemessen in(0-360) Grad im Uhrzeigersinn 
     * von der Laufrichtung
     */
-    public double getDirection() {
+    public static short getDirection() {
         if(oldpos.getLatitude()!=Person.me().getPosition().getLatitude()&&oldpos.getLongitude()!=Person.me().getPosition().getLongitude()){
             oldpos=Person.me().getPosition();
             setCurrentPosition();   
@@ -56,21 +57,21 @@ public class GPScalculations {
         if(direction<0){
             direction=direction+360;
         }
-        return direction;
+        return (short) Math.ceil(direction);
     }
     /**
      * 
      * @return Distance in km
      */
-    public double getDistance() {
+    public static double getDistance() {
         return calcDistance();
     }
     
-    private void setCurrentPosition(){
+    private static void setCurrentPosition(){
         Person.me().setPosition(getPosGPS());
     }
     
-    private GPSposition getPosGPS(){
+    private static GPSposition getPosGPS(){
         GPSposition posGPS=new GPSposition();
         double latitude;
         double longitude;
@@ -101,8 +102,11 @@ public class GPScalculations {
         return posGPS;
     }
     
-    //Berechnung der Distanz
-    private double calcDistance(){
+    /**
+     * Berechnung der Distanz
+     * @return TODO: [???;???]
+     */
+    private static double calcDistance(){
         double distance;
         distance= mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.other().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.other().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-Person.other().getPosition().getLongitude()));
         distance= distance*6378.137;
@@ -110,7 +114,7 @@ public class GPScalculations {
     }
     
     //Berechnung der Richtung zum Ziel
-    private double calcTargetDir(){
+    private static double calcTargetDir(){
         double longDist;
         double dist;
         double dir;
@@ -135,7 +139,7 @@ public class GPScalculations {
     }
     
     //Berechnung der Laufrichtung
-    private double calcMoveDir(){
+    private static double calcMoveDir(){
         double longDist;
         double dist;
         double dir;

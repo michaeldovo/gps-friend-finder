@@ -5,6 +5,7 @@
 
 package main;
 
+import gps.GPScalculations;
 import io.P2PConnection;
 import java.io.IOException;
 import javax.microedition.io.PushRegistry;
@@ -431,7 +432,9 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                     int counter = 60;
                     while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
-                        // ask Service-Listener for incoming data
+                        // ask P2PConnection to look for incoming data
+                        P2PConnection.getInstance().readUpdate();
+                        
                         Thread.sleep(1000);
                         if (counter <= 1)
                             throw new Exception("Die andere Seite reagiert nicht.");
@@ -662,12 +665,8 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
-                    short direction = 0;
-                    double distance = 1.5;
-                    while (distance > 0) {
-                        direction = 1;
-                        distance -= 0.1;
-                        FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(direction, distance));
+                    while (GPScalculations.getDistance() > 0) {
+                        FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
                         Thread.sleep(1000);
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
@@ -839,7 +838,8 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                     int counter = 20;
                     while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
-                        // ask Service-Listener for incoming data
+                        // ask P2PConnection to look for incoming data
+                        P2PConnection.getInstance().readUpdate();
                         Thread.sleep(1000);
                         if (counter <= 1)
                             throw new IOException("Server antwortet nicht.");

@@ -1,5 +1,6 @@
 package io;
 
+import gps.GPSposition;
 import java.io.IOException;
 //import java.security.MessageDigest;
 import java.util.Random;
@@ -48,7 +49,7 @@ public class P2PConnection {
     }
     
     public void confirm() {
-        
+        conn.writeGPS(sessionId);
     }
 
     public boolean isConnectionEstablished() {
@@ -59,23 +60,23 @@ public class P2PConnection {
         this.connectionEstablished = connectionEstablished;
     }
     
-    public void update() {
-        
+ 
+    public void write(String message) {
+        conn.send(Person.me().getPosition().toString(), message);
     }
     
-    public boolean write(String message) {
-        return true;
-//        conn.send((Person.me().getPosition().toString(), message);
-    }
-    
-    public void read() {
+    public void readUpdate() {
         /**
          * [0] GPSString
          * [1] message or null if no message available
          */
         String[] answer = conn.read();
-//        Person.other().setPosition(new GPSposition(answer[0]));
-//        Person.other().setMessage(answer[1]));
+        // TODO: What is returned if the connection is dead or the session lost? Is there an exception or are the values just null?
+        if (answer[0]!=null) {
+            setConnectionEstablished(true);
+            Person.other().setPosition(new GPSposition(answer[0]));
+            Person.other().setMessage(answer[1]);
+        }
     }
 
     public Person getMe() {
@@ -92,16 +93,14 @@ public class P2PConnection {
 
 
     
-    private P2PConnection() {
-    }
-    
+   
     /**
      * See .request()
      * @param contact
      * @throws java.io.IOException
      */
     private P2PConnection(Contact contact) throws IOException {
-        createSessionId();
+        this(createSessionId());
         request = new SMSRequest(contact, sessionId);
         String message = request.send();
     }
@@ -112,10 +111,15 @@ public class P2PConnection {
      */
     private P2PConnection(String sessionId) {
         this.sessionId = sessionId;
+        try {
+            conn = new HTTPConnection(sessionId);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
-    private void createSessionId() {
-        sessionId = new Random().nextInt(Integer.MAX_VALUE)+"";
+    private static String createSessionId() {
+        return new Random().nextLong()+"";
         
         /* We don't need a real Hash, do we?
         
@@ -135,5 +139,6 @@ public class P2PConnection {
             hexString.append(plainText);
         }*/
     }
+
 
 }

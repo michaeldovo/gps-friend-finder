@@ -20,9 +20,8 @@ public class GPScalculations {
     public static void start(){  
         bt=new BTConnection(listen);
         bt.start();
-        bt.run(); // TODO: start() beinhaltet run(), oder?
         test = new TestData();
-        test.start();
+        test.startTest();
         if(Person.me().getPosition()==null){
             setCurrentPosition();
         }
@@ -73,32 +72,35 @@ public class GPScalculations {
     
     private static GPSposition getPosGPS(){
         GPSposition posGPS=new GPSposition();
-        double latitude;
-        double longitude;
-        double grad;
-        double min;
-        btString=bt.readGPSData();
-        int count=btString.indexOf(",");
-        count=btString.indexOf(",", count+1);
-        int count2=btString.indexOf(",", count+1);
-        latitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
-        grad=Math.floor(latitude/100);
-        min=latitude-grad*100;
-        latitude=grad+min*60;
-        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("S")){
-            latitude=-1*latitude;
-        }
-        count=btString.indexOf(",", count2+1);
-        count2=btString.indexOf(",", count+1);
-        longitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
-        grad=Math.floor(longitude/100);
-        min=longitude-grad*100;
-        longitude=grad+min/60;
-        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("W")){
-            longitude=-1*longitude;
-        }
-        posGPS.setLatitude(latitude);
-        posGPS.setLongitude(longitude);
+//        double latitude;
+//        double longitude;
+//        double grad;
+//        double min;
+//        btString=bt.readGPSData();
+//        int count=btString.indexOf(",");
+//        count=btString.indexOf(",", count+1);
+//        int count2=btString.indexOf(",", count+1);
+//        latitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+//        grad=Math.floor(latitude/100);
+//        min=latitude-grad*100;
+//        latitude=grad+min*60;
+//        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("S")){
+//            latitude=-1*latitude;
+//        }
+//        count=btString.indexOf(",", count2+1);
+//        count2=btString.indexOf(",", count+1);
+//        longitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+//        grad=Math.floor(longitude/100);
+//        min=longitude-grad*100;
+//        longitude=grad+min/60;
+//        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("W")){
+//            longitude=-1*longitude;
+//        }
+//        posGPS.setLatitude(latitude);
+//        posGPS.setLongitude(longitude);
+        
+        //Testwerte
+        posGPS=test.getOwnpos();
         return posGPS;
     }
     

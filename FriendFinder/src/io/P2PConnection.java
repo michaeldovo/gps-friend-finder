@@ -44,8 +44,19 @@ public class P2PConnection {
         Person.other().setMobilenumber(request.getPhoneNumber());
         // ask the user for confirmation
         MainMIDlet.getInstance().newFFrequest();
-        // TODO: send 2nd handshake back through http
         return inst = new P2PConnection(request.getSessionId());
+    }
+    
+    public void confirm() {
+        
+    }
+
+    public boolean isConnectionEstablished() {
+        return connectionEstablished;
+    }
+
+    public void setConnectionEstablished(boolean connectionEstablished) {
+        this.connectionEstablished = connectionEstablished;
     }
     
     public void update() {

@@ -2,6 +2,7 @@ package gps;
 
 import io.BTConnection;
 import io.Listener;
+import main.Person;
 
 /**
  *
@@ -9,9 +10,7 @@ import io.Listener;
  */
 public class GPScalculations {
     
-    private GPSposition currentpos;
     private GPSposition oldpos;
-    private GPSposition targetpos;
     private TestData test=new TestData();
     private String btString;
     BTConnection bt;
@@ -23,29 +22,22 @@ public class GPScalculations {
         bt.start();
         bt.run();       
         test.start();
-        if(targetpos==null){
-            setTargetPosition();
-        }
-        if(currentpos==null){
+        if(Person.me().getPosition()==null){
             setCurrentPosition();
         }
     }
     
     //Überprüfung ob Ziel erreicht
     public boolean targetreached(){
-        if(currentpos.getLatitude()==targetpos.getLatitude() && currentpos.getLongitude()==targetpos.getLongitude()){
+        if(Person.me().getPosition().getLatitude()==Person.other().getPosition().getLatitude() && Person.me().getPosition().getLongitude()==Person.other().getPosition().getLongitude()){
             return true;
         }
         else return false;
     }
     
-    public void updateTarget(){
-        setTargetPosition();
-    }
-    
     public GPSposition getPosition() {
         setCurrentPosition();
-        return currentpos;
+        return Person.me().getPosition();
     }
 
    /**
@@ -54,8 +46,8 @@ public class GPScalculations {
     * von der Laufrichtung
     */
     public double getDirection() {
-        if(oldpos.getLatitude()!=currentpos.getLatitude()&&oldpos.getLongitude()!=currentpos.getLongitude()){
-            oldpos=currentpos;
+        if(oldpos.getLatitude()!=Person.me().getPosition().getLatitude()&&oldpos.getLongitude()!=Person.me().getPosition().getLongitude()){
+            oldpos=Person.me().getPosition();
             setCurrentPosition();   
         }
         double targetDirection=calcTargetDir();
@@ -75,11 +67,7 @@ public class GPScalculations {
     }
     
     private void setCurrentPosition(){
-        currentpos=getPosGPS();
-    }
-    
-    private void setTargetPosition(){
-        targetpos=getTargetPos();
+        Person.me().setPosition(getPosGPS());
     }
     
     private GPSposition getPosGPS(){
@@ -113,16 +101,10 @@ public class GPScalculations {
         return posGPS;
     }
     
-    //Noch zu Implementieren
-    //Daten vom Ziel vom Server
-    private GPSposition getTargetPos(){
-        return test.getTargetpos();
-    }
-    
     //Berechnung der Distanz
     private double calcDistance(){
         double distance;
-        distance= mMath.acos(Math.sin(currentpos.getLatitude())*Math.sin(targetpos.getLatitude())+Math.cos(currentpos.getLatitude())*Math.cos(targetpos.getLatitude())*Math.cos(currentpos.getLongitude()-targetpos.getLongitude()));
+        distance= mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.other().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.other().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-Person.other().getPosition().getLongitude()));
         distance= distance*6378.137;
         return distance;
     }
@@ -132,19 +114,19 @@ public class GPScalculations {
         double longDist;
         double dist;
         double dir;
-        longDist=mMath.acos(Math.sin(currentpos.getLatitude())*Math.sin(currentpos.getLatitude())+Math.cos(currentpos.getLatitude())*Math.cos(currentpos.getLatitude())*Math.cos(currentpos.getLongitude()-targetpos.getLongitude()));
+        longDist=mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.me().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-Person.other().getPosition().getLongitude()));
         longDist=longDist*6378.137;
         dist=calcDistance();
         longDist=longDist/dist;
         dir=Math.cos(longDist);
         
         //Überprüfung auf Quadrant zur Korrektur
-        if(targetpos.getLongitude()>=currentpos.getLongitude()){
-            if(targetpos.getLatitude()<currentpos.getLatitude()){
+        if(Person.other().getPosition().getLongitude()>=Person.me().getPosition().getLongitude()){
+            if(Person.other().getPosition().getLatitude()<Person.me().getPosition().getLatitude()){
                 dir=360-dir; //4. Quadrant
             }
         }
-        else if(targetpos.getLatitude()>=currentpos.getLatitude()){
+        else if(Person.other().getPosition().getLatitude()>=Person.me().getPosition().getLatitude()){
             dir=180-dir; //2. Quadrant
         }
         else dir=dir+180; //3. Quadrant
@@ -157,19 +139,19 @@ public class GPScalculations {
         double longDist;
         double dist;
         double dir;
-        longDist=mMath.acos(Math.sin(currentpos.getLatitude())*Math.sin(currentpos.getLatitude())+Math.cos(currentpos.getLatitude())*Math.cos(currentpos.getLatitude())*Math.cos(currentpos.getLongitude()-oldpos.getLongitude()));
+        longDist=mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.me().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-oldpos.getLongitude()));
         longDist=longDist*6378.137;
-        dist= mMath.acos(Math.sin(currentpos.getLatitude())*Math.sin(oldpos.getLatitude())+Math.cos(currentpos.getLatitude())*Math.cos(oldpos.getLatitude())*Math.cos(currentpos.getLongitude()-oldpos.getLongitude()));
+        dist= mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(oldpos.getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(oldpos.getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-oldpos.getLongitude()));
         longDist=longDist/dist;
         dir=Math.cos(longDist);
         
         //Überprüfung auf Quadrant zur Korrektur
-        if(currentpos.getLongitude()>=oldpos.getLongitude()){
-            if(currentpos.getLatitude()<oldpos.getLatitude()){
+        if(Person.me().getPosition().getLongitude()>=oldpos.getLongitude()){
+            if(Person.me().getPosition().getLatitude()<oldpos.getLatitude()){
                 dir=360-dir; //4. Quadrant
             }
         }
-        else if(currentpos.getLatitude()>=oldpos.getLatitude()){
+        else if(Person.me().getPosition().getLatitude()>=oldpos.getLatitude()){
             dir=180-dir; //2.Quadrant
         }
         else dir=dir+180; //3.Quadrant

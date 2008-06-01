@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.rms.RecordStore;
+import main.Person;
 
 /**
  * create HTTP connection to upload data to server
@@ -29,7 +30,7 @@ import javax.microedition.rms.RecordStore;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-public class HTTPConnection{
+public class HTTPConnection implements Listener{
     
     private int mode;
     private static final String CrLf="\r\n";
@@ -39,12 +40,18 @@ public class HTTPConnection{
     private OutputStream out=null;
     private InputStream in=null;
     private Listener httpl=null;
+    /**
+     * The sessionId that represents this connection on the server
+     */
+    private String sessionId;
     
     /** Creates a new instance of HTTPConnection */
     
-    public HTTPConnection(Listener h) {
+    public HTTPConnection(String sessionId) throws IOException {
         
-        this.httpl=h;
+        this.sessionId = sessionId;
+        httpl = this;
+        // TODO establishHTTP(url);
     }
     
     
@@ -224,21 +231,11 @@ public class HTTPConnection{
      *          String include the php link to make HTTP Connection
      */
     
-    public void establishHTTP(String url){
-        try {
-            
-            
-            hc = (HttpConnection)Connector.open(url);
-            hc.setRequestMethod(HttpConnection.POST);
-        } catch (IOException ex) {
-            try {
-                //ex.printStackTrace();
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                //ex.printStackTrace();
-            }
-            establishHTTP(url);
-        }
+    public void establishHTTP(String url) throws IOException
+    {    
+        hc = (HttpConnection)Connector.open(url);
+        hc.setRequestMethod(HttpConnection.POST);
+        establishHTTP(url);   
     }
     
 private static RecordStore recordstore = null;
@@ -400,9 +397,13 @@ private static RecordStore recordstore = null;
         daten[0] = readGPS();
         daten[1] = readMessage();
         
-        daten[0] = "TESTWERT"; /* HIER einen Dummywert fuer den Friend eintragen*/
+        daten[0] = Person.other().getPosition().toString(); /* HIER einen Dummywert fuer den Friend eintragen*/
         System.out.println("Friend: "+daten[0]);
         System.out.println("Friends Message: "+daten[1]);
         return daten;
+    }
+
+    public void printMsg(String s) {
+        System.out.println(s);
     }
 }

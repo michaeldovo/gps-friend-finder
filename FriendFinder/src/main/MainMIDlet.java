@@ -11,20 +11,24 @@ import javax.microedition.lcdui.*;
 import javax.microedition.m2g.SVGImage;
 import javax.microedition.pim.Contact;
 import javax.microedition.pim.PIM;
+import javax.wireless.messaging.MessageConnection;
+import javax.wireless.messaging.MessageListener;
 import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.lcdui.pda.PIMBrowser;
 import org.netbeans.microedition.svg.SVGWaitScreen;
 import org.netbeans.microedition.util.SimpleCancellableTask;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
+import smsconnect.MessageReceiver;
 import smsconnect.SMSservice;
 
 /**
  * @author Chris2u
  */
-public class MainMIDlet extends MIDlet implements CommandListener {
+public class MainMIDlet extends MIDlet implements CommandListener, MessageListener {
 
     private boolean midletPaused = false;
+    private MessageConnection mc;
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Form startForm;
@@ -69,7 +73,22 @@ public class MainMIDlet extends MIDlet implements CommandListener {
     private void initialize() {//GEN-END:|0-initialize|0|0-preInitialize
         // write pre-initialize user code here
 //GEN-LINE:|0-initialize|1|0-postInitialize
+        // try to add SMSService to PUSH-registry
         SMSservice.register();
+        //  Create a server MessageConnection
+        if (mc == null) {
+            try {
+                // Open the messaging inbound port.
+                mc = SMSservice.newMessageConnection();
+                // Start a message processor thread, to process
+                // all messages for mc.
+                mc.setMessageListener(this);
+            }
+            catch(Exception e) {
+                System.out.println
+                  ("initialize.newMessageReceiver" + e);
+            }
+        }
     }//GEN-BEGIN:|0-initialize|2|
     //</editor-fold>//GEN-END:|0-initialize|2|
 
@@ -712,6 +731,12 @@ public class MainMIDlet extends MIDlet implements CommandListener {
             System.out.println("Update distance "+distance);
         
         }
+    }
+
+    public void notifyIncomingMessage(MessageConnection conn) {
+        //  Dispatch a single-pass message processor for each 
+        //  incoming message.
+        MessageReceiver mp = new MessageReceiver (conn, true);
     }
 
 }

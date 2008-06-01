@@ -7,6 +7,7 @@ package main;
 
 import io.P2PConnection;
 import java.io.IOException;
+import javax.microedition.io.PushRegistry;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import javax.microedition.m2g.SVGImage;
@@ -753,6 +754,8 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             startMIDlet ();
         }
         midletPaused = false;
+        handlePushActivation();
+        
     }
 
     /**
@@ -817,6 +820,32 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         //  Dispatch a single-pass message processor for each 
         //  incoming message.
         MessageReceiver mp = new MessageReceiver (conn, true);
+    }
+    
+    /**
+    *  Determine if activated due to inbound connection and
+    *  if so dispatch a PushProcessor to handle incoming
+    *  connection(s). @return true if MIDlet was activated
+    *  due to inbound connection, false otherwise
+    */
+    private boolean handlePushActivation() {
+        //  Discover if there are pending push inbound
+        //  connections and if so, dispatch a
+        //  PushProcessor for each one.
+        String[] connections =
+            PushRegistry.listConnections(true);
+        if (connections != null && connections.length > 0) {
+            for (int i=0; i < connections.length; i++) {
+                if (connections[i].startsWith("sms://"))
+                    try {
+                    notifyIncomingMessage(SMSservice.getMessageConnection());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return(true);
+        }
+        return(false);
     }
 
 }

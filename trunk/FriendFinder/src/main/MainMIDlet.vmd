@@ -408,29 +408,25 @@
             </Component>
             <Component componentID="12" typeID="C#ResourcesCategory">
                 <Component componentID="31" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vtask"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VsendSMSTask"/>
                 </Component>
                 <Component componentID="58" typeID="Cjavax.microedition.lcdui.Ticker">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vticker1"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VwaitForConfirmMessage"/>
                     <Property name="string" typeID="Pjava.lang.String" value="VBitte warten Sie, bis die Gegenpartei Ihrer Anfrage zugestimmt hat."/>
                 </Component>
                 <Component componentID="57" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vtask1"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VwaitForConfirmTask"/>
                 </Component>
                 <Component componentID="69" typeID="Cjavax.microedition.lcdui.Ticker">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vticker2"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VsendSMSMessage"/>
                     <Property name="string" typeID="Pjava.lang.String" value="VBitte warten Sie, während ihre Anfrage versendet wird"/>
                 </Component>
                 <Component componentID="95" typeID="Cjavax.microedition.m2g.SVGImage">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VsvgImage"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VguideImage"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/Arrow.svg"/>
                 </Component>
-                <Component componentID="89" typeID="Cjavax.microedition.lcdui.Image">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vimage"/>
-                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/back_f2.png"/>
-                </Component>
                 <Component componentID="106" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vtask2"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VupdateGuideTask"/>
                 </Component>
             </Component>
         </Component>

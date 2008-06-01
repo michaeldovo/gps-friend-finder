@@ -24,6 +24,8 @@ public class SMSservice {
     static String url = "sms://:"+Property.portNum;
     //  Use an unrestricted filter.
     static String filter = "*";
+    
+    private static MessageConnection mc;
 
     
     public static void register() {
@@ -69,7 +71,9 @@ public class SMSservice {
      *  or server)
      *  @throws Exception if an error is encountered
      */
-    public static MessageConnection newMessageConnection() throws IOException {
-        return ((MessageConnection)Connector.open(url));
+    public static MessageConnection getMessageConnection() throws IOException {
+        if (mc==null)
+            mc = ((MessageConnection)Connector.open(url));
+        return mc;
     }
 }

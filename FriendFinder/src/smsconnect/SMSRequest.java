@@ -57,12 +57,11 @@ public class SMSRequest {
         if (phoneNumber == null) {
             throw new IllegalArgumentException("Mobile number wasn't right.");
         }
-        // prepare for a WMA-Server-Connection (no host specif
-        String address = "sms://:" + Property.portNum;
+        String address = "sms://" + phoneNumber + ":" + Property.portNum;
         String message = toString();
         MessageConnection smsconn = null;
         /** Open the message connection. */
-        smsconn = (MessageConnection) Connector.open(address);
+        smsconn = SMSservice.getMessageConnection();
         TextMessage txtmessage = (TextMessage) smsconn.newMessage(MessageConnection.TEXT_MESSAGE);
         txtmessage.setAddress(address);
         txtmessage.setPayloadText(message);

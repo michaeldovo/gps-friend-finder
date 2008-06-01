@@ -57,7 +57,8 @@ public class SMSRequest {
         if (phoneNumber == null) {
             throw new IllegalArgumentException("Mobile number wasn't right.");
         }
-        String address = "sms://" + phoneNumber + ":" + Property.portNum;
+        // prepare for a WMA-Server-Connection (no host specif
+        String address = "sms://:" + Property.portNum;
         String message = toString();
         MessageConnection smsconn = null;
         /** Open the message connection. */

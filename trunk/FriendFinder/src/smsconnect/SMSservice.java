@@ -6,11 +6,9 @@
 package smsconnect;
 
 import java.io.IOException;
-import java.io.InputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.PushRegistry;
-import javax.microedition.io.ServerSocketConnection;
-import javax.microedition.io.SocketConnection;
+import javax.wireless.messaging.MessageConnection;
 import main.MainMIDlet;
 import main.Property;
 
@@ -20,14 +18,15 @@ import main.Property;
  */
 public class SMSservice {
 
+    //  MIDlet class name.
+    static String midletClassName = MainMIDlet.class.getName();
+    //  Register a static connection.
+    static String url = "sms://:"+Property.portNum;
+    //  Use an unrestricted filter.
+    static String filter = "*";
+
+    
     public static void register() {
-        if (true) return;
-        //  MIDlet class name.
-        String midletClassName = MainMIDlet.class.getName();
-        //  Register a static connection.
-        String url = "sms://:"+Property.portNum;
-        //  Use an unrestricted filter.
-        String filter = "*";
 
         try {
             // Open the connection.
@@ -61,5 +60,16 @@ public class SMSservice {
             System.out.println("IOException, possibly port already in use.");
             e.printStackTrace();
         }
+    }
+    
+    /**
+     *  newMessageConnection returns a new MessageConnection
+     *  @param addr is the address (local or remote)
+     *  @return MessageConnection that was created (client 
+     *  or server)
+     *  @throws Exception if an error is encountered
+     */
+    public static MessageConnection newMessageConnection() throws IOException {
+        return ((MessageConnection)Connector.open(url));
     }
 }

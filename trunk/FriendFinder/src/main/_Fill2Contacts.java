@@ -12,6 +12,7 @@ import javax.microedition.pim.*;
 public class _Fill2Contacts extends Thread {
 
   public void run() {
+      if (true) return;
       try {
         ContactList addressbook
             = (ContactList)(PIM.getInstance().openPIMList(
@@ -34,7 +35,7 @@ public class _Fill2Contacts extends Thread {
           contact.addString(Contact.TEL, Contact.ATTR_HOME,
              "555-HOME-NUMBER");
           contact.addString(Contact.TEL, Contact.ATTR_MOBILE,
-             "017622382168");
+             "+4917622382168");
         }
         // Here’s a quick search to see if this contact
         // is already present in the addressbook:
@@ -56,7 +57,7 @@ public class _Fill2Contacts extends Thread {
           contact.addString(Contact.TEL, Contact.ATTR_HOME,
              "5555-HOME-NUMBER");
           contact.addString(Contact.TEL, Contact.ATTR_MOBILE,
-             "017622281150");
+             "+4917622281150");
         }
         matching = addressbook.items(contact);
         if(matching.hasMoreElements()) {

@@ -16,7 +16,7 @@ public class Property {
 // SMS
 // *****
     // SMS port number
-    public static final String portNum="15132";
+    public static final String portNum="15123";
     public static final String AppId = "_*_FriendFinder_*_";
     public static final String VersionId = "0.1_*_";
     

@@ -35,6 +35,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     public static MainMIDlet getInstance() { return inst; }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
+    private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
     private Form startForm;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
@@ -45,6 +46,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private SVGWaitScreen FFGuideScreen;
     private Alert FFrequestScreen;
     private Alert askStopGuideScreen;
+    private WaitScreen waitForServerConnection;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -64,6 +66,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Ticker sendSMSMessage;
     private SVGImage guideImage;
     private SimpleCancellableTask updateGuideTask;
+    private SimpleCancellableTask waitForServerTask;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -74,6 +77,19 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Methods ">//GEN-BEGIN:|methods|0|
+    /**
+     * Switches a display to previous displayable of the current displayable.
+     * The <code>display</code> instance is obtain from the <code>getDisplay</code> method.
+     */
+    private void switchToPreviousDisplayable() {
+        Displayable __currentDisplayable = getDisplay().getCurrent();
+        if (__currentDisplayable != null) {
+            Displayable __nextDisplayable = (Displayable) __previousDisplayables.get(__currentDisplayable);
+            if (__nextDisplayable != null) {
+                switchDisplayable(null, __nextDisplayable);
+            }
+        }
+    }
     //</editor-fold>//GEN-END:|methods|0|
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Method: initialize ">//GEN-BEGIN:|0-initialize|0|0-preInitialize
@@ -128,6 +144,10 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     public void switchDisplayable(Alert alert, Displayable nextDisplayable) {//GEN-END:|5-switchDisplayable|0|5-preSwitch
         // write pre-switch user code here
         Display display = getDisplay();//GEN-BEGIN:|5-switchDisplayable|1|5-postSwitch
+        Displayable __currentDisplayable = display.getCurrent();
+        if (__currentDisplayable != null  &&  nextDisplayable != null) {
+            __previousDisplayables.put(nextDisplayable, __currentDisplayable);
+        }
         if (alert == null) {
             display.setCurrent(nextDisplayable);
         } else {
@@ -162,11 +182,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         } else if (displayable == FFrequestScreen) {
             if (command == cancelCommand2) {//GEN-END:|7-commandAction|7|117-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|8|117-postAction
+                switchToPreviousDisplayable();//GEN-LINE:|7-commandAction|8|117-postAction
                 // write post-action user code here
             } else if (command == okCommand2) {//GEN-LINE:|7-commandAction|9|115-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|10|115-postAction
+                switchDisplayable(null, getWaitForServerConnection());//GEN-LINE:|7-commandAction|10|115-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|11|79-preAction
         } else if (displayable == alertAskRetry) {
@@ -232,11 +252,21 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 // write pre-action user code here
                 switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|36|72-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|37|7-postCommandAction
-        }//GEN-END:|7-commandAction|37|7-postCommandAction
+            }//GEN-BEGIN:|7-commandAction|37|135-preAction
+        } else if (displayable == waitForServerConnection) {
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|37|135-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|38|135-postAction
+                // write post-action user code here
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|39|134-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|40|134-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|41|7-postCommandAction
+        }//GEN-END:|7-commandAction|41|7-postCommandAction
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|38|
-    //</editor-fold>//GEN-END:|7-commandAction|38|
+    }//GEN-BEGIN:|7-commandAction|42|
+    //</editor-fold>//GEN-END:|7-commandAction|42|
 
 
 
@@ -399,14 +429,14 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForConfirmTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|57-getter|1|57-execute
                     int counter = 60;
-                    while (counter>0) {
+                    while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
                         // ask Service-Listener for incoming data
                         Thread.sleep(1000);
-                        // TEST
-                        if (counter < 56)
-                            return;
+                        if (counter <= 1)
+                            throw new Exception("Die andere Seite reagiert nicht.");
                     }
+                    return; // success
                     
                 }//GEN-BEGIN:|57-getter|2|57-postInit
             });//GEN-END:|57-getter|2|57-postInit
@@ -772,6 +802,59 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         return backCommand;
     }
     //</editor-fold>//GEN-END:|126-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitForServerConnection ">//GEN-BEGIN:|133-getter|0|133-preInit
+    /**
+     * Returns an initiliazed instance of waitForServerConnection component.
+     * @return the initialized component instance
+     */
+    public WaitScreen getWaitForServerConnection() {
+        if (waitForServerConnection == null) {//GEN-END:|133-getter|0|133-preInit
+            // write pre-init user code here
+            waitForServerConnection = new WaitScreen(getDisplay());//GEN-BEGIN:|133-getter|1|133-postInit
+            waitForServerConnection.setTitle("Auf Server warten ...");
+            waitForServerConnection.setCommandListener(this);
+            waitForServerConnection.setText("Bitte warten Sie während die\nSerververbindung aufgebaut wird ...");
+            waitForServerConnection.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|133-getter|2|
+        return waitForServerConnection;
+    }
+    //</editor-fold>//GEN-END:|133-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitForServerTask ">//GEN-BEGIN:|136-getter|0|136-preInit
+    /**
+     * Returns an initiliazed instance of waitForServerTask component.
+     * @return the initialized component instance
+     */
+    public SimpleCancellableTask getWaitForServerTask() {
+        if (waitForServerTask == null) {//GEN-END:|136-getter|0|136-preInit
+            // write pre-init user code here
+            waitForServerTask = new SimpleCancellableTask();//GEN-BEGIN:|136-getter|1|136-execute
+            waitForServerTask.setExecutable(new org.netbeans.microedition.util.Executable() {
+                public void execute() throws Exception {//GEN-END:|136-getter|1|136-execute
+                    // try to confirm the connection
+                    P2PConnection.getInstance().confirm();
+                    // then wait
+                    int counter = 20;
+                    while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
+                        waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
+                        // ask Service-Listener for incoming data
+                        Thread.sleep(1000);
+                        if (counter <= 1)
+                            throw new IOException("Server antwortet nicht.");
+                    }
+                    return; // success
+                    
+                }//GEN-BEGIN:|136-getter|2|136-postInit
+            });//GEN-END:|136-getter|2|136-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|136-getter|3|
+        return waitForServerTask;
+    }
+    //</editor-fold>//GEN-END:|136-getter|3|
+
+
 
 
 

@@ -17,6 +17,17 @@
                     <Component componentID="4" typeID="C#MobileDeviceResumeEventSource"/>
                 </Component>
                 <Component componentID="5" typeID="C#Display"/>
+                <Component componentID="111" typeID="C#EntryPoint">
+                    <Property name="methodName" typeID="Pjava.lang.String" value="VnewFFrequest"/>
+                    <Property name="start" typeID="C#EntryPointStartEventSource" value="R112"/>
+                    <Component componentID="112" typeID="C#EntryPointStartEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R113"/>
+                        <Component componentID="113" typeID="C#SwitchDisplayableEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R112"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R110"/>
+                        </Component>
+                    </Component>
+                </Component>
             </Component>
             <Component componentID="6" typeID="C#ControllersCategory">
                 <Component componentID="7" typeID="C#CommandListener"/>
@@ -202,6 +213,32 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R103"/>
                     </Component>
                 </Component>
+                <Component componentID="110" typeID="Cjavax.microedition.lcdui.Alert">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VFFrequestScreen"/>
+                    <Property name="commands" typeID="1C#CommandEventSource" value="A2:4_R1154_R117"/>
+                    <Property name="title" typeID="Pjava.lang.String" value="Valert"/>
+                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
+                    <Property name="string" typeID="Pjava.lang.String" value="U&quot;Der Benutzer mit der Mobilnummer \n &quot;+Person.other().getMobilenumber()+&#13;&#10;        &quot; \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? &quot;"/>
+                    <Property name="timeout" typeID="Pint" value="V-2"/>
+                    <Component componentID="115" typeID="C#CommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R119"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R110"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R114"/>
+                        <Component componentID="119" typeID="C#SwitchDisplayableEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R115"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R101"/>
+                        </Component>
+                    </Component>
+                    <Component componentID="117" typeID="C#CommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R118"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R110"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R116"/>
+                        <Component componentID="118" typeID="C#ExitMidletEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R117"/>
+                            <Property name="mobileDevice" typeID="C#MobileDevice" value="R2"/>
+                        </Component>
+                    </Component>
+                </Component>
             </Component>
             <Component componentID="11" typeID="C#CommandsCategory">
                 <Component componentID="15" typeID="Cjavax.microedition.lcdui.Command">
@@ -301,6 +338,16 @@
                     <Property name="label" typeID="Pjava.lang.String" value="VStop"/>
                     <Property name="type" typeID="Pint" value="V6"/>
                 </Component>
+                <Component componentID="114" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VokCommand2"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VOk"/>
+                    <Property name="type" typeID="Pint" value="V4"/>
+                </Component>
+                <Component componentID="116" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VcancelCommand2"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VCancel"/>
+                    <Property name="type" typeID="Pint" value="V3"/>
+                </Component>
             </Component>
             <Component componentID="12" typeID="C#ResourcesCategory">
                 <Component componentID="31" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
@@ -332,7 +379,9 @@
         </Component>
     </Document>
     <FlowScene version="1">
-        <Node componentID="101" descriptorID="componentNode101" x="144" y="376"/>
+        <Node componentID="110" descriptorID="componentNode110" x="230" y="280"/>
+        <Node componentID="111" descriptorID="componentNode111" x="20" y="268"/>
+        <Node componentID="101" descriptorID="componentNode101" x="108" y="456"/>
         <Node componentID="60" descriptorID="componentNode60" x="839" y="282"/>
         <Node componentID="13" descriptorID="componentNode13" x="301" y="51"/>
         <Node componentID="70" descriptorID="componentNode70" x="844" y="424"/>

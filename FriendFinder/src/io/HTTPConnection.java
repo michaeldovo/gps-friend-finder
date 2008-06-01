@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
+import javax.microedition.rms.RecordStore;
 
 /**
  * create HTTP connection to upload data to server
@@ -240,15 +241,168 @@ public class HTTPConnection{
         }
     }
     
-    public void send(String GPSPosition, String message){
-        
+private static RecordStore recordstore = null;
+    
+   
+    private static void openRecStore(String RecordName)
+	{
+		try
+		{
+			// The second parameter indicates that the record store
+			// should be created if it does not exist
+			recordstore = RecordStore.openRecordStore(RecordName, true );
+		}
+		catch (Exception e)
+		{
+			db(e.toString());
+		}
+	}
+    
+    private static void writeMessageToRecord(String inhalt){
+		
+		boolean write = true;
+		try {
+			
+                        emptyRecStore("MessageRecordStore");
+                        
+                        openRecStore("MessageRecordStore");
+                        
+                        byte[] rec = inhalt.getBytes();
+                        
+                        recordstore.addRecord(rec, 0, rec.length);//WRITE SCORE
+                     
+                        closeRecStore();
+                        System.out.println("Record geschrieben: " +inhalt);
+			
+		}catch (Exception e){
+			db(e.toString());
+		}
+    }
+    
+    private static void writeGPSToRecord(String inhalt){
+		
+		boolean write = true;
+		try {
+			
+                        emptyRecStore("GPSRecordStore");
+                        
+                        openRecStore("GPSRecordStore");
+                        
+                        byte[] rec = inhalt.getBytes();
+                        
+                        recordstore.addRecord(rec, 0, rec.length);//WRITE SCORE
+                     
+                        closeRecStore();
+                        System.out.println("Record geschrieben: " +inhalt);
+			
+		}catch (Exception e){
+			db(e.toString());
+		}
+    }
+    
+    public static String readMessage(){
+        /**
+         *  Record wird bei jedem schreiben gelöscht und 
+         *  und neue Nachricht gespeichet    
+         *  => immer nur die letzte NAchricht gesaved    
+         */
+       
+        String nachricht = "";
+        try {
+                openRecStore("MessageRecordStore");
+
+                int len;
+                for (int i = 1 ; i <= recordstore.getNumRecords() ; i++ )
+                {
+                        byte[] recData = new byte[recordstore.getRecordSize(i)];
+                        len = recordstore.getRecord(i, recData, 0);
+                        
+                        nachricht = new String(recData, 0, len);
+                }
+                closeRecStore();
+        }
+        catch (Exception e)
+        {
+                db(e.toString());
+        }
+
+       return nachricht;
+    }
+    
+    private static void closeRecStore(){
+		try //CLOSE RECORESTORE
+		{
+			recordstore.closeRecordStore();
+		}
+		catch (Exception e)
+		{
+			db(e.toString());
+		}
+    }
+    
+    public static void emptyRecStore(String RecordName){
+		if (RecordStore.listRecordStores() != null){
+			openRecStore("GPSRecordStore");
+			closeRecStore();
+			try {
+				RecordStore.deleteRecordStore(RecordName);
+			}
+			catch (Exception e)
+			{
+				db(e.toString());
+			}
+		}
+    }
+    
+    private static void db(String str)
+    {
+		System.err.println("EXCEPTION: " + str);
+    }
+    
+    public void writeMessage(String inhalt){
+        writeMessageToRecord(inhalt);
+       
+    }
+    
+    public void writeGPS(String inhalt){
+        writeGPSToRecord(inhalt);
+    }
+    
+    public String readGPS(){
+        String standort = "";
+        try {
+                openRecStore("GPSRecordStore");
+
+                int len;
+                for (int i = 1 ; i <= recordstore.getNumRecords() ; i++ )
+                {
+                        byte[] recData = new byte[recordstore.getRecordSize(i)];
+                        len = recordstore.getRecord(i, recData, 0);
+                        
+                        standort = new String(recData, 0, len);
+                }
+                closeRecStore();
+        }
+        catch (Exception e)
+        {
+                db(e.toString());
+        }
+        return standort;
+    }
+    
+    public void send (String GPSPosition, String message){
+        writeGPSToRecord(GPSPosition);
+        writeMessageToRecord(message);
     }
     
     public String[] read(){
-        String []serverDaten = new String[2];
-        serverDaten[0] = "53324 423424";
-        serverDaten[1] = "Mein Handy spinnt, wo bin ich?";
+        String []daten = new String[2];
+        daten[0] = readGPS();
+        daten[1] = readMessage();
         
-        return serverDaten;
+        daten[0] = "TESTWERT"; /* HIER einen Dummywert fuer den Friend eintragen*/
+        System.out.println("Friend: "+daten[0]);
+        System.out.println("Friends Message: "+daten[1]);
+        return daten;
     }
 }

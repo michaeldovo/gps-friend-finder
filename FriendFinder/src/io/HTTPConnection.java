@@ -7,6 +7,11 @@ import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.rms.RecordStore;
 import main.Person;
+import java.util.Vector;
+import javax.microedition.io.*;
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.*;
+import java.io.*;
 
 /**
  * create HTTP connection to upload data to server
@@ -35,7 +40,7 @@ public class HTTPConnection implements Listener{
     private int mode;
     private static final String CrLf="\r\n";
     private HttpConnection hc= null;
-    private String url = null;
+    //private String url = null;
     //private byte[] buffer;
     private OutputStream out=null;
     private InputStream in=null;
@@ -53,6 +58,104 @@ public class HTTPConnection implements Listener{
         httpl = this;
         // TODO establishHTTP(url);
     }
+    
+    
+    public void setDataToDB(String type, String content){
+   
+        HttpConnection hc = null;
+        InputStream in = null;
+        OutputStream out = null;
+        
+        try{
+            
+            String url = "http://web94.trinity-media.de/friendfinder/set_"+type+".php?sid="+this.sessionId+"&my_id="+ Person.me().getMobilenumber()+"content="+content;
+            hc = (HttpConnection)Connector.open(url);
+            hc.setRequestMethod(HttpConnection.POST);
+            hc.setRequestProperty("Content-Type", "application/x-ww-form-urlencoded");
+            //hc.setRequestProperty("Content-Length", Integer.toString(message.length()));
+            out= hc.openOutputStream();
+            //out.write(message.getBytes());
+            in = hc.openInputStream();
+            int length = 200;
+            byte[] data = new byte[length];
+            in.read(data);
+            String response = new String(data);
+            StringItem stringItem = new StringItem(null, response);
+            
+            
+            String[] splittResponse = split(response, "§§§§!§§§§",2);
+            System.out.println("URL: "+url+" | Rueckgabe: "+splittResponse[0]);
+        }
+        catch(IOException ioe){
+            StringItem stringItem = new StringItem(null, ioe.toString());
+             
+        }
+        finally{
+            try{
+                if(out != null)  out.close();
+                if(in != null)   in.close();
+                if(hc != null)   hc.close();
+            }
+            catch (IOException ioe){}
+            
+        }
+    }
+    
+    public String[] getDataFromDB(String type, String content){
+   
+        HttpConnection hc = null;
+        InputStream in = null;
+        OutputStream out = null;
+        String []receivedData = new String[2];
+        
+        try{
+            String []url = new String[2];
+            url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();
+            url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();        
+            for( int i=0; i<=1; i++)
+            {
+                hc = (HttpConnection)Connector.open(url[i]);
+                hc.setRequestMethod(HttpConnection.POST);
+                hc.setRequestProperty("Content-Type", "application/x-ww-form-urlencoded");
+                //hc.setRequestProperty("Content-Length", Integer.toString(message.length()));
+                out= hc.openOutputStream();
+                //out.write(message.getBytes());
+                in = hc.openInputStream();
+                int length = 200;
+                byte[] data = new byte[length];
+                in.read(data);
+                String response = new String(data);
+                StringItem stringItem = new StringItem(null, response);
+
+
+                String[] splittResponse = split(response, "§§§§!§§§§",2);
+                System.out.println("URL: "+url[i]+" | Rueckgabe: "+splittResponse[0]);
+                if(i == 0){
+                    System.out.println("Timestamp: "+splittResponse[1]);
+                    long nachrichtenAlter = (System.currentTimeMillis() / 1000) - Integer.valueOf(splittResponse[0]).intValue();
+                    if( nachrichtenAlter > 240 )  throw new IOException("Connection lost");  
+                }
+                receivedData[i] = splittResponse[0];
+            }
+        }
+        catch(IOException ioe){
+            StringItem stringItem = new StringItem(null, ioe.toString());
+             
+        }
+        finally{
+            try{
+                if(out != null)  out.close();
+                if(in != null)   in.close();
+                if(hc != null)   hc.close();
+            }
+            catch (IOException ioe){}
+            
+        }
+        return receivedData;
+    }
+    
+    
+    
     
     
     /*@ param buffer
@@ -322,7 +425,7 @@ private static RecordStore recordstore = null;
         {
                 db(e.toString());
         }
-
+        // TODO alle nachrichten loeschen
        return nachricht;
     }
     
@@ -384,26 +487,98 @@ private static RecordStore recordstore = null;
         {
                 db(e.toString());
         }
+        
         return standort;
     }
     
     public void send (String GPSPosition, String message){
-        writeGPSToRecord(GPSPosition);
-        writeMessageToRecord(message);
+        setDataToDB("gps", GPSPosition);
+        setDataToDB("mail", message);
+        
+        //writeGPSToRecord(GPSPosition);
+        //writeMessageToRecord(message);
     }
     
-    public String[] read(){
+    public String[] read() throws IOException{
         String []daten = new String[2];
+        /*
         daten[0] = readGPS();
         daten[1] = readMessage();
         
-        daten[0] = Person.other().getPosition().toString(); /* HIER einen Dummywert fuer den Friend eintragen*/
+        daten[0] = Person.other().getPosition().toString();
         System.out.println("Friend: "+daten[0]);
         System.out.println("Friends Message: "+daten[1]);
+        */
+        if(daten[0] == "")  throw new IOException("Waiting for Connection");
+        if(daten[1] == "")  daten[1] = null;
+                
         return daten;
     }
 
     public void printMsg(String s) {
         System.out.println(s);
+    }    
+        
+   public static String[] split(String splitStr, String delimiter, int limit) {
+// some input validation / short-circuiting
+        if (delimiter == null || delimiter.length() == 0) {
+            return new String[] { splitStr };
+        } else if (splitStr == null) {
+            return new String[0];
+        }
+
+// enabling switches based on the 'limit' parameter
+        boolean arrayCanHaveAnyLength = false;
+        int maximumSplits = Integer.MAX_VALUE;
+        boolean dropTailingDelimiters = true;
+        if (limit < 0) {
+            arrayCanHaveAnyLength = true;
+            maximumSplits = Integer.MAX_VALUE;
+            dropTailingDelimiters = false;
+        } else if (limit > 0) {
+            arrayCanHaveAnyLength = false;
+            maximumSplits = limit - 1;
+            dropTailingDelimiters = false;
+        }
+
+        StringBuffer token = new StringBuffer();
+        Vector tokens = new Vector();
+        char[] chars = splitStr.toCharArray();
+        boolean lastWasDelimiter = false;
+        int splitCounter = 0;
+        for (int i = 0; i < chars.length; i++) {
+// check for a delimiter
+            if (i + delimiter.length() <= chars.length && splitCounter < maximumSplits) {
+                String candidate = new java.lang.String(chars, i, delimiter.length());
+                if (candidate.equals(delimiter)) {
+                    tokens.addElement(token.toString());
+                    token.setLength(0);
+
+                    lastWasDelimiter = true;
+                    splitCounter++;
+                    i = i + delimiter.length() - 1;
+
+                    continue; // continue the for-loop
+                }
+            }
+
+// this character does not start a delimiter -> append to the token
+            token.append(chars[i]);
+            lastWasDelimiter = false;
+        }
+
+// don't forget the "tail"...
+        if (token.length() > 0 || (lastWasDelimiter && !dropTailingDelimiters)) {
+            tokens.addElement(token.toString());
+        }
+
+// convert the vector into an array
+        String[] splitArray = new String[tokens.size()];
+        for (int i = 0; i < splitArray.length; i++) {
+            splitArray[i] = (String) tokens.elementAt(i);
+        }
+
+        return splitArray;
     }
+    
 }

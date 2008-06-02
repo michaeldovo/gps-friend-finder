@@ -101,7 +101,7 @@ public class HTTPConnection implements Listener{
         }
     }
     
-    public String[] getDataFromDB(String type, String content){
+    public String[] getDataFromDB(String type, String content) throws IOException{
    
         HttpConnection hc = null;
         InputStream in = null;

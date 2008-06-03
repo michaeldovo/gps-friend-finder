@@ -671,7 +671,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         // send and read server-data every 30 seconds
                         if (cycle++ % 6 == 0) {
                             cycle = 1;
-                            P2PConnection.getInstance().write(null);
+                            P2PConnection.getInstance().writeUpdate();
                             P2PConnection.getInstance().readUpdate();
                         }
                         // wait 5 seconds

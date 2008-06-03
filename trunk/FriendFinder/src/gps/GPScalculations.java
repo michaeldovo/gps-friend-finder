@@ -21,7 +21,7 @@ public class GPScalculations {
         bt=new BTConnection(listen);
         bt.start();
         test = new TestData();
-        test.startTest();
+        
         if(Person.me().getPosition()==null){
             setCurrentPosition();
         }

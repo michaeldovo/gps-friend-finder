@@ -671,14 +671,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                     int cycle = 1;
                     while (true) {
                         try {
-                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
                             // send and read server-data every 30 seconds
                             if (cycle++ % 6 == 0) {
                                 cycle = 1;
                                 P2PConnection.getInstance().writeUpdate();
                                 P2PConnection.getInstance().readUpdate();
                             }
-                            
+                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

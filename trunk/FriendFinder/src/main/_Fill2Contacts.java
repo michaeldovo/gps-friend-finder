@@ -12,16 +12,16 @@ import javax.microedition.pim.*;
 public class _Fill2Contacts extends Thread {
 
   public void run() {
-      if (true) return;
+//      if (true) return;
       try {
         ContactList addressbook
             = (ContactList)(PIM.getInstance().openPIMList(
             PIM.CONTACT_LIST, PIM.READ_WRITE));
          // delete all contacts
-         while (addressbook.items().hasMoreElements()) {
-             addressbook.removeContact((Contact) addressbook.items().nextElement());      
-         }
-//        if (addressbook.items().hasMoreElements()) return;
+//         while (addressbook.items().hasMoreElements()) {
+//             addressbook.removeContact((Contact) addressbook.items().nextElement());      
+//         }
+        if (addressbook.items().hasMoreElements()) return;
         Contact contact = null;
 
         // Each PIMItem — new or found — is associated with

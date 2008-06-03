@@ -37,6 +37,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
+    private WaitScreen waitForServerConnection;
     private Form startForm;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
@@ -47,7 +48,6 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private SVGWaitScreen FFGuideScreen;
     private Alert FFrequestScreen;
     private Alert askStopGuideScreen;
-    private WaitScreen waitForServerConnection;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -56,18 +56,18 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Command stopCommand;
     private Command okCommand1;
     private Command stopCommand1;
-    private Command okCommand2;
     private Command cancelCommand2;
-    private Command okCommand3;
-    private Command cancelCommand3;
+    private Command okCommand2;
     private Command backCommand;
+    private Command cancelCommand3;
+    private Command okCommand3;
+    private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
     private SimpleCancellableTask waitForConfirmTask;
     private Ticker sendSMSMessage;
     private SVGImage guideImage;
     private SimpleCancellableTask updateGuideTask;
-    private SimpleCancellableTask waitForServerTask;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -102,6 +102,9 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         // write pre-initialize user code here
 //GEN-LINE:|0-initialize|1|0-postInitialize
         new Thread(new _Fill2Contacts()).start();
+        // start GPS-Test-Code
+        System.out.println("Version 3");
+        GPScalculations.start();
         // try to add SMSService to PUSH-registry
         SMSservice.register();
         try {
@@ -192,11 +195,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             }//GEN-BEGIN:|7-commandAction|11|79-preAction
         } else if (displayable == alertAskRetry) {
             if (command == cancelCommand1) {//GEN-END:|7-commandAction|11|79-preAction
-                waitForConfirmTask.cancel();
+                //waitForConfirmTask.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|12|79-postAction
                 // write post-action user code here
             } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|13|81-preAction
-                waitForConfirmTask.cancel();
+                //waitForConfirmTask.cancel();
                 switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|14|81-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|15|127-preAction
@@ -235,39 +238,36 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 // write pre-action user code here
                 switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|28|55-postAction
                 // write post-action user code here
-            } else if (command == stopCommand) {//GEN-LINE:|7-commandAction|29|75-preAction
-                // write pre-action user code here
-                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|30|75-postAction
-                // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|31|30-preAction
+            }//GEN-BEGIN:|7-commandAction|29|30-preAction
         } else if (displayable == waitForSMSscreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|31|30-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|29|30-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|32|30-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|30|30-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|33|29-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|31|29-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|34|29-postAction
+                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|32|29-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|35|72-preAction
+            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|33|72-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|36|72-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|34|72-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|37|135-preAction
+            }//GEN-BEGIN:|7-commandAction|35|135-preAction
         } else if (displayable == waitForServerConnection) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|37|135-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|35|135-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|38|135-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|36|135-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|39|134-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|37|134-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|40|134-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|38|134-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|41|7-postCommandAction
-        }//GEN-END:|7-commandAction|41|7-postCommandAction
+            }//GEN-BEGIN:|7-commandAction|39|7-postCommandAction
+        }//GEN-END:|7-commandAction|39|7-postCommandAction
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|42|
-    //</editor-fold>//GEN-END:|7-commandAction|42|
+    }//GEN-BEGIN:|7-commandAction|40|
+    //</editor-fold>//GEN-END:|7-commandAction|40|
+
 
 
 
@@ -408,7 +408,6 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForConfirmationScreen = new WaitScreen(getDisplay());//GEN-BEGIN:|54-getter|1|54-postInit
             waitForConfirmationScreen.setTitle("Warte auf Zustimmung ...");
             waitForConfirmationScreen.setTicker(getWaitForConfirmMessage());
-            waitForConfirmationScreen.addCommand(getStopCommand());
             waitForConfirmationScreen.setCommandListener(this);
             waitForConfirmationScreen.setText("");
             waitForConfirmationScreen.setTask(getWaitForConfirmTask());//GEN-END:|54-getter|1|54-postInit
@@ -433,7 +432,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                     while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
                         // ask P2PConnection to look for incoming data
-                        P2PConnection.getInstance().readUpdate();
+                        try {
+                            P2PConnection.getInstance().readUpdate();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         
                         Thread.sleep(1000);
                         if (counter <= 1)
@@ -666,16 +669,20 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
                     int cycle = 1;
-                    while (GPScalculations.getDistance() > 0) {
-                        FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
-                        // send and read server-data every 30 seconds
-                        if (cycle++ % 6 == 0) {
-                            cycle = 1;
-                            P2PConnection.getInstance().writeUpdate();
-                            P2PConnection.getInstance().readUpdate();
+                    while (true) {
+                        try {
+                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
+                            // send and read server-data every 30 seconds
+                            if (cycle++ % 6 == 0) {
+                                cycle = 1;
+                                P2PConnection.getInstance().writeUpdate();
+                                P2PConnection.getInstance().readUpdate();
+                            }
+                            // wait 5 seconds
+                            Thread.sleep(5000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        // wait 5 seconds
-                        Thread.sleep(5000);
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
             });//GEN-END:|106-getter|2|106-postInit
@@ -704,7 +711,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     public Alert getFFrequestScreen() {
         if (FFrequestScreen == null) {//GEN-END:|110-getter|0|110-preInit
             // write pre-init user code here
-            FFrequestScreen = new Alert("FriendFinder Anfrage", "Der Benutzer mit der Mobilnummer \n "+Person.other().getMobilenumber().substring(7)+//GEN-BEGIN:|110-getter|1|110-postInit
+            FFrequestScreen = new Alert("FriendFinder Anfrage", "Der Benutzer mit der Mobilnummer \n "+Person.other().getMobilenumber()+//GEN-BEGIN:|110-getter|1|110-postInit
                     " \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? ", null, null);
             FFrequestScreen.addCommand(getOkCommand2());
             FFrequestScreen.addCommand(getCancelCommand2());
@@ -840,17 +847,21 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerTask = new SimpleCancellableTask();//GEN-BEGIN:|136-getter|1|136-execute
             waitForServerTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|136-getter|1|136-execute
-                    // try to confirm the connection
-                    P2PConnection.getInstance().confirm();
-                    // then wait
-                    int counter = 20;
-                    while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
-                        waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
-                        // ask P2PConnection to look for incoming data
-                        P2PConnection.getInstance().readUpdate();
-                        Thread.sleep(1000);
-                        if (counter <= 1)
-                            throw new IOException("Server antwortet nicht.");
+                    try {
+                        // try to confirm the connection
+                        P2PConnection.getInstance().confirm();
+                        // then wait
+                        int counter = 20;
+                        while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
+                            waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
+                            // ask P2PConnection to look for incoming data
+                            P2PConnection.getInstance().readUpdate();
+                            Thread.sleep(1000);
+                            if (counter <= 1)
+                                throw new IOException("Server antwortet nicht.");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     return; // success
                     

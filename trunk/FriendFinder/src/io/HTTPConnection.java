@@ -70,7 +70,7 @@ public class HTTPConnection implements Listener{
         
         try{
             
-            String url = "http://web94.trinity-media.de/friendfinder/set_"+type+".php?sid="+this.sessionId+"&my_id="+ Person.me().getMobilenumber()+"content="+content;
+            String url = "http://web94.trinity-media.de/friendfinder/set_"+type+".php?sid="+this.sessionId+"&my_id="+ Person.other().getMobilenumber().substring(1) + "&content="+content;
             hc = (HttpConnection)Connector.open(url);
             hc.setRequestMethod(HttpConnection.POST);
             hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -112,8 +112,9 @@ public class HTTPConnection implements Listener{
         
         try{
             String []url = new String[2];
-            url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();
-            url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();        
+            url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);
+            url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);        
+            
             for( int i=0; i<=1; i++)
             {
                 hc = (HttpConnection)Connector.open(url[i]);
@@ -123,21 +124,21 @@ public class HTTPConnection implements Listener{
                 out= hc.openOutputStream();
                 //out.write(message.getBytes());
                 in = hc.openInputStream();
-                int length = 200;
+                int length = 400;
                 byte[] data = new byte[length];
                 in.read(data);
                 String response = new String(data);
                 StringItem stringItem = new StringItem(null, response);
 
 
-                String[] splittResponse = split(response, "§§§§!§§§§",2);
+                String[] splittResponse = split(response, "§§§§!§§§§",3);
                 System.out.println("URL: "+url[i]+" | Rueckgabe: "+splittResponse[0]);
-                if(i == 0){
+                if(i == 0 && splittResponse.length > 2){
                     System.out.println("Timestamp: "+splittResponse[1]);
-                    long nachrichtenAlter = (System.currentTimeMillis() / 1000) - Integer.valueOf(splittResponse[0]).intValue();
+                    long nachrichtenAlter = (System.currentTimeMillis() / 1000) - Long.parseLong(splittResponse[1].trim());
                     if( nachrichtenAlter > 240 )  throw new IOException("Connection lost");  
                 }
-                receivedData[i] = splittResponse[0];
+                receivedData[i] = splittResponse[0].trim();
             }
         }
         catch(IOException ioe){
@@ -160,176 +161,6 @@ public class HTTPConnection implements Listener{
     
     
     
-    /*@ param buffer
-     *              byte[] should upload via HTTPConnection
-     *@ param mode
-     *              int 0 or 1
-     *              0: upload string data
-     *              1: upload an image
-     */
-    
-    private boolean sendPacket(byte[] buffer ,int mode){
-        
-        // upload data
-        if(mode==0){
-            try{
-                httpl.printMsg("Connect to server");
-                String postData = "";
-                
-                // create header
-                
-                String message1 = "";
-                message1 += "-----------------------------4664151417711" + CrLf;
-                // message1 += "Content-Disposition: form-data; name=\"uploadedfile\"; filename=\"1.jpg\"" + CrLf;
-                message1 += "Content-Type: application/x-www-form-urlencoded" + CrLf;
-                message1 += CrLf;
-                
-                
-                String message2 = "";
-                //message2 += CrLf + "-----------------------------4664151417711--" + CrLf;
-                
-                // hc.setRequestProperty("Content-Type", "multipart/form-data; boundary=---------------------------4664151417711");
-                hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; boundary=---------------------------4664151417711");
-                hc.setRequestProperty("Content-Length", String.valueOf((message1.length() + message2.length() + buffer.length)));
-                
-                httpl.printMsg("Sending data");
-                out = hc.openOutputStream();
-                
-
-                out.write(message1.getBytes());
-                
-                int index = 0;
-                int size = 1024;
-                int i=0;
-                do{
-                    
-                    if((index+size)>buffer.length){
-                        size = buffer.length - index;
-                    }
-                    
-                    out.write(buffer, index, size);
-                    
-                    index+=size;
-                    //  i++;
-                }while(index<buffer.length);
-                //httpl.httpMsg("repated:"+i);
-                out.write(message2.getBytes());
-                out.flush();
-                out.close();
-                
-                //read sserver response
-                in = hc.openInputStream();
-                String serverResponse="";
-                
-                char buff = 512;
-                int len;
-                byte []data = new byte[buff];
-                
-                do{
-                    System.out.println("READ");
-                    len = in.read(data);
-                    
-                    if(len > 0){
-                        serverResponse=(new String(data, 0, len));
-                    }
-                }while(len>0);
-                //String serverResponse= new String(data,0,data.length);
-                
-                httpl.printMsg("Server Response: "+ serverResponse);
-                
-                System.out.println("Upload is done.");
-                
-                in.close();
-                hc.close();
-                return true;
-            }catch(Exception e){
-                System.out.println("http!");
-                e.printStackTrace();
-                
-            }
-        }
-        
-        // upload image
-        else if (mode==1){
-            
-            String fileName="";
-            try{
-                
-                
-                httpl.printMsg("Connect to server");
-                String postData = "";
-                
-                String message1 = "";
-                message1 += "-----------------------------4664151417711" + CrLf;
-                message1 += "Content-Disposition: form-data; name=\"uploadedfile\"; filename=\""+fileName+"\"" + CrLf;
-                message1 += "Content-Type: image/png" + CrLf;
-                message1 += CrLf;
-                
-                
-                
-                String message2 = "";
-                //message2 += CrLf + "-----------------------------4664151417711--" + CrLf;
-                
-                hc.setRequestProperty("Content-Type", "multipart/form-data; boundary=---------------------------4664151417711");
-                //hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; boundary=---------------------------4664151417711");
-                hc.setRequestProperty("Content-Length", String.valueOf((message1.length() + message2.length() + buffer.length)));
-                
-                httpl.printMsg("Sending data");
-                out = hc.openOutputStream();
-                
-                out.write(message1.getBytes());
-                
-           
-                int index = 0;
-                int size = 1024;
-                int i=0;
-                do{
-                    
-                    if((index+size)>buffer.length){
-                        size = buffer.length - index;
-                    }
-                    
-                    out.write(buffer, index, size);
-                    
-                    index+=size;
-                    //  i++;
-                }while(index<buffer.length);
-
-                out.write(message2.getBytes());
-                out.flush();
-                out.close();
-                
-                // read server response
-                in = hc.openInputStream();
-                String serverResponse="";
-                
-                char buff = 512;
-                int len;
-                byte []data = new byte[buff];
-                
-                do{
-                    System.out.println("READ");
-                    len = in.read(data);
-                    
-                    if(len > 0){
-                        serverResponse=(new String(data, 0, len));
-                    }
-                }while(len>0);
-                //String serverResponse= new String(data,0,data.length);
-                
-                httpl.printMsg("Server Response: "+ serverResponse);
-                
-                System.out.println("Upload is done.");
-                in.close();
-                hc.close();
-                return true;
-            }catch(Exception e){
-                System.out.println("http!");
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
     
     /*
      *@param url
@@ -504,8 +335,12 @@ public class HTTPConnection implements Listener{
         System.out.println("Friend: "+daten[0]);
         System.out.println("Friends Message: "+daten[1]);
         */
-        if(daten[0].length() == 0)  throw new IOException("Waiting for Connection");
-        if(daten[1].length() == 0)  daten[1] = null;
+        try {
+            if(daten[0].length() == 0)  throw new IOException("Waiting for Connection");
+            if(daten[1].length() == 0)  daten[1] = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
                 
         return daten;
     }

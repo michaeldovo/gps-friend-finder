@@ -18,8 +18,8 @@ public class GPScalculations {
     
     //Initialisierung von targetpos und currentpos
     public static void start(){  
-        bt=new BTConnection(listen);
-        bt.start();
+//        bt=new BTConnection(listen);
+//        bt.start();
         test = new TestData();
         
         if(Person.me().getPosition()==null){
@@ -46,6 +46,8 @@ public class GPScalculations {
     * von der Laufrichtung
     */
     public static short getDirection() {
+        oldpos=Person.me().getPosition();
+        setCurrentPosition();
         if(oldpos.getLatitude()!=Person.me().getPosition().getLatitude()&&oldpos.getLongitude()!=Person.me().getPosition().getLongitude()){
             oldpos=Person.me().getPosition();
             setCurrentPosition();   
@@ -71,7 +73,7 @@ public class GPScalculations {
     }
     
     private static GPSposition getPosGPS(){
-        GPSposition posGPS=new GPSposition();
+        GPSposition posGPS; //=new GPSposition();
 //        double latitude;
 //        double longitude;
 //        double grad;

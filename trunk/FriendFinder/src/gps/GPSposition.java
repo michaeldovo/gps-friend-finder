@@ -2,10 +2,14 @@ package gps;
 
 public class GPSposition{
     
-    private double Latitude;
-    private double Longitude;
+    private double latitude;
+    private double longitude;
 
-    public GPSposition(){}
+    public GPSposition(double latitude, double longitude)
+    {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
     
     /**
      * 
@@ -13,28 +17,28 @@ public class GPSposition{
      */
     public GPSposition(String gpsString) {
         int count=gpsString.indexOf(";");
-        Latitude=Double.valueOf(gpsString.substring(0, count).trim()).doubleValue();
-        Longitude=Double.valueOf(gpsString.substring(count+1, gpsString.length()).trim()).doubleValue();
+        latitude=Double.valueOf(gpsString.substring(0, count).trim()).doubleValue();
+        longitude=Double.valueOf(gpsString.substring(count+1, gpsString.length()).trim()).doubleValue();
     }
     
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double Latitude) {
-        this.Latitude = Latitude;
+        this.latitude = Latitude;
     }
 
     public double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(double Longitude) {
-        this.Longitude = Longitude;
+        this.longitude = Longitude;
     }
     
     public String toString(){
-        String longlat=Double.toString(Latitude) + ";" + Double.toString(Longitude);
+        String longlat=Double.toString(latitude) + ";" + Double.toString(longitude);
         return longlat;
     }
 }

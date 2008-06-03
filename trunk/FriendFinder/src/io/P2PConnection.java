@@ -52,12 +52,13 @@ public class P2PConnection {
         conn.writeGPS(Person.me().getPosition().toString());
     }
 
-    public boolean isConnectionEstablished() {
+    public synchronized boolean isConnectionEstablished() {
+        if (connectionEstablished) System.out.println("THE CONNECTION HAS BEEN ESTABLISHED");
         return connectionEstablished;
     }
 
-    public void setConnectionEstablished(boolean connectionEstablished) {
-        System.out.println("THE CONNECTION HAS BEEN ESTABLISHED");
+    public synchronized void setConnectionEstablished(boolean connectionEstablished) {
+        
         this.connectionEstablished = connectionEstablished;
     }
     
@@ -81,6 +82,8 @@ public class P2PConnection {
             answer = conn.read();
             setConnectionEstablished(true);
             Person.other().setPosition(new GPSposition(answer[0]));
+            System.out.println("Other position: "+Person.other().getPosition().toString());
+            System.out.println("My position: "+Person.me().getPosition().toString());
             Person.other().setMessage(answer[1]);
         } catch (IOException ex) {
             setConnectionEstablished(false);
@@ -127,6 +130,7 @@ public class P2PConnection {
     }
     
     private static String createSessionId() {
+        //return "3311699840746862459";
         return new Random().nextLong()+"";
         
         /* We don't need a real Hash, do we?

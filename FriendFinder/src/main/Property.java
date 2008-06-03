@@ -25,4 +25,11 @@ public class Property {
 // ******
     public static final int updateInterval = 30;
     
+    //******
+    //Switch for testing
+    //s=TRUE for Bluetooth connection
+    //s=false for test data
+    //******
+    public static final boolean s = false;
+    
 }

@@ -1,8 +1,10 @@
 package gps;
 
+import com.sun.midp.io.Properties;
 import io.BTConnection;
 import io.Listener;
 import main.Person;
+import main.Property;
 
 /**
  *
@@ -74,35 +76,37 @@ public class GPScalculations {
     
     private static GPSposition getPosGPS(){
         GPSposition posGPS; //=new GPSposition();
-//        double latitude;
-//        double longitude;
-//        double grad;
-//        double min;
-//        btString=bt.readGPSData();
-//        int count=btString.indexOf(",");
-//        count=btString.indexOf(",", count+1);
-//        int count2=btString.indexOf(",", count+1);
-//        latitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
-//        grad=Math.floor(latitude/100);
-//        min=latitude-grad*100;
-//        latitude=grad+min*60;
-//        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("S")){
-//            latitude=-1*latitude;
-//        }
-//        count=btString.indexOf(",", count2+1);
-//        count2=btString.indexOf(",", count+1);
-//        longitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
-//        grad=Math.floor(longitude/100);
-//        min=longitude-grad*100;
-//        longitude=grad+min/60;
-//        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("W")){
-//            longitude=-1*longitude;
-//        }
-//        posGPS.setLatitude(latitude);
-//        posGPS.setLongitude(longitude);
-        
-        //Testwerte
+        if(Property.s){
+        double latitude;
+        double longitude;
+        double grad;
+        double min;
+        btString=bt.readGPSData();
+        int count=btString.indexOf(",");
+        count=btString.indexOf(",", count+1);
+        int count2=btString.indexOf(",", count+1);
+        latitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+        grad=Math.floor(latitude/100);
+        min=latitude-grad*100;
+        latitude=grad+min*60;
+        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("S")){
+            latitude=-1*latitude;
+        }
+        count=btString.indexOf(",", count2+1);
+        count2=btString.indexOf(",", count+1);
+        longitude=Double.valueOf(btString.substring(count+1, count2).trim()).doubleValue();
+        grad=Math.floor(longitude/100);
+        min=longitude-grad*100;
+        longitude=grad+min/60;
+        if(btString.substring(count2+1, count2+2).equalsIgnoreCase("W")){
+            longitude=-1*longitude;
+        }
+        posGPS.setLatitude(latitude);
+        posGPS.setLongitude(longitude);
+        }
+        else{//Testwerte
         posGPS=test.getOwnpos();
+        }
         return posGPS;
     }
     
@@ -113,6 +117,7 @@ public class GPScalculations {
     private static double calcDistance(){
         double distance;
         distance= mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.other().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.other().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-Person.other().getPosition().getLongitude()));
+        distance=distance/180*Math.PI;
         distance= distance*6378.137;
         return distance;
     }
@@ -123,6 +128,7 @@ public class GPScalculations {
         double dist;
         double dir;
         longDist=mMath.acos(Math.sin(Person.me().getPosition().getLatitude())*Math.sin(Person.me().getPosition().getLatitude())+Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLatitude())*Math.cos(Person.me().getPosition().getLongitude()-Person.other().getPosition().getLongitude()));
+        longDist=longDist/180*Math.PI;
         longDist=longDist*6378.137;
         dist=calcDistance();
         longDist=longDist/dist;

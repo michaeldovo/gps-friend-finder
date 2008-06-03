@@ -195,11 +195,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             }//GEN-BEGIN:|7-commandAction|11|79-preAction
         } else if (displayable == alertAskRetry) {
             if (command == cancelCommand1) {//GEN-END:|7-commandAction|11|79-preAction
-                //waitForConfirmTask.cancel();
+                waitForConfirmTask.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|12|79-postAction
                 // write post-action user code here
             } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|13|81-preAction
-                //waitForConfirmTask.cancel();
+                waitForConfirmTask.cancel();
                 switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|14|81-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|15|127-preAction

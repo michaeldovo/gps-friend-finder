@@ -678,11 +678,12 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                                 P2PConnection.getInstance().writeUpdate();
                                 P2PConnection.getInstance().readUpdate();
                             }
-                            // wait 5 seconds
-                            Thread.sleep(5000);
+                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        // wait 5 seconds
+                            Thread.sleep(5000);
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
             });//GEN-END:|106-getter|2|106-postInit

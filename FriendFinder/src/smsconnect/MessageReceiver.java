@@ -86,7 +86,7 @@ public class MessageReceiver implements Runnable {
             System.out.println("RECEIVED SMS WITH: "+tmsg);
             //  Handle the text message...
             SMSRequest r = SMSRequest.decode(tmsg.getPayloadText());
-            r.setPhoneNumber(tmsg.getAddress());
+            r.setPhoneNumber(tmsg.getAddress().substring(6));
             P2PConnection.establish(r);
         }
         else {

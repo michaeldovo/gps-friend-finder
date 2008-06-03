@@ -5,7 +5,10 @@
 
 package main;
 
+import com.sun.kvem.netmon.HttpAgent;
 import gps.GPSposition;
+import javax.microedition.io.HttpConnection;
+import javax.microedition.io.ServerSocketConnection;
 
 /**
  *

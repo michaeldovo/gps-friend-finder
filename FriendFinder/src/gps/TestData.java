@@ -1,21 +1,21 @@
 package gps;
 
 /**
- *
+ * 
  * @author CoolCat
  */
-public class TestData extends Thread{
+public class TestData {
 
     private int counter=0;
     private GPSposition[] ownpos=new GPSposition[20];
     private GPSposition targetpos=new GPSposition();
 
-    public void startTest(){
-        this.start();
-    }
     
     public GPSposition getOwnpos() {
-        counter++;
+        if (counter>ownpos.length) 
+            counter = 0;
+        else
+            counter++;
         return ownpos[counter-1];
     }
 
@@ -24,7 +24,7 @@ public class TestData extends Thread{
     }
 ;
     
-    public void run(){
+    public TestData () {
         targetpos.setLatitude(50.1234);
         targetpos.setLongitude(13.2345);
         ownpos[0].setLatitude(51.4567);

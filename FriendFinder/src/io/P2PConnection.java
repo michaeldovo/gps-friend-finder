@@ -21,8 +21,8 @@ public class P2PConnection {
     private HTTPConnection conn;
     private boolean connectionEstablished = false;
        
-    public static P2PConnection getInstance() {
-        if (inst==null) throw new IllegalStateException("The Connection hasn't been initialized.");
+    public static P2PConnection getInstance() throws IllegalAccessException {
+        if (inst==null) throw new IllegalAccessException("The Connection hasn't been initialized.");
         return inst;
     }
     
@@ -49,7 +49,7 @@ public class P2PConnection {
     }
     
     public void confirm() {
-        conn.writeGPS(sessionId);
+        conn.writeGPS(Person.me().getPosition().toString());
     }
 
     public boolean isConnectionEstablished() {
@@ -62,8 +62,13 @@ public class P2PConnection {
     }
     
  
-    public void write(String message) {
-        conn.send(Person.me().getPosition().toString(), message);
+    public void writeUpdate(String message) {
+        writeUpdate();
+        conn.writeMessage(message);
+    }
+    
+    public void writeUpdate() {
+        conn.writeGPS(Person.me().getPosition().toString());
     }
     
     public void readUpdate() {
@@ -71,12 +76,14 @@ public class P2PConnection {
          * [0] GPSString
          * [1] message or null if no message available
          */
-        String[] answer = conn.read();
-        // TODO: What is returned if the connection is dead or the session lost? Is there an exception or are the values just null?
-        if (answer[0]!=null) {
+        String[] answer;
+        try {
+            answer = conn.read();
             setConnectionEstablished(true);
             Person.other().setPosition(new GPSposition(answer[0]));
             Person.other().setMessage(answer[1]);
+        } catch (IOException ex) {
+            setConnectionEstablished(false);
         }
     }
 

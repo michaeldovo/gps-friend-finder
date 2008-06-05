@@ -475,11 +475,9 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                     while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
                         // ask P2PConnection to look for incoming data
-                        try {
+
                             P2PConnection.getInstance().readUpdate();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
                         
                         Thread.sleep(1000);
                         if (counter <= 1)
@@ -635,16 +633,6 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         return okCommand1;
     }
     //</editor-fold>//GEN-END:|80-getter|2|
-
-
-
-
-
-
-
-
-
-
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Getter: guideImage ">//GEN-BEGIN:|95-getter|0|95-preInit
     /**
@@ -877,7 +865,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerConnection.setTitle("Auf Server warten ...");
             waitForServerConnection.setCommandListener(this);
             waitForServerConnection.setText("Bitte warten Sie während die\nSerververbindung aufgebaut wird ...");
-            waitForServerConnection.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
+            waitForServerConnection.setTask(getWaitForConfirmTask());//GEN-END:|133-getter|1|133-postInit
             // write post-init user code here
         }//GEN-BEGIN:|133-getter|2|
         return waitForServerConnection;
@@ -897,18 +885,20 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 public void execute() throws Exception {//GEN-END:|136-getter|1|136-execute
                     
                         // try to confirm the connection
-                        P2PConnection.getInstance().confirm();
+                        try {
+                            P2PConnection.getInstance().confirm();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         // then wait
                         int counter = 20;
                         while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
-                            waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
+                            waitForConfirmationScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
                             // ask P2PConnection to look for incoming data
-                            try {
+
                               P2PConnection.getInstance().readUpdate();
                         
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+
                             Thread.sleep(1000);
                             if (counter <= 1)
                                 throw new IOException("Server antwortet nicht.");

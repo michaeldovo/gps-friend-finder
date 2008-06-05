@@ -41,7 +41,7 @@
                     <Property name="title" typeID="Pjava.lang.String" value="VAuf Server warten ..."/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
                     <Property name="text" typeID="Pjava.lang.String" value="U&quot;Bitte warten Sie während die\nSerververbindung aufgebaut wird ...&quot;"/>
-                    <Property name="task" typeID="Corg.netbeans.microedition.util.CancellableTask" value="R136"/>
+                    <Property name="task" typeID="Corg.netbeans.microedition.util.CancellableTask" value="R57"/>
                     <Component componentID="135" typeID="C#WaitScreenFailureCommandEventSource">
                         <Property name="eventHandler" typeID="C#EventHandler" value="R140"/>
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R133"/>

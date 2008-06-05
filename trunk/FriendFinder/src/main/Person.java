@@ -30,6 +30,7 @@ public class Person {
 
     public void setMessage(String message) {
         this.message = message;
+        MainMIDlet.getInstance().getMessageTicker().setString("Nachricht von "+getMobilenumber()+": "+message);
     }
     
     public String getName() {

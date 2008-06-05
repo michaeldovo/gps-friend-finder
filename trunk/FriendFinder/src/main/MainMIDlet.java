@@ -37,7 +37,6 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
-    private WaitScreen waitForServerConnection;
     private Form startForm;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
@@ -48,9 +47,10 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private SVGWaitScreen FFGuideScreen;
     private Alert FFrequestScreen;
     private Alert askStopGuideScreen;
+    private WaitScreen waitForServerConnection;
     private TextBox messageComposerScreen;
-    private WaitScreen waitForMessageSentScreen;
     private Alert errorMessageScreen;
+    private WaitScreen waitForMessageSentScreen;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -64,22 +64,23 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Command backCommand;
     private Command cancelCommand3;
     private Command okCommand3;
-    private Command messageCommand;
     private Command backCommand1;
     private Command sendCommand;
+    private Command messageCommand;
     private Command okCommand4;
     private Command cancelCommand4;
-    private Command stopCommand2;
     private Command cancelCommand5;
+    private Command stopCommand2;
     private Command cancelCommand6;
-    private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
     private SimpleCancellableTask waitForConfirmTask;
     private Ticker sendSMSMessage;
     private SVGImage guideImage;
     private SimpleCancellableTask updateGuideTask;
+    private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendMessageTask;
+    private Ticker messageTicker;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -673,6 +674,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             // write pre-init user code here
             FFGuideScreen = new SVGWaitScreen(getGuideImage(), getDisplay());//GEN-BEGIN:|101-getter|1|101-postInit
             FFGuideScreen.setTitle("Friend Finder Guide");
+            FFGuideScreen.setTicker(getMessageTicker());
             FFGuideScreen.addCommand(getStopCommand1());
             FFGuideScreen.addCommand(getMessageCommand());
             FFGuideScreen.setCommandListener(this);
@@ -874,7 +876,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerConnection.setTitle("Auf Server warten ...");
             waitForServerConnection.addCommand(getCancelCommand6());
             waitForServerConnection.setCommandListener(this);
-            waitForServerConnection.setText("");
+            waitForServerConnection.setText("Bite warten Sie bis die\nSerververbindung aufgebaut ist.");
             waitForServerConnection.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
             // write post-init user code here
         }//GEN-BEGIN:|133-getter|2|
@@ -905,7 +907,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         while (!P2PConnection.getInstance().isConnectionEstablished()) {
                             waitForConfirmationScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
                             // ask P2PConnection to look for incoming data
-                             P2PConnection.getInstance().readUpdate();
+                             //P2PConnection.getInstance().readUpdate();
                             if (counter <= 1)
                                 throw new IOException("Server antwortet nicht.");
                             Thread.sleep(1000);
@@ -1117,6 +1119,20 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
     //</editor-fold>//GEN-END:|182-getter|2|
 
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: messageTicker ">//GEN-BEGIN:|186-getter|0|186-preInit
+    /**
+     * Returns an initiliazed instance of messageTicker component.
+     * @return the initialized component instance
+     */
+    public Ticker getMessageTicker() {
+        if (messageTicker == null) {//GEN-END:|186-getter|0|186-preInit
+            // write pre-init user code here
+            messageTicker = new Ticker("");//GEN-LINE:|186-getter|1|186-postInit
+        }//GEN-BEGIN:|186-getter|2|
+        return messageTicker;
+    }
+    //</editor-fold>//GEN-END:|186-getter|2|
+
 
 
 
@@ -1218,6 +1234,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             SVGElement text = (SVGElement) i.getDocument().getElementById("distanceValue");
             text.setTrait("#text", dist);
             System.out.println("Update distance "+distance);
+            System.out.println("Update direction "+direction+"°");
         
         }
     }

@@ -212,11 +212,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             }//GEN-BEGIN:|7-commandAction|13|79-preAction
         } else if (displayable == alertAskRetry) {
             if (command == cancelCommand1) {//GEN-END:|7-commandAction|13|79-preAction
-                waitForConfirmTask.cancel();
+                
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|14|79-postAction
                 // write post-action user code here
             } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|15|81-preAction
-                waitForConfirmTask.cancel();
+                
                 switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|16|81-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|17|127-preAction
@@ -276,7 +276,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|38|55-postAction
                 // write post-action user code here
             } else if (command == cancelCommand5) {//GEN-LINE:|7-commandAction|39|180-preAction
-                // write pre-action user code here
+                waitForConfirmTask.cancel();
                 switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|40|180-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|41|165-preAction
@@ -300,7 +300,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|48|29-postAction
                 // write post-action user code here
             } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|49|72-preAction
-                // write pre-action user code here
+                sendSMSTask.cancel();
                 switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|50|72-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|51|135-preAction
@@ -314,7 +314,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|54|134-postAction
                 // write post-action user code here
             } else if (command == cancelCommand6) {//GEN-LINE:|7-commandAction|55|183-preAction
-                // write pre-action user code here
+                waitForServerTask.cancel();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|56|183-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|57|7-postCommandAction

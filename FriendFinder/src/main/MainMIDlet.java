@@ -119,7 +119,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
 //GEN-LINE:|0-initialize|1|0-postInitialize
         new Thread(new _Fill2Contacts()).start();
         // start GPS-Test-Code
-        System.out.println("Version 4");
+        System.out.println("Version 5");
         GPScalculations.start();
         // try to add SMSService to PUSH-registry
         SMSservice.register();
@@ -734,12 +734,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                             System.out.println("New Direction: "+newDirection+"°");
                             FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
                             lastDirection = newDirection;
-                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         // wait 5 seconds (4000 + connection-blocking)
-                            wait(4000);
+                        Thread.sleep(4000);    
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
             });//GEN-END:|106-getter|2|106-postInit

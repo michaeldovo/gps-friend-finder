@@ -135,8 +135,7 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R28"/>
                         <Component componentID="83" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R56"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R54"/>
-                            <Property name="alert" typeID="Cjavax.microedition.lcdui.Alert" value="R70"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R70"/>
                         </Component>
                     </Component>
                     <Component componentID="180" typeID="C#CommandEventSource">
@@ -145,8 +144,7 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R179"/>
                         <Component componentID="181" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R180"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R54"/>
-                            <Property name="alert" typeID="Cjavax.microedition.lcdui.Alert" value="R70"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R70"/>
                         </Component>
                     </Component>
                 </Component>
@@ -207,8 +205,7 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R107"/>
                         <Component componentID="128" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R108"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R101"/>
-                            <Property name="alert" typeID="Cjavax.microedition.lcdui.Alert" value="R121"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R121"/>
                         </Component>
                     </Component>
                     <Component componentID="104" typeID="C#SVGWaitScreenSuccessCommandEventSource">
@@ -221,12 +218,12 @@
                         </Component>
                     </Component>
                     <Component componentID="105" typeID="C#SVGWaitScreenFailureCommandEventSource">
-                        <Property name="eventHandler" typeID="C#EventHandler" value="R132"/>
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R194"/>
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R101"/>
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R103"/>
-                        <Component componentID="132" typeID="C#SwitchDisplayableEventHandler">
+                        <Component componentID="194" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R105"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R187"/>
                         </Component>
                     </Component>
                     <Component componentID="152" typeID="C#CommandEventSource">
@@ -394,8 +391,7 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R28"/>
                         <Component componentID="169" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R165"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R163"/>
-                            <Property name="alert" typeID="Cjavax.microedition.lcdui.Alert" value="R168"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R168"/>
                         </Component>
                     </Component>
                     <Component componentID="164" typeID="C#WaitScreenSuccessCommandEventSource">
@@ -405,6 +401,33 @@
                         <Component componentID="167" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R164"/>
                             <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R101"/>
+                        </Component>
+                    </Component>
+                </Component>
+                <Component componentID="187" typeID="Cjavax.microedition.lcdui.Alert">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="ValertConnectionLost"/>
+                    <Property name="commands" typeID="1C#CommandEventSource" value="A2:4_R1894_R191"/>
+                    <Property name="title" typeID="Pjava.lang.String" value="VVerbindung verloren"/>
+                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
+                    <Property name="string" typeID="Pjava.lang.String" value="U&quot;Die Verbindung ist verloren gegangen.\nWollen Sie warten?&quot;"/>
+                    <Property name="timeout" typeID="Pint" value="V-2"/>
+                    <Property name="type" typeID="Ejavax.microedition.lcdui.AlertType" value="EERROR"/>
+                    <Component componentID="189" typeID="C#CommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R193"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R187"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R188"/>
+                        <Component componentID="193" typeID="C#SwitchDisplayableEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R189"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
+                        </Component>
+                    </Component>
+                    <Component componentID="191" typeID="C#CommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R192"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R187"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R190"/>
+                        <Component componentID="192" typeID="C#SwitchDisplayableEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R191"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R133"/>
                         </Component>
                     </Component>
                 </Component>
@@ -578,6 +601,16 @@
                     <Property name="label" typeID="Pjava.lang.String" value="VCancel"/>
                     <Property name="type" typeID="Pint" value="V3"/>
                 </Component>
+                <Component componentID="188" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VcancelCommand7"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VCancel"/>
+                    <Property name="type" typeID="Pint" value="V3"/>
+                </Component>
+                <Component componentID="190" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VokCommand5"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VOk"/>
+                    <Property name="type" typeID="Pint" value="V4"/>
+                </Component>
             </Component>
             <Component componentID="12" typeID="C#ResourcesCategory">
                 <Component componentID="31" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
@@ -617,6 +650,7 @@
         <Node componentID="163" descriptorID="componentNode163" x="563" y="525"/>
         <Node componentID="50" descriptorID="componentNode50" x="316" y="195"/>
         <Node componentID="121" descriptorID="componentNode121" x="11" y="563"/>
+        <Node componentID="187" descriptorID="componentNode187" x="317" y="324"/>
         <Node componentID="13" descriptorID="componentNode13" x="301" y="51"/>
         <Node componentID="60" descriptorID="componentNode60" x="801" y="93"/>
         <Node componentID="168" descriptorID="componentNode168" x="863" y="480"/>

@@ -82,14 +82,11 @@ public class HTTPConnection implements Listener{
             byte[] data = new byte[length];
             in.read(data);
             String response = new String(data);
-            StringItem stringItem = new StringItem(null, response);
-            
-            
             String[] splittResponse = split(response, "§§§§!§§§§",2);
             System.out.println("URL: "+url+" | Rueckgabe: "+splittResponse[0]);
         }
-        catch(IOException ioe){
-            StringItem stringItem = new StringItem(null, ioe.toString());
+        catch(Exception e){
+            e.printStackTrace();
              
         }
         finally{

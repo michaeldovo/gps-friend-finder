@@ -711,7 +711,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
-                    int cycle = 1;
+                    int cycle = 6;
                     int lastDirection = 180; // because arrow start top-down-direction;
                     while (true) {
                         try {
@@ -722,6 +722,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                                 P2PConnection.getInstance().readUpdate();
                             }
                             int newDirection = GPScalculations.getDirection();
+                            System.out.println("New Direction: "+newDirection+"°");
                             FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
                             lastDirection = newDirection;
                             
@@ -901,7 +902,8 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         // then wait
                         int counter = 20;
                         while (!P2PConnection.getInstance().isConnectionEstablished()) {
-                            waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
+                            waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden, "+
+                                    "\n bis die Serververbindung aufgebaut ist.");
                             // ask P2PConnection to look for incoming data
                              P2PConnection.getInstance().readUpdate();
                             if (counter <= 1)

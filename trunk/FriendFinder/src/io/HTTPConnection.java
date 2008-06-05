@@ -100,42 +100,36 @@ public class HTTPConnection implements Listener{
         OutputStream out = null;
         String []receivedData = new String[2];
         
-        try{
-            String []url = new String[2];
-            url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);
-            url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);        
+
+        String []url = new String[2];
+        url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);
+        url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);        
             
-            for( int i=0; i<=1; i++)
-            {
-                hc = (HttpConnection)Connector.open(url[i]);
-                hc.setRequestMethod(HttpConnection.POST);
-                hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                //hc.setRequestProperty("Content-Length", Integer.toString(message.length()));
-                out= hc.openOutputStream();
-                //out.write(message.getBytes());
-                in = hc.openInputStream();
-                int length = 400;
-                byte[] data = new byte[length];
-                in.read(data);
-                String response = new String(data);
-                StringItem stringItem = new StringItem(null, response);
+        for( int i=0; i<=1; i++)
+        {
+            hc = (HttpConnection)Connector.open(url[i]);
+            hc.setRequestMethod(HttpConnection.POST);
+            hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            //hc.setRequestProperty("Content-Length", Integer.toString(message.length()));
+            out= hc.openOutputStream();
+            //out.write(message.getBytes());
+            in = hc.openInputStream();
+            int length = 400;
+            byte[] data = new byte[length];
+            in.read(data);
+            String response = new String(data);
+            StringItem stringItem = new StringItem(null, response);
 
 
-                String[] splittResponse = split(response, "§§§§!§§§§",3);
-                System.out.println("URL: "+url[i]+" | Rueckgabe: "+splittResponse[0]);
-                if(i == 0 && splittResponse.length > 2){
-                    System.out.println("Timestamp: "+splittResponse[1]);
-                    long nachrichtenAlter = (System.currentTimeMillis() / 1000) - Long.parseLong(splittResponse[1].trim());
-                    if( nachrichtenAlter > 240 )  throw new IOException("Connection lost");  
-                }
-                receivedData[i] = splittResponse[0].trim();
+            String[] splittResponse = split(response, "§§§§!§§§§",3);
+            System.out.println("URL: "+url[i]+" | Rueckgabe: "+splittResponse[0]);
+            if(i == 0 && splittResponse.length > 2){
+                System.out.println("Timestamp: "+splittResponse[1]);
+                long nachrichtenAlter = (System.currentTimeMillis() / 1000) - Long.parseLong(splittResponse[1].trim());
+                if( nachrichtenAlter > 240 )  throw new IOException("Connection lost");  
             }
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-             
-        }
-        finally{
+            receivedData[i] = splittResponse[0].trim();
+        
             try{
                 if(out != null)  out.close();
                 if(in != null)   in.close();

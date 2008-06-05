@@ -325,7 +325,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 // write post-action user code here
             } else if (command == cancelCommand6) {//GEN-LINE:|7-commandAction|59|183-preAction
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|60|183-postAction
-                waitForServerTask.cancel();
+                waitForServerTask.cancel();;
             }//GEN-BEGIN:|7-commandAction|61|7-postCommandAction
         }//GEN-END:|7-commandAction|61|7-postCommandAction
         // write post-action user code here
@@ -720,11 +720,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask = new SimpleCancellableTask();//GEN-BEGIN:|106-getter|1|106-execute
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
-                    int cycle = 6;
+                    int cycle = 6; // start here to send and receive data right from the beginning (important for third handshake)
                     int lastDirection = 180; // because arrow start top-down-direction;
                     while (P2PConnection.getInstance().isConnectionEstablished()) {
                         try {
-                            // send and read server-data every 30 seconds
+                            // send and read server-data about every 30 seconds
                             if (cycle++ % 6 == 0) {
                                 cycle = 1;
                                 P2PConnection.getInstance().writeUpdate();
@@ -738,8 +738,8 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        // wait 5 seconds
-                            Thread.sleep(5000);
+                        // wait 5 seconds (4000 + connection-blocking)
+                            wait(4000);
                     }
                 }//GEN-BEGIN:|106-getter|2|106-postInit
             });//GEN-END:|106-getter|2|106-postInit

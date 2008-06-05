@@ -897,17 +897,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 public void execute() throws Exception {//GEN-END:|136-getter|1|136-execute
 //                    
 //                        // try to confirm the connection
-//                        try {
-//                            P2PConnection.getInstance().confirm();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+                        P2PConnection.getInstance().confirm();
                         // then wait
                         int counter = 20;
                         while (!P2PConnection.getInstance().isConnectionEstablished()) {
                             waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
                             // ask P2PConnection to look for incoming data
-                             //P2PConnection.getInstance().readUpdate();
+                             P2PConnection.getInstance().readUpdate();
                             if (counter <= 1)
                                 throw new IOException("Server antwortet nicht.");
                             Thread.sleep(1000);

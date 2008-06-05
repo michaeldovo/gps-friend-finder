@@ -713,6 +713,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
                     int cycle = 1;
+                    int lastDirection = 180; // because arrow start top-down-direction;
                     while (true) {
                         try {
                             // send and read server-data every 30 seconds
@@ -721,7 +722,10 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                                 P2PConnection.getInstance().writeUpdate();
                                 P2PConnection.getInstance().readUpdate();
                             }
-                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));                            
+                            int newDirection = GPScalculations.getDirection();
+                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
+                            lastDirection = newDirection;
+                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1142,10 +1146,10 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     
     public class updateGuideScreen implements Runnable {
 
-        short direction;
+        int direction;
         double distance;
         
-        public updateGuideScreen(short direction, double distance) {
+        public updateGuideScreen(int direction, double distance) {
             this.direction = direction;
             this.distance = distance;
         }

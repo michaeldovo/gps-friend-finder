@@ -85,7 +85,7 @@ public class P2PConnection {
             System.out.println("Other position: "+Person.other().getPosition().toString());
             System.out.println("My position: "+Person.me().getPosition().toString());
             Person.other().setMessage(answer[1]);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             setConnectionEstablished(false);
         }
     }

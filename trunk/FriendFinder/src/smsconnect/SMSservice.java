@@ -52,15 +52,15 @@ public class SMSservice {
         }
         catch(SecurityException e) {
             System.out.println("SecurityException, insufficient permissions");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         catch(ClassNotFoundException e) {
             System.out.println("ClassNotFoundException, MIDlet name not found");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         catch(IOException e) {
             System.out.println("IOException, possibly port already in use.");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
     

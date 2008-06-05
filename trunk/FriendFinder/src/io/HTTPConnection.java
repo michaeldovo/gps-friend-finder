@@ -339,7 +339,7 @@ public class HTTPConnection implements Listener{
             if(daten[0].length() == 0)  throw new IOException("Waiting for Connection");
             if(daten[1].length() == 0)  daten[1] = null;
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
                 
         return daten;

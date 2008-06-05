@@ -30,6 +30,10 @@ public class Property {
     //s=TRUE for Bluetooth connection
     //s=false for test data
     //******
-    public static final boolean s = false;
+    public static final int GPS_TEST = 0;
+    public static final int GPS_BT = 1;
+    public static final int GPS_N95 = 2;
+    
+    public static final int GPS_MODE = 0;
     
 }

@@ -28,12 +28,12 @@ import smsconnect.SMSservice;
 /**
  * @author Chris2u
  */
-public class MainMIDlet extends MIDlet implements CommandListener, MessageListener {
+public class FriendFinder extends MIDlet implements CommandListener, MessageListener {
 
     private boolean midletPaused = false;
-    private static MainMIDlet inst;
+    private static FriendFinder inst;
     
-    public static MainMIDlet getInstance() { return inst; }
+    public static FriendFinder getInstance() { return inst; }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
@@ -70,11 +70,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Command messageCommand;
     private Command okCommand4;
     private Command cancelCommand4;
+    private Command okCommand5;
+    private Command cancelCommand7;
     private Command cancelCommand5;
     private Command stopCommand2;
     private Command cancelCommand6;
-    private Command cancelCommand7;
-    private Command okCommand5;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
     private SimpleCancellableTask waitForConfirmTask;
@@ -84,12 +84,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendMessageTask;
     private Ticker messageTicker;
+    private SimpleCancellableTask task;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
-     * The MainMIDlet constructor.
+     * The FriendFinder constructor.
      */
-    public MainMIDlet() {
+    public FriendFinder() {
         inst = this;
     }
 
@@ -721,7 +722,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             updateGuideTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
                     int cycle = 6; // start here to send and receive data right from the beginning (important for third handshake)
-                    int lastDirection = 180; // because arrow start top-down-direction;
+                    int lastDirection = 0; // because arrow start top-down-direction;
                     while (P2PConnection.getInstance().isConnectionEstablished()) {
                         try {
                             // send and read server-data about every 30 seconds
@@ -730,7 +731,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                                 P2PConnection.getInstance().writeUpdate();
                                 P2PConnection.getInstance().readUpdate();
                             }
-                            int newDirection = GPScalculations.getDirection();
+                            int newDirection = cycle*20;//GPScalculations.getDirection();
                             System.out.println("New Direction: "+newDirection+"°");
                             FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
                             lastDirection = newDirection;
@@ -1188,6 +1189,26 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     }
     //</editor-fold>//GEN-END:|190-getter|2|
 
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: task ">//GEN-BEGIN:|195-getter|0|195-preInit
+    /**
+     * Returns an initiliazed instance of task component.
+     * @return the initialized component instance
+     */
+    public SimpleCancellableTask getTask() {
+        if (task == null) {//GEN-END:|195-getter|0|195-preInit
+            // write pre-init user code here
+            task = new SimpleCancellableTask();//GEN-BEGIN:|195-getter|1|195-execute
+            task.setExecutable(new org.netbeans.microedition.util.Executable() {
+                public void execute() throws Exception {//GEN-END:|195-getter|1|195-execute
+                    while(true) Thread.sleep(2000);
+                }//GEN-BEGIN:|195-getter|2|195-postInit
+            });//GEN-END:|195-getter|2|195-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|195-getter|3|
+        return task;
+    }
+    //</editor-fold>//GEN-END:|195-getter|3|
+
 
 
 
@@ -1275,9 +1296,9 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             SVGElement arrow = (SVGElement) i.getDocument().getElementById("arrow");
             SVGMatrix transformMatrix = arrow.getMatrixTrait("transform");
             
-            transformMatrix = transformMatrix.mTranslate(340f, 340f);
+            transformMatrix = transformMatrix.mTranslate(100f, 80f);
             transformMatrix = transformMatrix.mRotate(direction);
-            transformMatrix = transformMatrix.mTranslate(-340f, -340f);
+            transformMatrix = transformMatrix.mTranslate(-100f, -80f);
             arrow.setMatrixTrait("transform", transformMatrix);
             // update text
             String dist = distance+"";

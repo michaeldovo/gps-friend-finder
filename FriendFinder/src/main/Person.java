@@ -31,7 +31,7 @@ public class Person {
     public void setMessage(String message) {
         this.message = message;
         if (message!=null && message.length() > 0)
-            MainMIDlet.getInstance().getMessageTicker().setString("Nachricht von "+getMobilenumber()+": "+message);
+            FriendFinder.getInstance().getMessageTicker().setString("Nachricht von "+getMobilenumber()+": "+message);
     }
     
     public String getName() {

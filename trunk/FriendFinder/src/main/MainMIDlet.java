@@ -246,7 +246,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 // write post-action user code here
             } else if (command == sendCommand) {//GEN-LINE:|7-commandAction|27|159-preAction
                 // write pre-action user code here
-//GEN-LINE:|7-commandAction|28|159-postAction
+                switchDisplayable(null, getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|28|159-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|29|51-preAction
         } else if (displayable == pimBrowser) {
@@ -484,16 +484,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForConfirmTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|57-getter|1|57-execute
                     int counter = 60;
-                    while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
+                    while (!P2PConnection.getInstance().isConnectionEstablished()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
                         // ask P2PConnection to look for incoming data
-
-                            P2PConnection.getInstance().readUpdate();
-
-                        
-                        Thread.sleep(1000);
+                        P2PConnection.getInstance().readUpdate();
                         if (counter <= 1)
                             throw new Exception("Die andere Seite reagiert nicht.");
+                        Thread.sleep(1000);
                     }
                     return; // success
                     
@@ -760,7 +757,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         if (FFrequestScreen == null) {//GEN-END:|110-getter|0|110-preInit
             // write pre-init user code here
             FFrequestScreen = new Alert("FriendFinder Anfrage", "Der Benutzer mit der Mobilnummer \n "+Person.other().getMobilenumber()+//GEN-BEGIN:|110-getter|1|110-postInit
-                    " \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? ", null, null);
+                    " \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? ", null, AlertType.CONFIRMATION);
             FFrequestScreen.addCommand(getOkCommand2());
             FFrequestScreen.addCommand(getCancelCommand2());
             FFrequestScreen.setCommandListener(this);
@@ -809,7 +806,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     public Alert getAskStopGuideScreen() {
         if (askStopGuideScreen == null) {//GEN-END:|121-getter|0|121-preInit
             // write pre-init user code here
-            askStopGuideScreen = new Alert("Guide abbrechen?", "Soll der Vorgang\nwirklich abgebrochen werden?", null, null);//GEN-BEGIN:|121-getter|1|121-postInit
+            askStopGuideScreen = new Alert("Guide abbrechen?", "Soll der Vorgang\nwirklich abgebrochen werden?", null, AlertType.WARNING);//GEN-BEGIN:|121-getter|1|121-postInit
             askStopGuideScreen.addCommand(getOkCommand3());
             askStopGuideScreen.addCommand(getBackCommand());
             askStopGuideScreen.setCommandListener(this);
@@ -877,7 +874,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerConnection.setTitle("Auf Server warten ...");
             waitForServerConnection.addCommand(getCancelCommand6());
             waitForServerConnection.setCommandListener(this);
-            waitForServerConnection.setText("Bitte warten Sie während die\nSerververbindung aufgebaut wird ...");
+            waitForServerConnection.setText("");
             waitForServerConnection.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
             // write post-init user code here
         }//GEN-BEGIN:|133-getter|2|
@@ -905,16 +902,13 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         }
                         // then wait
                         int counter = 20;
-                        while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
+                        while (!P2PConnection.getInstance().isConnectionEstablished()) {
                             waitForConfirmationScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
                             // ask P2PConnection to look for incoming data
-
-                              P2PConnection.getInstance().readUpdate();
-                        
-
-                            Thread.sleep(1000);
+                             P2PConnection.getInstance().readUpdate();
                             if (counter <= 1)
                                 throw new IOException("Server antwortet nicht.");
+                            Thread.sleep(1000);
                         }
                     return; // success
                     

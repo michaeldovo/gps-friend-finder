@@ -33,7 +33,8 @@ public class P2PConnection {
      * @throws java.io.IOException
      */
     public static P2PConnection request(Contact contact) throws IOException {
-        return inst = new P2PConnection(contact);
+        inst = new P2PConnection(contact);
+        return inst;
     }
     
     /**
@@ -45,7 +46,8 @@ public class P2PConnection {
         Person.other().setMobilenumber(request.getPhoneNumber());
         // ask the user for confirmation
         MainMIDlet.getInstance().newFFrequest();
-        return inst = new P2PConnection(request.getSessionId());
+        inst = new P2PConnection(request.getSessionId());
+        return inst;
     }
     
     public void confirm() {

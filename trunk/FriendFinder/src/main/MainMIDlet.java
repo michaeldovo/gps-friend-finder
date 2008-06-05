@@ -891,7 +891,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerTask = new SimpleCancellableTask();//GEN-BEGIN:|136-getter|1|136-execute
             waitForServerTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|136-getter|1|136-execute
-                    try {
+                    
                         // try to confirm the connection
                         P2PConnection.getInstance().confirm();
                         // then wait
@@ -899,14 +899,16 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                         while (counter>0 && !P2PConnection.getInstance().isConnectionEstablished()) {
                             waitForConfirmationScreen.setText("Bitt warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist");
                             // ask P2PConnection to look for incoming data
-                            P2PConnection.getInstance().readUpdate();
+                            try {
+                              P2PConnection.getInstance().readUpdate();
+                        
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             Thread.sleep(1000);
                             if (counter <= 1)
                                 throw new IOException("Server antwortet nicht.");
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     return; // success
                     
                 }//GEN-BEGIN:|136-getter|2|136-postInit

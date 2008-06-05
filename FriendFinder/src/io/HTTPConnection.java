@@ -40,12 +40,7 @@ public class HTTPConnection implements Listener{
     
     private int mode;
     private static final String CrLf="\r\n";
-    private HttpConnection hc= null;
-    //private String url = null;
-    //private byte[] buffer;
-    private OutputStream out=null;
-    private InputStream in=null;
-    private Listener httpl=null;
+
     /**
      * The sessionId that represents this connection on the server
      */
@@ -56,8 +51,6 @@ public class HTTPConnection implements Listener{
     public HTTPConnection(String sessionId) throws IOException {
         
         this.sessionId = sessionId;
-        httpl = this;
-        // establishHTTP(url);
     }
     
     
@@ -139,7 +132,7 @@ public class HTTPConnection implements Listener{
             }
         }
         catch(IOException ioe){
-            StringItem stringItem = new StringItem(null, ioe.toString());
+            ioe.printStackTrace();
              
         }
         finally{

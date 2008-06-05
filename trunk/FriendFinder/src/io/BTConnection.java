@@ -65,7 +65,7 @@ public class BTConnection extends Thread implements DiscoveryListener   {
     
     public void run(){
         try {
-            listener.printMsg("Searching...");
+//            listener.printMsg("Searching...");
             discover_agent=LocalDevice.getLocalDevice().getDiscoveryAgent();
             discover_agent.startInquiry(DiscoveryAgent.GIAC, this);
             try {
@@ -77,11 +77,11 @@ public class BTConnection extends Thread implements DiscoveryListener   {
             
             if (sensorAdr!=null){
                 /* device is found*/
-                listener.printMsg("Device is found");
+//                listener.printMsg("Device is found");
                 
                 //open the input and output stream
                 connectToDevice();
-                listener.printMsg("Connection established!");
+//                listener.printMsg("Connection established!");
             }
             
         } catch (BluetoothStateException ex) {
@@ -96,7 +96,7 @@ public class BTConnection extends Thread implements DiscoveryListener   {
         
         int input;
 
-        listener.printMsg("Start reading data");
+//        listener.printMsg("Start reading data");
         try {
             while ((input = input_stream.read()) != 13)
                 strData += (char) input;
@@ -165,7 +165,7 @@ public class BTConnection extends Thread implements DiscoveryListener   {
             if(remoteDevice.getFriendlyName(false).equals(Property.btName)){
                 this.sensorAdr = remoteDevice.getBluetoothAddress();
                 
-                listener.printMsg("Device is found!");
+//                listener.printMsg("Device is found!");
             }
         } catch (IOException ex) {
             ex.printStackTrace();

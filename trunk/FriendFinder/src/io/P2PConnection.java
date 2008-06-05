@@ -5,7 +5,7 @@ import java.io.IOException;
 //import java.security.MessageDigest;
 import java.util.Random;
 import javax.microedition.pim.Contact;
-import main.MainMIDlet;
+import main.FriendFinder;
 import main.Person;
 import smsconnect.SMSRequest;
 
@@ -45,7 +45,7 @@ public class P2PConnection {
     public static P2PConnection establish(SMSRequest request) {
         Person.other().setMobilenumber(request.getPhoneNumber());
         // ask the user for confirmation
-        MainMIDlet.getInstance().newFFrequest();
+        FriendFinder.getInstance().newFFrequest();
         inst = new P2PConnection(request.getSessionId());
         return inst;
     }

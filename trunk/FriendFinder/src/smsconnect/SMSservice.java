@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.microedition.io.Connector;
 import javax.microedition.io.PushRegistry;
 import javax.wireless.messaging.MessageConnection;
-import main.MainMIDlet;
+import main.FriendFinder;
 import main.Property;
 
 /**
@@ -19,7 +19,7 @@ import main.Property;
 public class SMSservice {
 
     //  MIDlet class name.
-    static String midletClassName = MainMIDlet.class.getName();
+    static String midletClassName = FriendFinder.class.getName();
     //  Register a static connection.
     static String url = "sms://:"+Property.portNum;
     //  Use an unrestricted filter.

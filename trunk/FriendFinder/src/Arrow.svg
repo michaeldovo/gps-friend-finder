@@ -5,28 +5,24 @@
      xmlns="http://www.w3.org/2000/svg" 
      xmlns:xlink="http://www.w3.org/1999/xlink"  
      id="svg-root"
-     height="700" width="700"
-     viewBox="0 0 700 700">
-    <g id="scene" transform="translate(150,90)">
+     height="200" width="200"
+     viewBox="0 0 200 200">
+    
+
         <desc>Arrow</desc>
-        <g id="arrowGroupd"
-            fill="#8b0000" stroke="#000000" stroke-width="10" stroke-miterlimit="2.6131"
-             transform="translate(20,28.5714) scale(0.6)">
-                 <use xlink:href="#arrowClass" x="0" y="0"/>
+        <polygon points="30,150 100,10 170,150 100,120" id="arrow" />
+style="fill:#cccccc;
+stroke:#000000;stroke-width:1"/>
             
-        </g>
-        <g id="distanceText" transform="translate(220,550)">
-            <text transform="translate(-120,0)" id="distanceLabel" fill="#BDBEC0" font-size="60" text-anchor="middle">Entfernung:
+
+
+        <g id="distanceText" transform="translate(100,180)">
+            <text transform="translate(-30,0)" id="distanceLabel" fill="#BDBEC0" font-size="16" text-anchor="middle">Entfernung:
             </text>
-            <text transform="translate(180,0)" id="distanceValue" fill="#000000" font-size="60" font-weight="bold" text-anchor="middle">3km
+            <text transform="translate(60,0)" id="distanceValue" fill="#000000" font-size="16" font-weight="bold" text-anchor="middle">3km
             </text>
         </g>
-    </g>
-    <defs>
-        <symbol id="arrowClass">
-            <path transform="rotate(0,340,340)"
-                d="M 680.00001,-27.858649 C 680.00001,-26.000219 330.00773,672.12987 329.42789,671.42805 C 327.4824,669.07328 -20.639627,-28.032809 -19.999107,-28.291219 C -19.580737,-28.459999 59.298143,5.3997002 155.28729,46.952552 L 329.81303,122.50321 L 504.05513,46.965887 C 599.8883,5.4203742 678.68037,-28.571419 679.14863,-28.571419 C 679.61689,-28.571419 680.00001,-28.250669 680.00001,-27.858649 z "
-                id="arrow"/>
-        </symbol>
-    </defs>
+        
+
+
 </svg>

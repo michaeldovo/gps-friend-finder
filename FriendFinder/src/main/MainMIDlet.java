@@ -48,6 +48,9 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private SVGWaitScreen FFGuideScreen;
     private Alert FFrequestScreen;
     private Alert askStopGuideScreen;
+    private TextBox messageComposerScreen;
+    private WaitScreen waitForMessageSentScreen;
+    private Alert errorMessageScreen;
     private Command exitCommand;
     private Command startCommand;
     private Command okCommand;
@@ -61,6 +64,11 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Command backCommand;
     private Command cancelCommand3;
     private Command okCommand3;
+    private Command messageCommand;
+    private Command backCommand1;
+    private Command sendCommand;
+    private Command okCommand4;
+    private Command cancelCommand4;
     private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
@@ -68,6 +76,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
     private Ticker sendSMSMessage;
     private SVGImage guideImage;
     private SimpleCancellableTask updateGuideTask;
+    private SimpleCancellableTask sendMessageTask;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -178,95 +187,129 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
                 // write pre-action user code here
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|4|104-postAction
                 // write post-action user code here
-            } else if (command == stopCommand1) {//GEN-LINE:|7-commandAction|5|108-preAction
+            } else if (command == messageCommand) {//GEN-LINE:|7-commandAction|5|152-preAction
                 // write pre-action user code here
-                switchDisplayable(getAskStopGuideScreen(), getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|6|108-postAction
+                switchDisplayable(null, getMessageComposerScreen());//GEN-LINE:|7-commandAction|6|152-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|7|117-preAction
+            } else if (command == stopCommand1) {//GEN-LINE:|7-commandAction|7|108-preAction
+                // write pre-action user code here
+                switchDisplayable(getAskStopGuideScreen(), getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|8|108-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|9|117-preAction
         } else if (displayable == FFrequestScreen) {
-            if (command == cancelCommand2) {//GEN-END:|7-commandAction|7|117-preAction
+            if (command == cancelCommand2) {//GEN-END:|7-commandAction|9|117-preAction
                 // write pre-action user code here
-                switchToPreviousDisplayable();//GEN-LINE:|7-commandAction|8|117-postAction
+                switchToPreviousDisplayable();//GEN-LINE:|7-commandAction|10|117-postAction
                 // write post-action user code here
-            } else if (command == okCommand2) {//GEN-LINE:|7-commandAction|9|115-preAction
+            } else if (command == okCommand2) {//GEN-LINE:|7-commandAction|11|115-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForServerConnection());//GEN-LINE:|7-commandAction|10|115-postAction
+                switchDisplayable(null, getWaitForServerConnection());//GEN-LINE:|7-commandAction|12|115-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|11|79-preAction
+            }//GEN-BEGIN:|7-commandAction|13|79-preAction
         } else if (displayable == alertAskRetry) {
-            if (command == cancelCommand1) {//GEN-END:|7-commandAction|11|79-preAction
+            if (command == cancelCommand1) {//GEN-END:|7-commandAction|13|79-preAction
                 waitForConfirmTask.cancel();
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|12|79-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|14|79-postAction
                 // write post-action user code here
-            } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|13|81-preAction
+            } else if (command == okCommand1) {//GEN-LINE:|7-commandAction|15|81-preAction
                 waitForConfirmTask.cancel();
-                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|14|81-postAction
+                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|16|81-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|15|127-preAction
+            }//GEN-BEGIN:|7-commandAction|17|127-preAction
         } else if (displayable == askStopGuideScreen) {
-            if (command == backCommand) {//GEN-END:|7-commandAction|15|127-preAction
+            if (command == backCommand) {//GEN-END:|7-commandAction|17|127-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|16|127-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|18|127-postAction
                 // write post-action user code here
-            } else if (command == okCommand3) {//GEN-LINE:|7-commandAction|17|123-preAction
+            } else if (command == okCommand3) {//GEN-LINE:|7-commandAction|19|123-preAction
                 updateGuideTask.cancel();
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|18|123-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|20|123-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|19|51-preAction
+            }//GEN-BEGIN:|7-commandAction|21|173-preAction
+        } else if (displayable == errorMessageScreen) {
+            if (command == cancelCommand4) {//GEN-END:|7-commandAction|21|173-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|22|173-postAction
+                // write post-action user code here
+            } else if (command == okCommand4) {//GEN-LINE:|7-commandAction|23|171-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|24|171-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|25|156-preAction
+        } else if (displayable == messageComposerScreen) {
+            if (command == backCommand1) {//GEN-END:|7-commandAction|25|156-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|26|156-postAction
+                // write post-action user code here
+            } else if (command == sendCommand) {//GEN-LINE:|7-commandAction|27|159-preAction
+                // write pre-action user code here
+//GEN-LINE:|7-commandAction|28|159-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|29|51-preAction
         } else if (displayable == pimBrowser) {
-            if (command == PIMBrowser.SELECT_PIM_ITEM) {//GEN-END:|7-commandAction|19|51-preAction
+            if (command == PIMBrowser.SELECT_PIM_ITEM) {//GEN-END:|7-commandAction|29|51-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|20|51-postAction
+                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|30|51-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|21|16-preAction
+            }//GEN-BEGIN:|7-commandAction|31|16-preAction
         } else if (displayable == startForm) {
-            if (command == exitCommand) {//GEN-END:|7-commandAction|21|16-preAction
+            if (command == exitCommand) {//GEN-END:|7-commandAction|31|16-preAction
                 // write pre-action user code here
-                exitMIDlet();//GEN-LINE:|7-commandAction|22|16-postAction
+                exitMIDlet();//GEN-LINE:|7-commandAction|32|16-postAction
                 // write post-action user code here
-            } else if (command == startCommand) {//GEN-LINE:|7-commandAction|23|19-preAction
+            } else if (command == startCommand) {//GEN-LINE:|7-commandAction|33|19-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getPimBrowser());//GEN-LINE:|7-commandAction|24|19-postAction
+                switchDisplayable(null, getPimBrowser());//GEN-LINE:|7-commandAction|34|19-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|25|56-preAction
+            }//GEN-BEGIN:|7-commandAction|35|56-preAction
         } else if (displayable == waitForConfirmationScreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|25|56-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|35|56-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|26|56-postAction
+                switchDisplayable(getAlertAskRetry(), getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|36|56-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|27|55-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|37|55-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|28|55-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|38|55-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|29|30-preAction
+            }//GEN-BEGIN:|7-commandAction|39|165-preAction
+        } else if (displayable == waitForMessageSentScreen) {
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|39|165-preAction
+                // write pre-action user code here
+                switchDisplayable(getErrorMessageScreen(), getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|40|165-postAction
+                // write post-action user code here
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|41|164-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|42|164-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|43|30-preAction
         } else if (displayable == waitForSMSscreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|29|30-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|43|30-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|30|30-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|44|30-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|31|29-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|45|29-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|32|29-postAction
+                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|46|29-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|33|72-preAction
+            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|47|72-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|34|72-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|48|72-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|35|135-preAction
+            }//GEN-BEGIN:|7-commandAction|49|135-preAction
         } else if (displayable == waitForServerConnection) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|35|135-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|49|135-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|36|135-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|50|135-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|37|134-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|51|134-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|38|134-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|52|134-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|39|7-postCommandAction
-        }//GEN-END:|7-commandAction|39|7-postCommandAction
+            }//GEN-BEGIN:|7-commandAction|53|7-postCommandAction
+        }//GEN-END:|7-commandAction|53|7-postCommandAction
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|40|
-    //</editor-fold>//GEN-END:|7-commandAction|40|
+    }//GEN-BEGIN:|7-commandAction|54|
+    //</editor-fold>//GEN-END:|7-commandAction|54|
 
 
 
@@ -634,6 +677,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             FFGuideScreen = new SVGWaitScreen(getGuideImage(), getDisplay());//GEN-BEGIN:|101-getter|1|101-postInit
             FFGuideScreen.setTitle("Friend Finder Guide");
             FFGuideScreen.addCommand(getStopCommand1());
+            FFGuideScreen.addCommand(getMessageCommand());
             FFGuideScreen.setCommandListener(this);
             FFGuideScreen.setTask(getUpdateGuideTask());//GEN-END:|101-getter|1|101-postInit
             // write post-init user code here
@@ -872,6 +916,158 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
         return waitForServerTask;
     }
     //</editor-fold>//GEN-END:|136-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: messageComposerScreen ">//GEN-BEGIN:|153-getter|0|153-preInit
+    /**
+     * Returns an initiliazed instance of messageComposerScreen component.
+     * @return the initialized component instance
+     */
+    public TextBox getMessageComposerScreen() {
+        if (messageComposerScreen == null) {//GEN-END:|153-getter|0|153-preInit
+            // write pre-init user code here
+            messageComposerScreen = new TextBox("Nachricht verschicken", null, 1000, TextField.ANY);//GEN-BEGIN:|153-getter|1|153-postInit
+            messageComposerScreen.addCommand(getBackCommand1());
+            messageComposerScreen.addCommand(getSendCommand());
+            messageComposerScreen.setCommandListener(this);
+            messageComposerScreen.setInitialInputMode("UCB_BASIC_LATIN");//GEN-END:|153-getter|1|153-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|153-getter|2|
+        return messageComposerScreen;
+    }
+    //</editor-fold>//GEN-END:|153-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: messageCommand ">//GEN-BEGIN:|151-getter|0|151-preInit
+    /**
+     * Returns an initiliazed instance of messageCommand component.
+     * @return the initialized component instance
+     */
+    public Command getMessageCommand() {
+        if (messageCommand == null) {//GEN-END:|151-getter|0|151-preInit
+            // write pre-init user code here
+            messageCommand = new Command("Message", Command.ITEM, 0);//GEN-LINE:|151-getter|1|151-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|151-getter|2|
+        return messageCommand;
+    }
+    //</editor-fold>//GEN-END:|151-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: backCommand1 ">//GEN-BEGIN:|155-getter|0|155-preInit
+    /**
+     * Returns an initiliazed instance of backCommand1 component.
+     * @return the initialized component instance
+     */
+    public Command getBackCommand1() {
+        if (backCommand1 == null) {//GEN-END:|155-getter|0|155-preInit
+            // write pre-init user code here
+            backCommand1 = new Command("Back", Command.BACK, 0);//GEN-LINE:|155-getter|1|155-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|155-getter|2|
+        return backCommand1;
+    }
+    //</editor-fold>//GEN-END:|155-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: sendCommand ">//GEN-BEGIN:|158-getter|0|158-preInit
+    /**
+     * Returns an initiliazed instance of sendCommand component.
+     * @return the initialized component instance
+     */
+    public Command getSendCommand() {
+        if (sendCommand == null) {//GEN-END:|158-getter|0|158-preInit
+            // write pre-init user code here
+            sendCommand = new Command("Send", Command.ITEM, 0);//GEN-LINE:|158-getter|1|158-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|158-getter|2|
+        return sendCommand;
+    }
+    //</editor-fold>//GEN-END:|158-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitForMessageSentScreen ">//GEN-BEGIN:|163-getter|0|163-preInit
+    /**
+     * Returns an initiliazed instance of waitForMessageSentScreen component.
+     * @return the initialized component instance
+     */
+    public WaitScreen getWaitForMessageSentScreen() {
+        if (waitForMessageSentScreen == null) {//GEN-END:|163-getter|0|163-preInit
+            // write pre-init user code here
+            waitForMessageSentScreen = new WaitScreen(getDisplay());//GEN-BEGIN:|163-getter|1|163-postInit
+            waitForMessageSentScreen.setTitle("Nachricht wird versendet ...");
+            waitForMessageSentScreen.setCommandListener(this);
+            waitForMessageSentScreen.setText("Bitte warten Sie während\nIhre Nachricht verschickt wird.");
+            waitForMessageSentScreen.setTask(getSendMessageTask());//GEN-END:|163-getter|1|163-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|163-getter|2|
+        return waitForMessageSentScreen;
+    }
+    //</editor-fold>//GEN-END:|163-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: errorMessageScreen ">//GEN-BEGIN:|168-getter|0|168-preInit
+    /**
+     * Returns an initiliazed instance of errorMessageScreen component.
+     * @return the initialized component instance
+     */
+    public Alert getErrorMessageScreen() {
+        if (errorMessageScreen == null) {//GEN-END:|168-getter|0|168-preInit
+            // write pre-init user code here
+            errorMessageScreen = new Alert("Fehler", "Fehler beim Versenden der Nachricht.\n\nSoll die Nachricht erneut verschickt werden?", null, AlertType.ERROR);//GEN-BEGIN:|168-getter|1|168-postInit
+            errorMessageScreen.addCommand(getOkCommand4());
+            errorMessageScreen.addCommand(getCancelCommand4());
+            errorMessageScreen.setCommandListener(this);
+            errorMessageScreen.setTimeout(Alert.FOREVER);//GEN-END:|168-getter|1|168-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|168-getter|2|
+        return errorMessageScreen;
+    }
+    //</editor-fold>//GEN-END:|168-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand4 ">//GEN-BEGIN:|170-getter|0|170-preInit
+    /**
+     * Returns an initiliazed instance of okCommand4 component.
+     * @return the initialized component instance
+     */
+    public Command getOkCommand4() {
+        if (okCommand4 == null) {//GEN-END:|170-getter|0|170-preInit
+            // write pre-init user code here
+            okCommand4 = new Command("Ok", Command.OK, 0);//GEN-LINE:|170-getter|1|170-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|170-getter|2|
+        return okCommand4;
+    }
+    //</editor-fold>//GEN-END:|170-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: cancelCommand4 ">//GEN-BEGIN:|172-getter|0|172-preInit
+    /**
+     * Returns an initiliazed instance of cancelCommand4 component.
+     * @return the initialized component instance
+     */
+    public Command getCancelCommand4() {
+        if (cancelCommand4 == null) {//GEN-END:|172-getter|0|172-preInit
+            // write pre-init user code here
+            cancelCommand4 = new Command("Cancel", Command.CANCEL, 0);//GEN-LINE:|172-getter|1|172-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|172-getter|2|
+        return cancelCommand4;
+    }
+    //</editor-fold>//GEN-END:|172-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: sendMessageTask ">//GEN-BEGIN:|166-getter|0|166-preInit
+    /**
+     * Returns an initiliazed instance of sendMessageTask component.
+     * @return the initialized component instance
+     */
+    public SimpleCancellableTask getSendMessageTask() {
+        if (sendMessageTask == null) {//GEN-END:|166-getter|0|166-preInit
+            // write pre-init user code here
+            sendMessageTask = new SimpleCancellableTask();//GEN-BEGIN:|166-getter|1|166-execute
+            sendMessageTask.setExecutable(new org.netbeans.microedition.util.Executable() {
+                public void execute() throws Exception {//GEN-END:|166-getter|1|166-execute
+                    P2PConnection.getInstance().writeUpdate(messageComposerScreen.getString());
+                }//GEN-BEGIN:|166-getter|2|166-postInit
+            });//GEN-END:|166-getter|2|166-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|166-getter|3|
+        return sendMessageTask;
+    }
+    //</editor-fold>//GEN-END:|166-getter|3|
 
 
 

@@ -865,7 +865,7 @@ public class MainMIDlet extends MIDlet implements CommandListener, MessageListen
             waitForServerConnection.setTitle("Auf Server warten ...");
             waitForServerConnection.setCommandListener(this);
             waitForServerConnection.setText("Bitte warten Sie während die\nSerververbindung aufgebaut wird ...");
-            waitForServerConnection.setTask(getWaitForConfirmTask());//GEN-END:|133-getter|1|133-postInit
+            waitForServerConnection.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
             // write post-init user code here
         }//GEN-BEGIN:|133-getter|2|
         return waitForServerConnection;

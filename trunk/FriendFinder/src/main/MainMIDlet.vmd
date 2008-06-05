@@ -293,7 +293,7 @@
                     </Component>
                 </Component>
                 <Component componentID="133" typeID="Corg.netbeans.microedition.lcdui.WaitScreen">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VwaitForServerConnection"/>
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VwaitForServerConnectionScreen"/>
                     <Property name="commands" typeID="1C#CommandEventSource" value="A3:4_R1344_R1354_R183"/>
                     <Property name="title" typeID="Pjava.lang.String" value="VAuf Server warten ..."/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>

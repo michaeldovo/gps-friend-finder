@@ -32,6 +32,7 @@ public class SMSRequest {
     }
     private String phoneNumber; // the source or target number
         
+        
     public SMSRequest(Contact c,String sessionId) {
         this(sessionId);
         if (c.getPIMList().isSupportedField(c.TEL)

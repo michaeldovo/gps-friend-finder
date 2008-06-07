@@ -63,7 +63,7 @@ public class HTTPConnection implements Listener{
         
         try{
             
-            String url = "http://web94.trinity-media.de/friendfinder/set_"+type+".php?sid="+this.sessionId+"&my_id="+ Person.other().getMobilenumber().substring(1) + "&content="+content;
+            String url = "http://web94.trinity-media.de/friendfinder/set_"+type+".php?sid="+this.sessionId+"&my_id="+ Person.other().getMobilenumber() + "&content="+content;
             hc = (HttpConnection)Connector.open(url);
             hc.setRequestMethod(HttpConnection.POST);
             hc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

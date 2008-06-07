@@ -41,11 +41,11 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
     private Form startForm;
     private ImageItem imageItem;
-    private StringItem numberItem;
     private ImageItem imageItem1;
     private ImageItem imageItem2;
     private Spacer spacer;
     private Spacer spacer1;
+    private TextField numberItem;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
     private WaitScreen waitForConfirmationScreen;
@@ -311,7 +311,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
         } else if (displayable == startSplashScreen) {
             if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|43|197-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|44|197-postAction
+                switchDisplayable(null, getGpsDataList());//GEN-LINE:|7-commandAction|44|197-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|45|56-preAction
         } else if (displayable == waitForConfirmationScreen) {
@@ -382,7 +382,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Form getStartForm() {
         if (startForm == null) {//GEN-END:|13-getter|0|13-preInit
             // write pre-init user code here
-            startForm = new Form("Friend-Finder 0.1", new Item[] { getImageItem(), getSpacer(), getNumberItem(), getImageItem1(), getSpacer1(), getImageItem2() });//GEN-BEGIN:|13-getter|1|13-postInit
+            startForm = new Form("Friend-Finder 0.1", new Item[] { getImageItem(), getNumberItem(), getSpacer(), getImageItem1(), getSpacer1(), getImageItem2() });//GEN-BEGIN:|13-getter|1|13-postInit
             startForm.addCommand(getExitCommand());
             startForm.setCommandListener(this);//GEN-END:|13-getter|1|13-postInit
             // write post-init user code here
@@ -474,7 +474,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                     if (usedPIMBrowser)
                         P2PConnection.request((Contact) getPimBrowser().getSelectedItem());
                     else
-                        P2PConnection.request(numberItem.getText());
+                        P2PConnection.request(numberItem.getString());
                 }//GEN-BEGIN:|31-getter|2|31-postInit
             });//GEN-END:|31-getter|2|31-postInit
             // write post-init user code here
@@ -1370,20 +1370,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     }
     //</editor-fold>//GEN-END:|210-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: numberItem ">//GEN-BEGIN:|212-getter|0|212-preInit
-    /**
-     * Returns an initiliazed instance of numberItem component.
-     * @return the initialized component instance
-     */
-    public StringItem getNumberItem() {
-        if (numberItem == null) {//GEN-END:|212-getter|0|212-preInit
-            // write pre-init user code here
-            numberItem = new StringItem("The number to find if not using \"Contacts\"", "<Please fill in the number>");//GEN-LINE:|212-getter|1|212-postInit
-            // write post-init user code here
-        }//GEN-BEGIN:|212-getter|2|
-        return numberItem;
-    }
-    //</editor-fold>//GEN-END:|212-getter|2|
+
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Getter: imageItem1 ">//GEN-BEGIN:|213-getter|0|213-preInit
     /**
@@ -1393,7 +1380,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public ImageItem getImageItem1() {
         if (imageItem1 == null) {//GEN-END:|213-getter|0|213-preInit
             // write pre-init user code here
-            imageItem1 = new ImageItem("", getBtnFind(), ImageItem.LAYOUT_CENTER | Item.LAYOUT_TOP | Item.LAYOUT_BOTTOM | Item.LAYOUT_VCENTER | Item.LAYOUT_2, "<Missing Image>", Item.BUTTON);//GEN-BEGIN:|213-getter|1|213-postInit
+            imageItem1 = new ImageItem("", getBtnFind(), ImageItem.LAYOUT_CENTER | Item.LAYOUT_TOP | Item.LAYOUT_BOTTOM | Item.LAYOUT_VCENTER | Item.LAYOUT_2, "<Missing Image>", Item.PLAIN);//GEN-BEGIN:|213-getter|1|213-postInit
             imageItem1.addCommand(getFindCommand());
             imageItem1.setItemCommandListener(this);//GEN-END:|213-getter|1|213-postInit
             // write post-init user code here
@@ -1410,7 +1397,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public ImageItem getImageItem2() {
         if (imageItem2 == null) {//GEN-END:|215-getter|0|215-preInit
             // write pre-init user code here
-            imageItem2 = new ImageItem("", getBtnContacts(), ImageItem.LAYOUT_DEFAULT, "<Missing Image>", Item.BUTTON);//GEN-BEGIN:|215-getter|1|215-postInit
+            imageItem2 = new ImageItem("", getBtnContacts(), ImageItem.LAYOUT_DEFAULT, "<Missing Image>", Item.PLAIN);//GEN-BEGIN:|215-getter|1|215-postInit
             imageItem2.addCommand(getContactsCommand1());
             imageItem2.setItemCommandListener(this);//GEN-END:|215-getter|1|215-postInit
             // write post-init user code here
@@ -1594,6 +1581,21 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
         return waitImage;
     }
     //</editor-fold>//GEN-END:|233-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: numberItem ">//GEN-BEGIN:|235-getter|0|235-preInit
+    /**
+     * Returns an initiliazed instance of numberItem component.
+     * @return the initialized component instance
+     */
+    public TextField getNumberItem() {
+        if (numberItem == null) {//GEN-END:|235-getter|0|235-preInit
+            // write pre-init user code here
+            numberItem = new TextField("The number to find", null, 32, TextField.PHONENUMBER);//GEN-LINE:|235-getter|1|235-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|235-getter|2|
+        return numberItem;
+    }
+    //</editor-fold>//GEN-END:|235-getter|2|
 
 
 

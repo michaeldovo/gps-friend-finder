@@ -40,7 +40,7 @@
                     <Property name="commands" typeID="1C#CommandEventSource" value="A1:3_R16"/>
                     <Property name="title" typeID="Pjava.lang.String" value="VFriend-Finder 0.1"/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
-                    <Property name="items" typeID="1Cjavax.microedition.lcdui.Item" value="A6:4_R2104_R2174_R2124_R2134_R2194_R215"/>
+                    <Property name="items" typeID="1Cjavax.microedition.lcdui.Item" value="A6:4_R2104_R2354_R2174_R2134_R2194_R215"/>
                     <Component componentID="16" typeID="C#CommandEventSource">
                         <Property name="eventHandler" typeID="C#EventHandler" value="R17"/>
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
@@ -59,12 +59,6 @@
                         <Property name="altText" typeID="Pjava.lang.String" value="VFriend Finder Logo"/>
                         <Property name="appearanceMode" typeID="Pint" value="V0"/>
                     </Component>
-                    <Component componentID="212" typeID="Cjavax.microedition.lcdui.StringItem">
-                        <Property name="instanceName" typeID="Pjava.lang.String" value="VnumberItem"/>
-                        <Property name="label" typeID="Pjava.lang.String" value="VThe number to find if not using &quot;Contacts&quot;"/>
-                        <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
-                        <Property name="text" typeID="Pjava.lang.String" value="V&lt;Please fill in the number&gt;"/>
-                    </Component>
                     <Component componentID="213" typeID="Cjavax.microedition.lcdui.ImageItem">
                         <Property name="instanceName" typeID="Pjava.lang.String" value="VimageItem1"/>
                         <Property name="label" typeID="Pjava.lang.String" value="V"/>
@@ -73,7 +67,7 @@
                         <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
                         <Property name="image" typeID="Cjavax.microedition.lcdui.Image" value="R214"/>
                         <Property name="altText" typeID="Pjava.lang.String" value="V&lt;Missing Image&gt;"/>
-                        <Property name="appearanceMode" typeID="Pint" value="V2"/>
+                        <Property name="appearanceMode" typeID="Pint" value="V0"/>
                         <Component componentID="225" typeID="C#ItemCommandEventSource">
                             <Property name="eventHandler" typeID="C#EventHandler" value="R226"/>
                             <Property name="item" typeID="Cjavax.microedition.lcdui.Item" value="R213"/>
@@ -92,7 +86,7 @@
                         <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
                         <Property name="image" typeID="Cjavax.microedition.lcdui.Image" value="R216"/>
                         <Property name="altText" typeID="Pjava.lang.String" value="V&lt;Missing Image&gt;"/>
-                        <Property name="appearanceMode" typeID="Pint" value="V2"/>
+                        <Property name="appearanceMode" typeID="Pint" value="V0"/>
                         <Component componentID="228" typeID="C#ItemCommandEventSource">
                             <Property name="eventHandler" typeID="C#EventHandler" value="R229"/>
                             <Property name="item" typeID="Cjavax.microedition.lcdui.Item" value="R215"/>
@@ -114,6 +108,13 @@
                         <Property name="label" typeID="Pjava.lang.String" value="Vspacer1"/>
                         <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
                         <Property name="minHeight" typeID="Pint" value="V20"/>
+                    </Component>
+                    <Component componentID="235" typeID="Cjavax.microedition.lcdui.TextField">
+                        <Property name="instanceName" typeID="Pjava.lang.String" value="VnumberItem"/>
+                        <Property name="label" typeID="Pjava.lang.String" value="VThe number to find"/>
+                        <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
+                        <Property name="maxSize" typeID="Pint" value="V32"/>
+                        <Property name="constraints" typeID="Pint" value="V3"/>
                     </Component>
                 </Component>
                 <Component componentID="26" typeID="Corg.netbeans.microedition.lcdui.WaitScreen">
@@ -520,7 +521,7 @@
                         <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R161"/>
                         <Component componentID="200" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R197"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
                         </Component>
                     </Component>
                 </Component>

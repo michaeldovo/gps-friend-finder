@@ -46,8 +46,10 @@ public class Person {
         return mobilenumber;
     }
 
-    public void setMobilenumber(String mobilenumber) {
-        this.mobilenumber = mobilenumber;
+    public void setMobilenumber(String mn) {
+        if (mn.startsWith("+")) mn = "0"+mn.substring(3);
+        if (mn.endsWith(":0")) mn = mn.substring(0, mn.length()-2);
+        this.mobilenumber = mn;
     }
 
     public GPSposition getPosition() {

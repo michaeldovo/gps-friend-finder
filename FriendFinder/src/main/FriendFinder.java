@@ -16,6 +16,7 @@ import javax.microedition.pim.Contact;
 import javax.microedition.pim.PIM;
 import javax.wireless.messaging.MessageConnection;
 import javax.wireless.messaging.MessageListener;
+import org.netbeans.microedition.lcdui.SplashScreen;
 import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.lcdui.pda.PIMBrowser;
 import org.netbeans.microedition.svg.SVGWaitScreen;
@@ -28,9 +29,10 @@ import smsconnect.SMSservice;
 /**
  * @author Chris2u
  */
-public class FriendFinder extends MIDlet implements CommandListener, MessageListener {
+public class FriendFinder extends MIDlet implements CommandListener, MessageListener, ItemCommandListener {
 
     private boolean midletPaused = false;
+    public boolean usedPIMBrowser = false;
     private static FriendFinder inst;
     
     public static FriendFinder getInstance() { return inst; }
@@ -38,6 +40,12 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
     private Form startForm;
+    private ImageItem imageItem;
+    private StringItem numberItem;
+    private ImageItem imageItem1;
+    private ImageItem imageItem2;
+    private Spacer spacer;
+    private Spacer spacer1;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
     private WaitScreen waitForConfirmationScreen;
@@ -52,8 +60,10 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private Alert errorMessageScreen;
     private WaitScreen waitForMessageSentScreen;
     private Alert alertConnectionLost;
+    private SplashScreen startSplashScreen;
+    private List gpsDataList;
     private Command exitCommand;
-    private Command startCommand;
+    private Command contactsCommand;
     private Command okCommand;
     private Command cancelCommand;
     private Command cancelCommand1;
@@ -75,6 +85,10 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private Command cancelCommand5;
     private Command stopCommand2;
     private Command cancelCommand6;
+    private Command okCommand6;
+    private Command findCommand;
+    private Command contactsCommand1;
+    private Command backCommand2;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
     private SimpleCancellableTask waitForConfirmTask;
@@ -85,6 +99,11 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private SimpleCancellableTask sendMessageTask;
     private Ticker messageTicker;
     private SimpleCancellableTask task;
+    private Image splashImage;
+    private Image Logo;
+    private Image btnFind;
+    private Image btnContacts;
+    private Image waitImage;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -140,7 +159,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
      */
     public void startMIDlet() {//GEN-END:|3-startMIDlet|0|3-preAction
         // write pre-action user code here
-        switchDisplayable(null, getStartForm());//GEN-LINE:|3-startMIDlet|1|3-postAction
+        switchDisplayable(null, getStartSplashScreen());//GEN-LINE:|3-startMIDlet|1|3-postAction
         
     }//GEN-BEGIN:|3-startMIDlet|2|
     //</editor-fold>//GEN-END:|3-startMIDlet|2|
@@ -252,86 +271,103 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                 // write pre-action user code here
                 switchDisplayable(null, getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|28|171-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|29|156-preAction
+            }//GEN-BEGIN:|7-commandAction|29|202-preAction
+        } else if (displayable == gpsDataList) {
+            if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|29|202-preAction
+                // write pre-action user code here
+                gpsDataListAction();//GEN-LINE:|7-commandAction|30|202-postAction
+                // write post-action user code here
+            } else if (command == okCommand6) {//GEN-LINE:|7-commandAction|31|208-preAction
+                Property.GPS_MODE = gpsDataList.getSelectedIndex();
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|32|208-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|33|156-preAction
         } else if (displayable == messageComposerScreen) {
-            if (command == backCommand1) {//GEN-END:|7-commandAction|29|156-preAction
+            if (command == backCommand1) {//GEN-END:|7-commandAction|33|156-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|30|156-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|34|156-postAction
                 // write post-action user code here
-            } else if (command == sendCommand) {//GEN-LINE:|7-commandAction|31|159-preAction
+            } else if (command == sendCommand) {//GEN-LINE:|7-commandAction|35|159-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|32|159-postAction
+                switchDisplayable(null, getWaitForMessageSentScreen());//GEN-LINE:|7-commandAction|36|159-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|33|51-preAction
+            }//GEN-BEGIN:|7-commandAction|37|51-preAction
         } else if (displayable == pimBrowser) {
-            if (command == PIMBrowser.SELECT_PIM_ITEM) {//GEN-END:|7-commandAction|33|51-preAction
-                // write pre-action user code here
-                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|34|51-postAction
+            if (command == PIMBrowser.SELECT_PIM_ITEM) {//GEN-END:|7-commandAction|37|51-preAction
+                usedPIMBrowser = true;
+                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|7-commandAction|38|51-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|35|16-preAction
+            } else if (command == backCommand2) {//GEN-LINE:|7-commandAction|39|231-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|40|231-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|7-commandAction|41|16-preAction
         } else if (displayable == startForm) {
-            if (command == exitCommand) {//GEN-END:|7-commandAction|35|16-preAction
+            if (command == exitCommand) {//GEN-END:|7-commandAction|41|16-preAction
                 // write pre-action user code here
-                exitMIDlet();//GEN-LINE:|7-commandAction|36|16-postAction
+                exitMIDlet();//GEN-LINE:|7-commandAction|42|16-postAction
                 // write post-action user code here
-            } else if (command == startCommand) {//GEN-LINE:|7-commandAction|37|19-preAction
+            }//GEN-BEGIN:|7-commandAction|43|197-preAction
+        } else if (displayable == startSplashScreen) {
+            if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|43|197-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getPimBrowser());//GEN-LINE:|7-commandAction|38|19-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|44|197-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|39|56-preAction
+            }//GEN-BEGIN:|7-commandAction|45|56-preAction
         } else if (displayable == waitForConfirmationScreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|39|56-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|45|56-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getAlertAskRetry());//GEN-LINE:|7-commandAction|40|56-postAction
+                switchDisplayable(null, getAlertAskRetry());//GEN-LINE:|7-commandAction|46|56-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|41|55-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|47|55-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|42|55-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|48|55-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand5) {//GEN-LINE:|7-commandAction|43|180-preAction
-                switchDisplayable(null, getAlertAskRetry());//GEN-LINE:|7-commandAction|44|180-postAction
+            } else if (command == cancelCommand5) {//GEN-LINE:|7-commandAction|49|180-preAction
+                switchDisplayable(null, getAlertAskRetry());//GEN-LINE:|7-commandAction|50|180-postAction
                 waitForConfirmTask.cancel();
-            }//GEN-BEGIN:|7-commandAction|45|165-preAction
+            }//GEN-BEGIN:|7-commandAction|51|165-preAction
         } else if (displayable == waitForMessageSentScreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|45|165-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|51|165-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getErrorMessageScreen());//GEN-LINE:|7-commandAction|46|165-postAction
+                switchDisplayable(null, getErrorMessageScreen());//GEN-LINE:|7-commandAction|52|165-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|47|164-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|53|164-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|48|164-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|54|164-postAction
                 // write post-action user code here
-            }//GEN-BEGIN:|7-commandAction|49|30-preAction
+            }//GEN-BEGIN:|7-commandAction|55|30-preAction
         } else if (displayable == waitForSMSscreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|49|30-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|55|30-preAction
                 // write pre-action user code here
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|50|30-postAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|56|30-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|51|29-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|57|29-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|52|29-postAction
+                switchDisplayable(null, getWaitForConfirmationScreen());//GEN-LINE:|7-commandAction|58|29-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|53|72-preAction
-                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|54|72-postAction
+            } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|59|72-preAction
+                switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|60|72-postAction
                 sendSMSTask.cancel();
-            }//GEN-BEGIN:|7-commandAction|55|135-preAction
+            }//GEN-BEGIN:|7-commandAction|61|135-preAction
         } else if (displayable == waitForServerConnectionScreen) {
-            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|55|135-preAction
+            if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|61|135-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|56|135-postAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|62|135-postAction
                 // write post-action user code here
-            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|57|134-preAction
+            } else if (command == WaitScreen.SUCCESS_COMMAND) {//GEN-LINE:|7-commandAction|63|134-preAction
                 // write pre-action user code here
-                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|58|134-postAction
+                switchDisplayable(null, getFFGuideScreen().getSvgCanvas());//GEN-LINE:|7-commandAction|64|134-postAction
                 // write post-action user code here
-            } else if (command == cancelCommand6) {//GEN-LINE:|7-commandAction|59|183-preAction
-                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|60|183-postAction
+            } else if (command == cancelCommand6) {//GEN-LINE:|7-commandAction|65|183-preAction
+                switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|66|183-postAction
                 waitForServerTask.cancel();;
-            }//GEN-BEGIN:|7-commandAction|61|7-postCommandAction
-        }//GEN-END:|7-commandAction|61|7-postCommandAction
+            }//GEN-BEGIN:|7-commandAction|67|7-postCommandAction
+        }//GEN-END:|7-commandAction|67|7-postCommandAction
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|62|
-    //</editor-fold>//GEN-END:|7-commandAction|62|
+    }//GEN-BEGIN:|7-commandAction|68|
+    //</editor-fold>//GEN-END:|7-commandAction|68|
+
 
 
 
@@ -346,9 +382,8 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Form getStartForm() {
         if (startForm == null) {//GEN-END:|13-getter|0|13-preInit
             // write pre-init user code here
-            startForm = new Form("Friend-Finder 0.1");//GEN-BEGIN:|13-getter|1|13-postInit
+            startForm = new Form("Friend-Finder 0.1", new Item[] { getImageItem(), getSpacer(), getNumberItem(), getImageItem1(), getSpacer1(), getImageItem2() });//GEN-BEGIN:|13-getter|1|13-postInit
             startForm.addCommand(getExitCommand());
-            startForm.addCommand(getStartCommand());
             startForm.setCommandListener(this);//GEN-END:|13-getter|1|13-postInit
             // write post-init user code here
         }//GEN-BEGIN:|13-getter|2|
@@ -371,6 +406,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             waitForSMSscreen.setTicker(getSendSMSMessage());
             waitForSMSscreen.addCommand(getCancelCommand());
             waitForSMSscreen.setCommandListener(this);
+            waitForSMSscreen.setImage(getWaitImage());
             waitForSMSscreen.setText("");
             waitForSMSscreen.setTask(getSendSMSTask());//GEN-END:|26-getter|1|26-postInit
             // write post-init user code here
@@ -394,18 +430,18 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     }
     //</editor-fold>//GEN-END:|15-getter|2|
 
-    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: startCommand ">//GEN-BEGIN:|18-getter|0|18-preInit
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: contactsCommand ">//GEN-BEGIN:|18-getter|0|18-preInit
     /**
-     * Returns an initiliazed instance of startCommand component.
+     * Returns an initiliazed instance of contactsCommand component.
      * @return the initialized component instance
      */
-    public Command getStartCommand() {
-        if (startCommand == null) {//GEN-END:|18-getter|0|18-preInit
+    public Command getContactsCommand() {
+        if (contactsCommand == null) {//GEN-END:|18-getter|0|18-preInit
             // write pre-init user code here
-            startCommand = new Command("Start", "Verbindung mit einer anderen Person anfordern und Suchvorgang starten", Command.ITEM, 0);//GEN-LINE:|18-getter|1|18-postInit
+            contactsCommand = new Command("Start", "Verbindung mit einer anderen Person anfordern und Suchvorgang starten", Command.ITEM, 0);//GEN-LINE:|18-getter|1|18-postInit
             // write post-init user code here
         }//GEN-BEGIN:|18-getter|2|
-        return startCommand;
+        return contactsCommand;
     }
     //</editor-fold>//GEN-END:|18-getter|2|
 
@@ -435,7 +471,10 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             sendSMSTask = new SimpleCancellableTask();//GEN-BEGIN:|31-getter|1|31-execute
             sendSMSTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|31-getter|1|31-execute
-                    P2PConnection.request((Contact) getPimBrowser().getSelectedItem());
+                    if (usedPIMBrowser)
+                        P2PConnection.request((Contact) getPimBrowser().getSelectedItem());
+                    else
+                        P2PConnection.request(numberItem.getText());
                 }//GEN-BEGIN:|31-getter|2|31-postInit
             });//GEN-END:|31-getter|2|31-postInit
             // write post-init user code here
@@ -455,6 +494,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             pimBrowser = new PIMBrowser(getDisplay(), PIM.CONTACT_LIST);//GEN-BEGIN:|50-getter|1|50-postInit
             pimBrowser.setTitle("Kontakt ausw\u00E4hlen");
             pimBrowser.addCommand(PIMBrowser.SELECT_PIM_ITEM);
+            pimBrowser.addCommand(getBackCommand2());
             pimBrowser.setCommandListener(this);//GEN-END:|50-getter|1|50-postInit
             // write post-init user code here
         }//GEN-BEGIN:|50-getter|2|
@@ -475,6 +515,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             waitForConfirmationScreen.setTicker(getWaitForConfirmMessage());
             waitForConfirmationScreen.addCommand(getCancelCommand5());
             waitForConfirmationScreen.setCommandListener(this);
+            waitForConfirmationScreen.setImage(getWaitImage());
             waitForConfirmationScreen.setText("");
             waitForConfirmationScreen.setTask(getWaitForConfirmTask());//GEN-END:|54-getter|1|54-postInit
             // write post-init user code here
@@ -536,7 +577,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Alert getAlertSMSFailure() {
         if (alertSMSFailure == null) {//GEN-END:|60-getter|0|60-preInit
             // write pre-init user code here
-            alertSMSFailure = new Alert("Fehler", "SMS konnte nicht verschickt werden", null, AlertType.ERROR);//GEN-BEGIN:|60-getter|1|60-postInit
+            alertSMSFailure = new Alert("Fehler", "SMS konnte nicht verschickt werden", getLogo(), AlertType.ERROR);//GEN-BEGIN:|60-getter|1|60-postInit
             alertSMSFailure.setIndicator(getIndicator());
             alertSMSFailure.setTimeout(3);//GEN-END:|60-getter|1|60-postInit
             // write post-init user code here
@@ -583,7 +624,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Alert getAlertAskRetry() {
         if (alertAskRetry == null) {//GEN-END:|70-getter|0|70-preInit
             // write pre-init user code here
-            alertAskRetry = new Alert("Noch versuchen?", "Wollen Sie die Anfrage erneut schicken?", null, AlertType.CONFIRMATION);//GEN-BEGIN:|70-getter|1|70-postInit
+            alertAskRetry = new Alert("Noch versuchen?", "Wollen Sie die Anfrage erneut schicken?", getLogo(), AlertType.CONFIRMATION);//GEN-BEGIN:|70-getter|1|70-postInit
             alertAskRetry.addCommand(getCancelCommand1());
             alertAskRetry.addCommand(getOkCommand1());
             alertAskRetry.setCommandListener(this);
@@ -769,7 +810,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
         if (FFrequestScreen == null) {//GEN-END:|110-getter|0|110-preInit
             // write pre-init user code here
             FFrequestScreen = new Alert("FriendFinder Anfrage", "Der Benutzer mit der Mobilnummer \n "+Person.other().getMobilenumber()+//GEN-BEGIN:|110-getter|1|110-postInit
-                    " \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? ", null, AlertType.CONFIRMATION);
+                    " \n möchte Sie über FriendFinder finden. \n \n Möchten Sie dies zulassen? ", getLogo(), AlertType.CONFIRMATION);
             FFrequestScreen.addCommand(getOkCommand2());
             FFrequestScreen.addCommand(getCancelCommand2());
             FFrequestScreen.setCommandListener(this);
@@ -818,7 +859,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Alert getAskStopGuideScreen() {
         if (askStopGuideScreen == null) {//GEN-END:|121-getter|0|121-preInit
             // write pre-init user code here
-            askStopGuideScreen = new Alert("Guide abbrechen?", "Soll der Vorgang\nwirklich abgebrochen werden?", null, AlertType.WARNING);//GEN-BEGIN:|121-getter|1|121-postInit
+            askStopGuideScreen = new Alert("Guide abbrechen?", "Soll der Vorgang\nwirklich abgebrochen werden?", getLogo(), AlertType.WARNING);//GEN-BEGIN:|121-getter|1|121-postInit
             askStopGuideScreen.addCommand(getOkCommand3());
             askStopGuideScreen.addCommand(getBackCommand());
             askStopGuideScreen.setCommandListener(this);
@@ -886,6 +927,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             waitForServerConnectionScreen.setTitle("Auf Server warten ...");
             waitForServerConnectionScreen.addCommand(getCancelCommand6());
             waitForServerConnectionScreen.setCommandListener(this);
+            waitForServerConnectionScreen.setImage(getWaitImage());
             waitForServerConnectionScreen.setText("Bite warten Sie bis die\nSerververbindung aufgebaut ist.");
             waitForServerConnectionScreen.setTask(getWaitForServerTask());//GEN-END:|133-getter|1|133-postInit
             // write post-init user code here
@@ -1020,7 +1062,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Alert getErrorMessageScreen() {
         if (errorMessageScreen == null) {//GEN-END:|168-getter|0|168-preInit
             // write pre-init user code here
-            errorMessageScreen = new Alert("Fehler", "Fehler beim Versenden der Nachricht.\n\nSoll die Nachricht erneut verschickt werden?", null, AlertType.ERROR);//GEN-BEGIN:|168-getter|1|168-postInit
+            errorMessageScreen = new Alert("Fehler", "Fehler beim Versenden der Nachricht.\n\nSoll die Nachricht erneut verschickt werden?", getLogo(), AlertType.ERROR);//GEN-BEGIN:|168-getter|1|168-postInit
             errorMessageScreen.addCommand(getOkCommand4());
             errorMessageScreen.addCommand(getCancelCommand4());
             errorMessageScreen.setCommandListener(this);
@@ -1148,7 +1190,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     public Alert getAlertConnectionLost() {
         if (alertConnectionLost == null) {//GEN-END:|187-getter|0|187-preInit
             // write pre-init user code here
-            alertConnectionLost = new Alert("Verbindung verloren", "Die Verbindung ist verloren gegangen.\nWollen Sie warten?", null, AlertType.ERROR);//GEN-BEGIN:|187-getter|1|187-postInit
+            alertConnectionLost = new Alert("Verbindung verloren", "Die Verbindung ist verloren gegangen.\nWollen Sie warten?", getLogo(), AlertType.ERROR);//GEN-BEGIN:|187-getter|1|187-postInit
             alertConnectionLost.addCommand(getCancelCommand7());
             alertConnectionLost.addCommand(getOkCommand5());
             alertConnectionLost.setCommandListener(this);
@@ -1208,6 +1250,350 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
         return task;
     }
     //</editor-fold>//GEN-END:|195-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: startSplashScreen ">//GEN-BEGIN:|196-getter|0|196-preInit
+    /**
+     * Returns an initiliazed instance of startSplashScreen component.
+     * @return the initialized component instance
+     */
+    public SplashScreen getStartSplashScreen() {
+        if (startSplashScreen == null) {//GEN-END:|196-getter|0|196-preInit
+            // write pre-init user code here
+            startSplashScreen = new SplashScreen(getDisplay());//GEN-BEGIN:|196-getter|1|196-postInit
+            startSplashScreen.setTitle("splashScreen");
+            startSplashScreen.setCommandListener(this);
+            startSplashScreen.setFullScreenMode(true);
+            startSplashScreen.setImage(getSplashImage());
+            startSplashScreen.setTimeout(2000);//GEN-END:|196-getter|1|196-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|196-getter|2|
+        return startSplashScreen;
+    }
+    //</editor-fold>//GEN-END:|196-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: splashImage ">//GEN-BEGIN:|199-getter|0|199-preInit
+    /**
+     * Returns an initiliazed instance of splashImage component.
+     * @return the initialized component instance
+     */
+    public Image getSplashImage() {
+        if (splashImage == null) {//GEN-END:|199-getter|0|199-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|199-getter|1|199-@java.io.IOException
+                splashImage = Image.createImage("/FriendFinderSplash.png");
+            } catch (java.io.IOException e) {//GEN-END:|199-getter|1|199-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|199-getter|2|199-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|199-getter|3|
+        return splashImage;
+    }
+    //</editor-fold>//GEN-END:|199-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: gpsDataList ">//GEN-BEGIN:|201-getter|0|201-preInit
+    /**
+     * Returns an initiliazed instance of gpsDataList component.
+     * @return the initialized component instance
+     */
+    public List getGpsDataList() {
+        if (gpsDataList == null) {//GEN-END:|201-getter|0|201-preInit
+            // write pre-init user code here
+            gpsDataList = new List("Which GPS data to use?", Choice.EXCLUSIVE);//GEN-BEGIN:|201-getter|1|201-postInit
+            gpsDataList.append("From Dummy-Provider", null);
+            gpsDataList.append("From BT-Receiver", null);
+            gpsDataList.append("From N95-API", null);
+            gpsDataList.addCommand(getOkCommand6());
+            gpsDataList.setCommandListener(this);
+            gpsDataList.setFitPolicy(Choice.TEXT_WRAP_DEFAULT);
+            gpsDataList.setSelectCommand(getOkCommand6());
+            gpsDataList.setSelectedFlags(new boolean[] { false, true, false });//GEN-END:|201-getter|1|201-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|201-getter|2|
+        return gpsDataList;
+    }
+    //</editor-fold>//GEN-END:|201-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Method: gpsDataListAction ">//GEN-BEGIN:|201-action|0|201-preAction
+    /**
+     * Performs an action assigned to the selected list element in the gpsDataList component.
+     */
+    public void gpsDataListAction() {//GEN-END:|201-action|0|201-preAction
+        // enter pre-action user code here
+        switch (getGpsDataList().getSelectedIndex()) {//GEN-BEGIN:|201-action|1|205-preAction
+            case 0://GEN-END:|201-action|1|205-preAction
+                // write pre-action user code here
+//GEN-LINE:|201-action|2|205-postAction
+                // write post-action user code here
+                break;//GEN-BEGIN:|201-action|3|204-preAction
+            case 1://GEN-END:|201-action|3|204-preAction
+                // write pre-action user code here
+//GEN-LINE:|201-action|4|204-postAction
+                // write post-action user code here
+                break;//GEN-BEGIN:|201-action|5|206-preAction
+            case 2://GEN-END:|201-action|5|206-preAction
+                // write pre-action user code here
+//GEN-LINE:|201-action|6|206-postAction
+                // write post-action user code here
+                break;//GEN-BEGIN:|201-action|7|201-postAction
+        }//GEN-END:|201-action|7|201-postAction
+        // enter post-action user code here
+    }//GEN-BEGIN:|201-action|8|
+    //</editor-fold>//GEN-END:|201-action|8|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand6 ">//GEN-BEGIN:|207-getter|0|207-preInit
+    /**
+     * Returns an initiliazed instance of okCommand6 component.
+     * @return the initialized component instance
+     */
+    public Command getOkCommand6() {
+        if (okCommand6 == null) {//GEN-END:|207-getter|0|207-preInit
+            // write pre-init user code here
+            okCommand6 = new Command("Ok", Command.OK, 0);//GEN-LINE:|207-getter|1|207-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|207-getter|2|
+        return okCommand6;
+    }
+    //</editor-fold>//GEN-END:|207-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: imageItem ">//GEN-BEGIN:|210-getter|0|210-preInit
+    /**
+     * Returns an initiliazed instance of imageItem component.
+     * @return the initialized component instance
+     */
+    public ImageItem getImageItem() {
+        if (imageItem == null) {//GEN-END:|210-getter|0|210-preInit
+            // write pre-init user code here
+            imageItem = new ImageItem("", getLogo(), ImageItem.LAYOUT_CENTER | Item.LAYOUT_2, "Friend Finder Logo", Item.PLAIN);//GEN-LINE:|210-getter|1|210-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|210-getter|2|
+        return imageItem;
+    }
+    //</editor-fold>//GEN-END:|210-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: numberItem ">//GEN-BEGIN:|212-getter|0|212-preInit
+    /**
+     * Returns an initiliazed instance of numberItem component.
+     * @return the initialized component instance
+     */
+    public StringItem getNumberItem() {
+        if (numberItem == null) {//GEN-END:|212-getter|0|212-preInit
+            // write pre-init user code here
+            numberItem = new StringItem("The number to find if not using \"Contacts\"", "<Please fill in the number>");//GEN-LINE:|212-getter|1|212-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|212-getter|2|
+        return numberItem;
+    }
+    //</editor-fold>//GEN-END:|212-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: imageItem1 ">//GEN-BEGIN:|213-getter|0|213-preInit
+    /**
+     * Returns an initiliazed instance of imageItem1 component.
+     * @return the initialized component instance
+     */
+    public ImageItem getImageItem1() {
+        if (imageItem1 == null) {//GEN-END:|213-getter|0|213-preInit
+            // write pre-init user code here
+            imageItem1 = new ImageItem("", getBtnFind(), ImageItem.LAYOUT_CENTER | Item.LAYOUT_TOP | Item.LAYOUT_BOTTOM | Item.LAYOUT_VCENTER | Item.LAYOUT_2, "<Missing Image>", Item.BUTTON);//GEN-BEGIN:|213-getter|1|213-postInit
+            imageItem1.addCommand(getFindCommand());
+            imageItem1.setItemCommandListener(this);//GEN-END:|213-getter|1|213-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|213-getter|2|
+        return imageItem1;
+    }
+    //</editor-fold>//GEN-END:|213-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: imageItem2 ">//GEN-BEGIN:|215-getter|0|215-preInit
+    /**
+     * Returns an initiliazed instance of imageItem2 component.
+     * @return the initialized component instance
+     */
+    public ImageItem getImageItem2() {
+        if (imageItem2 == null) {//GEN-END:|215-getter|0|215-preInit
+            // write pre-init user code here
+            imageItem2 = new ImageItem("", getBtnContacts(), ImageItem.LAYOUT_DEFAULT, "<Missing Image>", Item.BUTTON);//GEN-BEGIN:|215-getter|1|215-postInit
+            imageItem2.addCommand(getContactsCommand1());
+            imageItem2.setItemCommandListener(this);//GEN-END:|215-getter|1|215-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|215-getter|2|
+        return imageItem2;
+    }
+    //</editor-fold>//GEN-END:|215-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: spacer ">//GEN-BEGIN:|217-getter|0|217-preInit
+    /**
+     * Returns an initiliazed instance of spacer component.
+     * @return the initialized component instance
+     */
+    public Spacer getSpacer() {
+        if (spacer == null) {//GEN-END:|217-getter|0|217-preInit
+            // write pre-init user code here
+            spacer = new Spacer(16, 20);//GEN-LINE:|217-getter|1|217-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|217-getter|2|
+        return spacer;
+    }
+    //</editor-fold>//GEN-END:|217-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: spacer1 ">//GEN-BEGIN:|219-getter|0|219-preInit
+    /**
+     * Returns an initiliazed instance of spacer1 component.
+     * @return the initialized component instance
+     */
+    public Spacer getSpacer1() {
+        if (spacer1 == null) {//GEN-END:|219-getter|0|219-preInit
+            // write pre-init user code here
+            spacer1 = new Spacer(16, 20);//GEN-LINE:|219-getter|1|219-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|219-getter|2|
+        return spacer1;
+    }
+    //</editor-fold>//GEN-END:|219-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: Logo ">//GEN-BEGIN:|211-getter|0|211-preInit
+    /**
+     * Returns an initiliazed instance of Logo component.
+     * @return the initialized component instance
+     */
+    public Image getLogo() {
+        if (Logo == null) {//GEN-END:|211-getter|0|211-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|211-getter|1|211-@java.io.IOException
+                Logo = Image.createImage("/FriendFinderLogo.png");
+            } catch (java.io.IOException e) {//GEN-END:|211-getter|1|211-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|211-getter|2|211-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|211-getter|3|
+        return Logo;
+    }
+    //</editor-fold>//GEN-END:|211-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: btnFind ">//GEN-BEGIN:|214-getter|0|214-preInit
+    /**
+     * Returns an initiliazed instance of btnFind component.
+     * @return the initialized component instance
+     */
+    public Image getBtnFind() {
+        if (btnFind == null) {//GEN-END:|214-getter|0|214-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|214-getter|1|214-@java.io.IOException
+                btnFind = Image.createImage("/btnFindNumber.png");
+            } catch (java.io.IOException e) {//GEN-END:|214-getter|1|214-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|214-getter|2|214-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|214-getter|3|
+        return btnFind;
+    }
+    //</editor-fold>//GEN-END:|214-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: btnContacts ">//GEN-BEGIN:|216-getter|0|216-preInit
+    /**
+     * Returns an initiliazed instance of btnContacts component.
+     * @return the initialized component instance
+     */
+    public Image getBtnContacts() {
+        if (btnContacts == null) {//GEN-END:|216-getter|0|216-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|216-getter|1|216-@java.io.IOException
+                btnContacts = Image.createImage("/btnContacts.png");
+            } catch (java.io.IOException e) {//GEN-END:|216-getter|1|216-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|216-getter|2|216-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|216-getter|3|
+        return btnContacts;
+    }
+    //</editor-fold>//GEN-END:|216-getter|3|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Method: commandAction for Items ">//GEN-BEGIN:|8-itemCommandAction|0|8-preItemCommandAction
+    /**
+     * Called by a system to indicated that a command has been invoked on a particular item.
+     * @param command the Command that was invoked
+     * @param displayable the Item where the command was invoked
+     */
+    public void commandAction(Command command, Item item) {//GEN-END:|8-itemCommandAction|0|8-preItemCommandAction
+        // write pre-action user code here
+        if (item == imageItem1) {//GEN-BEGIN:|8-itemCommandAction|1|225-preAction
+            if (command == findCommand) {//GEN-END:|8-itemCommandAction|1|225-preAction
+                usedPIMBrowser = false;
+                switchDisplayable(null, getWaitForSMSscreen());//GEN-LINE:|8-itemCommandAction|2|225-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|8-itemCommandAction|3|228-preAction
+        } else if (item == imageItem2) {
+            if (command == contactsCommand1) {//GEN-END:|8-itemCommandAction|3|228-preAction
+                // write pre-action user code here
+                switchDisplayable(null, getPimBrowser());//GEN-LINE:|8-itemCommandAction|4|228-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|8-itemCommandAction|5|8-postItemCommandAction
+        }//GEN-END:|8-itemCommandAction|5|8-postItemCommandAction
+        // write post-action user code here
+    }//GEN-BEGIN:|8-itemCommandAction|6|
+    //</editor-fold>//GEN-END:|8-itemCommandAction|6|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: findCommand ">//GEN-BEGIN:|224-getter|0|224-preInit
+    /**
+     * Returns an initiliazed instance of findCommand component.
+     * @return the initialized component instance
+     */
+    public Command getFindCommand() {
+        if (findCommand == null) {//GEN-END:|224-getter|0|224-preInit
+            // write pre-init user code here
+            findCommand = new Command("Find number", Command.ITEM, 0);//GEN-LINE:|224-getter|1|224-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|224-getter|2|
+        return findCommand;
+    }
+    //</editor-fold>//GEN-END:|224-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: contactsCommand1 ">//GEN-BEGIN:|227-getter|0|227-preInit
+    /**
+     * Returns an initiliazed instance of contactsCommand1 component.
+     * @return the initialized component instance
+     */
+    public Command getContactsCommand1() {
+        if (contactsCommand1 == null) {//GEN-END:|227-getter|0|227-preInit
+            // write pre-init user code here
+            contactsCommand1 = new Command("Open Contacts", Command.ITEM, 0);//GEN-LINE:|227-getter|1|227-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|227-getter|2|
+        return contactsCommand1;
+    }
+    //</editor-fold>//GEN-END:|227-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: backCommand2 ">//GEN-BEGIN:|230-getter|0|230-preInit
+    /**
+     * Returns an initiliazed instance of backCommand2 component.
+     * @return the initialized component instance
+     */
+    public Command getBackCommand2() {
+        if (backCommand2 == null) {//GEN-END:|230-getter|0|230-preInit
+            // write pre-init user code here
+            backCommand2 = new Command("Back", Command.BACK, 0);//GEN-LINE:|230-getter|1|230-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|230-getter|2|
+        return backCommand2;
+    }
+    //</editor-fold>//GEN-END:|230-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: waitImage ">//GEN-BEGIN:|233-getter|0|233-preInit
+    /**
+     * Returns an initiliazed instance of waitImage component.
+     * @return the initialized component instance
+     */
+    public Image getWaitImage() {
+        if (waitImage == null) {//GEN-END:|233-getter|0|233-preInit
+            // write pre-init user code here
+            try {//GEN-BEGIN:|233-getter|1|233-@java.io.IOException
+                waitImage = Image.createImage("/FriendFinderWait.png");
+            } catch (java.io.IOException e) {//GEN-END:|233-getter|1|233-@java.io.IOException
+                e.printStackTrace();
+            }//GEN-LINE:|233-getter|2|233-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|233-getter|3|
+        return waitImage;
+    }
+    //</editor-fold>//GEN-END:|233-getter|3|
 
 
 

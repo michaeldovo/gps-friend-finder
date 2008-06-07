@@ -15,7 +15,8 @@ import smsconnect.SMSRequest;
  */
 public class P2PConnection {
     private static P2PConnection inst;
-       
+
+      
     private String sessionId;
     private SMSRequest request;
     private HTTPConnection conn;
@@ -33,7 +34,17 @@ public class P2PConnection {
      * @throws java.io.IOException
      */
     public static P2PConnection request(Contact contact) throws IOException {
-        inst = new P2PConnection(contact);
+        inst = new P2PConnection();
+        SMSRequest request = new SMSRequest(contact, inst.getSessionId());
+        request.send();
+        return inst;
+    }
+    
+    public static P2PConnection request(String number) throws IOException {
+        inst = new P2PConnection();
+        SMSRequest request = new SMSRequest(inst.getSessionId());
+        request.setPhoneNumber(number);
+        request.send();
         return inst;
     }
     
@@ -113,10 +124,8 @@ public class P2PConnection {
      * @param contact
      * @throws java.io.IOException
      */
-    private P2PConnection(Contact contact) throws IOException {
+    private P2PConnection() {
         this(createSessionId());
-        request = new SMSRequest(contact, sessionId);
-        String message = request.send();
     }
 
     /**

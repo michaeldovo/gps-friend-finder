@@ -1,0 +1,21 @@
+<waypoints>
+  <waypoint time="0"
+            latitude="18" longitude="50" altitude="310" />
+  <waypoint time="10000"
+            latitude="17.9" longitude="50.1" altitude="215" /> 
+  <waypoint time="20000"
+            latitude="17.8" longitude="50.2" altitude="215" /> 
+  <waypoint time="30000"
+            latitude="17.7" longitude="50.3" altitude="215" /> 
+  <waypoint time="40000"
+            latitude="17.7" longitude="50.4" altitude="215" /> 
+  <waypoint time="50000"
+            latitude="17.7" longitude="50.5" altitude="215" /> 
+  <waypoint time="60000"
+            latitude="17.6" longitude="50.6" altitude="215" /> 
+  <waypoint time="70000"
+            latitude="17.4" longitude="50.7" altitude="215" /> 
+  <waypoint time="80000"
+            latitude="17.2" longitude="50.8" altitude="215" /> 
+
+</waypoints>

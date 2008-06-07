@@ -10,7 +10,7 @@
     
 
         <desc>Arrow</desc>
-        <polygon points="30,150 100,10 170,150 100,120" id="arrow" fill="#33AACC" stroke="#0000AA" stroke-width="2"/>
+        <polygon points="40,140 100,20 160,140 100,110" id="arrow" fill="#33AACC" stroke="#0000AA" stroke-width="2"/>
             
 
 

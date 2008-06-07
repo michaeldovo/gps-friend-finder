@@ -20,7 +20,7 @@ import org.netbeans.microedition.lcdui.SplashScreen;
 import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.lcdui.pda.PIMBrowser;
 import org.netbeans.microedition.svg.SVGWaitScreen;
-import org.netbeans.microedition.util.SimpleCancellableTask;
+//import org.netbeans.microedition.util.SimpleCancellableTask;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
 import smsconnect.MessageReceiver;
@@ -111,6 +111,21 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
      */
     public FriendFinder() {
         inst = this;
+    }
+
+    private void printLocationAPItoUse() {
+        String message = "LOCATION API: Use ";
+        switch (Property.GPS_MODE) {
+            case Property.GPS_LOCATION_API:
+                message += "Builtin Location API";
+                break;
+            case Property.GPS_TEST:            
+                message += "Dummy-Test-Data";
+                break;
+            default:
+                message += "Data from BT-device";
+        }
+        System.out.println(message);
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Methods ">//GEN-BEGIN:|methods|0|
@@ -261,6 +276,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             } else if (command == okCommand3) {//GEN-LINE:|7-commandAction|23|123-preAction
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|24|123-postAction
                 updateGuideTask.cancel();
+                
             }//GEN-BEGIN:|7-commandAction|25|173-preAction
         } else if (displayable == errorMessageScreen) {
             if (command == cancelCommand4) {//GEN-END:|7-commandAction|25|173-preAction
@@ -279,6 +295,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                 // write post-action user code here
             } else if (command == okCommand6) {//GEN-LINE:|7-commandAction|31|208-preAction
                 Property.GPS_MODE = gpsDataList.getSelectedIndex();
+                printLocationAPItoUse();
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|32|208-postAction
                 // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|33|156-preAction
@@ -326,6 +343,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             } else if (command == cancelCommand5) {//GEN-LINE:|7-commandAction|49|180-preAction
                 switchDisplayable(null, getAlertAskRetry());//GEN-LINE:|7-commandAction|50|180-postAction
                 waitForConfirmTask.cancel();
+                
             }//GEN-BEGIN:|7-commandAction|51|165-preAction
         } else if (displayable == waitForMessageSentScreen) {
             if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|51|165-preAction
@@ -349,6 +367,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             } else if (command == cancelCommand) {//GEN-LINE:|7-commandAction|59|72-preAction
                 switchDisplayable(getAlertSMSFailure(), getPimBrowser());//GEN-LINE:|7-commandAction|60|72-postAction
                 sendSMSTask.cancel();
+                
             }//GEN-BEGIN:|7-commandAction|61|135-preAction
         } else if (displayable == waitForServerConnectionScreen) {
             if (command == WaitScreen.FAILURE_COMMAND) {//GEN-END:|7-commandAction|61|135-preAction
@@ -362,6 +381,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             } else if (command == cancelCommand6) {//GEN-LINE:|7-commandAction|65|183-preAction
                 switchDisplayable(null, getStartForm());//GEN-LINE:|7-commandAction|66|183-postAction
                 waitForServerTask.cancel();;
+                
             }//GEN-BEGIN:|7-commandAction|67|7-postCommandAction
         }//GEN-END:|7-commandAction|67|7-postCommandAction
         // write post-action user code here
@@ -536,7 +556,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             waitForConfirmTask.setExecutable(new org.netbeans.microedition.util.Executable() {
                 public void execute() throws Exception {//GEN-END:|57-getter|1|57-execute
                     int counter = 60;
-                    while (!P2PConnection.getInstance().isConnectionEstablished()) {
+                    while (!P2PConnection.getInstance().isConnectionEstablished() && !waitForConfirmTask.isCancelled()) {
                         waitForConfirmationScreen.setText("Warte noch "+counter--+" Sekunden");
                         // ask P2PConnection to look for incoming data
                         P2PConnection.getInstance().readUpdate();
@@ -764,7 +784,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                 public void execute() throws Exception {//GEN-END:|106-getter|1|106-execute
                     int cycle = 6; // start here to send and receive data right from the beginning (important for third handshake)
                     int lastDirection = 0; // because arrow start top-down-direction;
-                    while (P2PConnection.getInstance().isConnectionEstablished()) {
+                    while (P2PConnection.getInstance().isConnectionEstablished() && !updateGuideTask.isCancelled()) {
                         try {
                             // send and read server-data about every 30 seconds
                             if (cycle++ % 6 == 0) {
@@ -952,7 +972,7 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                         P2PConnection.getInstance().confirm();
                         // then wait
                         int counter = 20;
-                        while (!P2PConnection.getInstance().isConnectionEstablished()) {
+                        while (!P2PConnection.getInstance().isConnectionEstablished() && !waitForServerTask.isCancelled()) {
                             waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden, "+
                                     "\n bis die Serververbindung aufgebaut ist.");
                             // ask P2PConnection to look for incoming data
@@ -1301,12 +1321,12 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
             gpsDataList = new List("Which GPS data to use?", Choice.EXCLUSIVE);//GEN-BEGIN:|201-getter|1|201-postInit
             gpsDataList.append("From Dummy-Provider", null);
             gpsDataList.append("From BT-Receiver", null);
-            gpsDataList.append("From N95-API", null);
+            gpsDataList.append("From Location-API", null);
             gpsDataList.addCommand(getOkCommand6());
             gpsDataList.setCommandListener(this);
             gpsDataList.setFitPolicy(Choice.TEXT_WRAP_DEFAULT);
             gpsDataList.setSelectCommand(getOkCommand6());
-            gpsDataList.setSelectedFlags(new boolean[] { false, true, false });//GEN-END:|201-getter|1|201-postInit
+            gpsDataList.setSelectedFlags(new boolean[] { false, false, true });//GEN-END:|201-getter|1|201-postInit
             // write post-init user code here
         }//GEN-BEGIN:|201-getter|2|
         return gpsDataList;

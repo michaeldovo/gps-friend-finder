@@ -32,7 +32,7 @@ public class Property {
     //******
     public static final int GPS_TEST = 0;
     public static final int GPS_BT = 1;
-    public static final int GPS_N95 = 2;
+    public static final int GPS_LOCATION_API = 2;
     
     public static int GPS_MODE = 0;
     

@@ -43,6 +43,7 @@ public class P2PConnection {
     public static P2PConnection request(String number) throws IOException {
         inst = new P2PConnection();
         SMSRequest request = new SMSRequest(inst.getSessionId());
+        Person.other().setMobilenumber(number);
         request.setPhoneNumber(number);
         request.send();
         return inst;

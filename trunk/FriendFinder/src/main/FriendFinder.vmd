@@ -545,13 +545,13 @@
                     </Component>
                     <Component componentID="204" typeID="C#ListElementEventSource">
                         <Property name="string" typeID="Pjava.lang.String" value="VFrom BT-Receiver"/>
-                        <Property name="selected" typeID="Pboolean" value="Vtrue"/>
                     </Component>
                     <Component componentID="205" typeID="C#ListElementEventSource">
                         <Property name="string" typeID="Pjava.lang.String" value="VFrom Dummy-Provider"/>
                     </Component>
                     <Component componentID="206" typeID="C#ListElementEventSource">
-                        <Property name="string" typeID="Pjava.lang.String" value="VFrom N95-API"/>
+                        <Property name="string" typeID="Pjava.lang.String" value="VFrom Location-API"/>
+                        <Property name="selected" typeID="Pboolean" value="Vtrue"/>
                     </Component>
                     <Component componentID="208" typeID="C#CommandEventSource">
                         <Property name="eventHandler" typeID="C#EventHandler" value="R209"/>

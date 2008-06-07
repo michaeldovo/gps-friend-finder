@@ -47,8 +47,11 @@ public class Person {
     }
 
     public void setMobilenumber(String mn) {
-        if (mn.startsWith("+")) mn = "0"+mn.substring(3);
-        if (mn.endsWith(":0")) mn = mn.substring(0, mn.length()-2);
+        if (mn != null) {
+            // replace land-codes like +49 with 0
+            if (mn.startsWith("+")) mn = "0"+mn.substring(3);
+            if (mn.endsWith(":0")) mn = mn.substring(0, mn.length()-2);
+        }
         this.mobilenumber = mn;
     }
 

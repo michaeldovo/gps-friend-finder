@@ -71,7 +71,7 @@ public class HTTPConnection implements Listener{
             out= hc.openOutputStream();
             //out.write(message.getBytes());
             in = hc.openInputStream();
-            int length = 200;
+            int length = 400;
             byte[] data = new byte[length];
             in.read(data);
             String response = new String(data);
@@ -102,8 +102,8 @@ public class HTTPConnection implements Listener{
         
 
         String []url = new String[2];
-        url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);
-        url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber().substring(1);        
+        url[0] = "http://web94.trinity-media.de/friendfinder/get_gps.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();
+        url[1] = "http://web94.trinity-media.de/friendfinder/get_mail.php?sid="+this.sessionId+"&friend="+ Person.other().getMobilenumber();        
             
         for( int i=0; i<=1; i++)
         {

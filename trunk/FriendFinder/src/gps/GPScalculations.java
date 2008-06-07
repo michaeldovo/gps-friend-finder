@@ -31,7 +31,7 @@ public class GPScalculations {
         }
     }
 
-    private static GPSposition initN95() {
+    private static GPSposition getLocationAPI() {
         GPSposition gpsPos = new GPSposition(0,0);
         LocationProvider lp = null;
         javax.microedition.location.Location location = null;
@@ -106,8 +106,9 @@ public class GPScalculations {
     private static GPSposition getPosGPS() {
         GPSposition posGPS;
         switch (Property.GPS_MODE) {
-            case Property.GPS_N95:
-                posGPS = initN95();
+            case Property.GPS_LOCATION_API:
+                posGPS = getLocationAPI();
+                break;
             case Property.GPS_TEST:            
                 posGPS = test.getOwnpos();
                 break;

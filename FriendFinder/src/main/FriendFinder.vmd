@@ -50,14 +50,17 @@
                             <Property name="mobileDevice" typeID="C#MobileDevice" value="R2"/>
                         </Component>
                     </Component>
-                    <Component componentID="210" typeID="Cjavax.microedition.lcdui.ImageItem">
-                        <Property name="instanceName" typeID="Pjava.lang.String" value="VimageItem"/>
-                        <Property name="label" typeID="Pjava.lang.String" value="V"/>
-                        <Property name="layout" typeID="Pint" value="V16387"/>
+                    <Component componentID="217" typeID="Cjavax.microedition.lcdui.Spacer">
+                        <Property name="instanceName" typeID="Pjava.lang.String" value="Vspacer"/>
+                        <Property name="label" typeID="Pjava.lang.String" value="Vspacer"/>
                         <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
-                        <Property name="image" typeID="Cjavax.microedition.lcdui.Image" value="R211"/>
-                        <Property name="altText" typeID="Pjava.lang.String" value="VFriend Finder Logo"/>
-                        <Property name="appearanceMode" typeID="Pint" value="V0"/>
+                        <Property name="minHeight" typeID="Pint" value="V20"/>
+                    </Component>
+                    <Component componentID="219" typeID="Cjavax.microedition.lcdui.Spacer">
+                        <Property name="instanceName" typeID="Pjava.lang.String" value="Vspacer1"/>
+                        <Property name="label" typeID="Pjava.lang.String" value="Vspacer1"/>
+                        <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
+                        <Property name="minHeight" typeID="Pint" value="V20"/>
                     </Component>
                     <Component componentID="213" typeID="Cjavax.microedition.lcdui.ImageItem">
                         <Property name="instanceName" typeID="Pjava.lang.String" value="VimageItem1"/>
@@ -97,17 +100,14 @@
                             </Component>
                         </Component>
                     </Component>
-                    <Component componentID="217" typeID="Cjavax.microedition.lcdui.Spacer">
-                        <Property name="instanceName" typeID="Pjava.lang.String" value="Vspacer"/>
-                        <Property name="label" typeID="Pjava.lang.String" value="Vspacer"/>
+                    <Component componentID="210" typeID="Cjavax.microedition.lcdui.ImageItem">
+                        <Property name="instanceName" typeID="Pjava.lang.String" value="VimageItem"/>
+                        <Property name="label" typeID="Pjava.lang.String" value="V"/>
+                        <Property name="layout" typeID="Pint" value="V16387"/>
                         <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
-                        <Property name="minHeight" typeID="Pint" value="V20"/>
-                    </Component>
-                    <Component componentID="219" typeID="Cjavax.microedition.lcdui.Spacer">
-                        <Property name="instanceName" typeID="Pjava.lang.String" value="Vspacer1"/>
-                        <Property name="label" typeID="Pjava.lang.String" value="Vspacer1"/>
-                        <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R8"/>
-                        <Property name="minHeight" typeID="Pint" value="V20"/>
+                        <Property name="image" typeID="Cjavax.microedition.lcdui.Image" value="R211"/>
+                        <Property name="altText" typeID="Pjava.lang.String" value="VFriend Finder Logo"/>
+                        <Property name="appearanceMode" typeID="Pint" value="V0"/>
                     </Component>
                     <Component componentID="235" typeID="Cjavax.microedition.lcdui.TextField">
                         <Property name="instanceName" typeID="Pjava.lang.String" value="VnumberItem"/>
@@ -507,6 +507,44 @@
                         </Component>
                     </Component>
                 </Component>
+                <Component componentID="201" typeID="Cjavax.microedition.lcdui.List">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VgpsDataList"/>
+                    <Property name="commands" typeID="1C#CommandEventSource" value="A2:4_R2024_R208"/>
+                    <Property name="title" typeID="Pjava.lang.String" value="VWhich GPS data to use?"/>
+                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
+                    <Property name="elements" typeID="1C#ListElementEventSource" value="A3:4_R2054_R2044_R206"/>
+                    <Property name="listType" typeID="Pint" value="V1"/>
+                    <Property name="fitPolicy" typeID="Pint" value="V0"/>
+                    <Property name="selectCommand" typeID="C#CommandEventSource" value="R208"/>
+                    <Property name="indexBasedSwitch" typeID="Pboolean" value="Vtrue"/>
+                    <Component componentID="205" typeID="C#ListElementEventSource">
+                        <Property name="string" typeID="Pjava.lang.String" value="VFrom Dummy-Provider"/>
+                    </Component>
+                    <Component componentID="204" typeID="C#ListElementEventSource">
+                        <Property name="string" typeID="Pjava.lang.String" value="VFrom BT-Receiver"/>
+                    </Component>
+                    <Component componentID="206" typeID="C#ListElementEventSource">
+                        <Property name="string" typeID="Pjava.lang.String" value="VFrom Location-API"/>
+                        <Property name="selected" typeID="Pboolean" value="Vtrue"/>
+                    </Component>
+                    <Component componentID="202" typeID="C#ListSelectCommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R203"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R45"/>
+                        <Component componentID="203" typeID="C#ListEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R202"/>
+                        </Component>
+                    </Component>
+                    <Component componentID="208" typeID="C#CommandEventSource">
+                        <Property name="eventHandler" typeID="C#EventHandler" value="R209"/>
+                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
+                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R207"/>
+                        <Component componentID="209" typeID="C#SwitchDisplayableEventHandler">
+                            <Property name="eventSource" typeID="C#EventSource" value="R208"/>
+                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
+                        </Component>
+                    </Component>
+                </Component>
                 <Component componentID="196" typeID="Corg.netbeans.microedition.lcdui.SplashScreen">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VstartSplashScreen"/>
                     <Property name="commands" typeID="1C#CommandEventSource" value="A1:4_R197"/>
@@ -522,44 +560,6 @@
                         <Component componentID="200" typeID="C#SwitchDisplayableEventHandler">
                             <Property name="eventSource" typeID="C#EventSource" value="R197"/>
                             <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
-                        </Component>
-                    </Component>
-                </Component>
-                <Component componentID="201" typeID="Cjavax.microedition.lcdui.List">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VgpsDataList"/>
-                    <Property name="commands" typeID="1C#CommandEventSource" value="A2:4_R2024_R208"/>
-                    <Property name="title" typeID="Pjava.lang.String" value="VWhich GPS data to use?"/>
-                    <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
-                    <Property name="elements" typeID="1C#ListElementEventSource" value="A3:4_R2054_R2044_R206"/>
-                    <Property name="listType" typeID="Pint" value="V1"/>
-                    <Property name="fitPolicy" typeID="Pint" value="V0"/>
-                    <Property name="selectCommand" typeID="C#CommandEventSource" value="R208"/>
-                    <Property name="indexBasedSwitch" typeID="Pboolean" value="Vtrue"/>
-                    <Component componentID="202" typeID="C#ListSelectCommandEventSource">
-                        <Property name="eventHandler" typeID="C#EventHandler" value="R203"/>
-                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
-                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R45"/>
-                        <Component componentID="203" typeID="C#ListEventHandler">
-                            <Property name="eventSource" typeID="C#EventSource" value="R202"/>
-                        </Component>
-                    </Component>
-                    <Component componentID="204" typeID="C#ListElementEventSource">
-                        <Property name="string" typeID="Pjava.lang.String" value="VFrom BT-Receiver"/>
-                    </Component>
-                    <Component componentID="205" typeID="C#ListElementEventSource">
-                        <Property name="string" typeID="Pjava.lang.String" value="VFrom Dummy-Provider"/>
-                    </Component>
-                    <Component componentID="206" typeID="C#ListElementEventSource">
-                        <Property name="string" typeID="Pjava.lang.String" value="VFrom Location-API"/>
-                        <Property name="selected" typeID="Pboolean" value="Vtrue"/>
-                    </Component>
-                    <Component componentID="208" typeID="C#CommandEventSource">
-                        <Property name="eventHandler" typeID="C#EventHandler" value="R209"/>
-                        <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R201"/>
-                        <Property name="command" typeID="Cjavax.microedition.lcdui.Command" value="R207"/>
-                        <Component componentID="209" typeID="C#SwitchDisplayableEventHandler">
-                            <Property name="eventSource" typeID="C#EventSource" value="R208"/>
-                            <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R13"/>
                         </Component>
                     </Component>
                 </Component>
@@ -748,20 +748,20 @@
                     <Property name="label" typeID="Pjava.lang.String" value="VOk"/>
                     <Property name="type" typeID="Pint" value="V4"/>
                 </Component>
-                <Component componentID="224" typeID="Cjavax.microedition.lcdui.Command">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VfindCommand"/>
-                    <Property name="label" typeID="Pjava.lang.String" value="VFind number"/>
-                    <Property name="type" typeID="Pint" value="V8"/>
+                <Component componentID="230" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VbackCommand2"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VBack"/>
+                    <Property name="type" typeID="Pint" value="V2"/>
                 </Component>
                 <Component componentID="227" typeID="Cjavax.microedition.lcdui.Command">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VcontactsCommand1"/>
                     <Property name="label" typeID="Pjava.lang.String" value="VOpen Contacts"/>
                     <Property name="type" typeID="Pint" value="V8"/>
                 </Component>
-                <Component componentID="230" typeID="Cjavax.microedition.lcdui.Command">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VbackCommand2"/>
-                    <Property name="label" typeID="Pjava.lang.String" value="VBack"/>
-                    <Property name="type" typeID="Pint" value="V2"/>
+                <Component componentID="224" typeID="Cjavax.microedition.lcdui.Command">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VfindCommand"/>
+                    <Property name="label" typeID="Pjava.lang.String" value="VFind number"/>
+                    <Property name="type" typeID="Pint" value="V8"/>
                 </Component>
             </Component>
             <Component componentID="12" typeID="C#ResourcesCategory">
@@ -795,24 +795,24 @@
                 <Component componentID="186" typeID="Cjavax.microedition.lcdui.Ticker">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VmessageTicker"/>
                 </Component>
-                <Component componentID="195" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vtask"/>
-                </Component>
                 <Component componentID="199" typeID="Cjavax.microedition.lcdui.Image">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VsplashImage"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/FriendFinderSplash.png"/>
                 </Component>
-                <Component componentID="211" typeID="Cjavax.microedition.lcdui.Image">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VLogo"/>
-                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/FriendFinderLogo.png"/>
+                <Component componentID="195" typeID="Corg.netbeans.microedition.util.SimpleCancellableTask">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vtask"/>
+                </Component>
+                <Component componentID="216" typeID="Cjavax.microedition.lcdui.Image">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VbtnContacts"/>
+                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/btnContacts.png"/>
                 </Component>
                 <Component componentID="214" typeID="Cjavax.microedition.lcdui.Image">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VbtnFind"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/btnFindNumber.png"/>
                 </Component>
-                <Component componentID="216" typeID="Cjavax.microedition.lcdui.Image">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="VbtnContacts"/>
-                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/btnContacts.png"/>
+                <Component componentID="211" typeID="Cjavax.microedition.lcdui.Image">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="VLogo"/>
+                    <Property name="resourcePath" typeID="Pjava.lang.String" value="V/FriendFinderLogo.png"/>
                 </Component>
                 <Component componentID="233" typeID="Cjavax.microedition.lcdui.Image">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VwaitImage"/>
@@ -822,23 +822,23 @@
         </Component>
     </Document>
     <FlowScene version="1">
-        <Node componentID="121" descriptorID="componentNode121" x="472" y="393"/>
-        <Node componentID="201" descriptorID="componentNode201" x="236" y="835"/>
+        <Node componentID="163" descriptorID="componentNode163" x="1122" y="32"/>
         <Node componentID="26" descriptorID="componentNode26" x="1751" y="32"/>
-        <Node componentID="54" descriptorID="componentNode54" x="1439" y="202"/>
         <Node componentID="133" descriptorID="componentNode133" x="781" y="542"/>
+        <Node componentID="201" descriptorID="componentNode201" x="236" y="835"/>
+        <Node componentID="2" descriptorID="componentNode2" x="472" y="712"/>
+        <Node componentID="153" descriptorID="componentNode153" x="472" y="32"/>
         <Node componentID="70" descriptorID="componentNode70" x="1751" y="393"/>
-        <Node componentID="110" descriptorID="componentNode110" x="1122" y="712"/>
-        <Node componentID="168" descriptorID="componentNode168" x="1122" y="393"/>
         <Node componentID="196" descriptorID="componentNode196" x="487" y="841"/>
         <Node componentID="50" descriptorID="componentNode50" x="34" y="712"/>
-        <Node componentID="2" descriptorID="componentNode2" x="472" y="712"/>
-        <Node componentID="13" descriptorID="componentNode13" x="260" y="542"/>
-        <Node componentID="101" descriptorID="componentNode101" x="781" y="202"/>
-        <Node componentID="163" descriptorID="componentNode163" x="1122" y="32"/>
         <Node componentID="111" descriptorID="componentNode111" x="1439" y="861"/>
-        <Node componentID="153" descriptorID="componentNode153" x="472" y="32"/>
-        <Node componentID="187" descriptorID="componentNode187" x="1439" y="542"/>
         <Node componentID="60" descriptorID="componentNode60" x="2015" y="202"/>
+        <Node componentID="110" descriptorID="componentNode110" x="1122" y="712"/>
+        <Node componentID="13" descriptorID="componentNode13" x="260" y="542"/>
+        <Node componentID="54" descriptorID="componentNode54" x="1439" y="202"/>
+        <Node componentID="121" descriptorID="componentNode121" x="472" y="393"/>
+        <Node componentID="101" descriptorID="componentNode101" x="781" y="202"/>
+        <Node componentID="187" descriptorID="componentNode187" x="1439" y="542"/>
+        <Node componentID="168" descriptorID="componentNode168" x="1122" y="393"/>
     </FlowScene>
 </VisualDesign>

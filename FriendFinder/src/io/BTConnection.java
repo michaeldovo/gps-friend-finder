@@ -97,12 +97,19 @@ public class BTConnection extends Thread implements DiscoveryListener   {
         int input;
 
 //        listener.printMsg("Start reading data");
-        try {
-            while ((input = input_stream.read()) != 13)
-                strData += (char) input;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        while (readOn) {
+            try {
+                while ((input = input_stream.read()) != 13) {
+                    strData += (char) input;
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if(strData.indexOf("GPGGA")>=0){
+                readOn=false;
+            }
         }
+
         return strData;
     }
     

@@ -1,5 +1,7 @@
 package gps;
 
+import main.Person;
+
 /**
  * 
  * @author CoolCat
@@ -10,13 +12,20 @@ public class TestData {
     private GPSposition[] ownpos;
     private GPSposition targetpos;
 
-    
+        
     public GPSposition getOwnpos() {
         if (counter>=ownpos.length) 
             counter = 1;
         else
             counter++;
-        return ownpos[counter-1];
+        if(Person.other().getMobilenumber() !=null){
+        if(Person.other().getMobilenumber().equals("0222")){
+            System.out.println("Other Tel: " + Person.other().getMobilenumber());
+        return ownpos[counter-1];    
+        }
+        else return ownpos[20-counter];
+        }
+        else return ownpos[counter-1];
     }
 
     public GPSposition getTargetpos() {

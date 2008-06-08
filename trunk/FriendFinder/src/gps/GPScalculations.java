@@ -24,7 +24,7 @@ public class GPScalculations {
     public static void start() {
         bt = new BTConnection(listen);
         bt.start();
-        test = new TestData();
+        test= new TestData();
 
         if (Person.me().getPosition() == null) {
             setCurrentPosition();
@@ -133,7 +133,7 @@ public class GPScalculations {
         latitude = Double.valueOf(btString.substring(count + 1, count2).trim()).doubleValue();
         grad = Math.floor(latitude / 100);
         min = latitude - grad * 100;
-        latitude = grad + min * 60;
+        latitude = grad + min / 60;
         if (btString.substring(count2 + 1, count2 + 2).equalsIgnoreCase("S")) {
             latitude = -1 * latitude;
         }

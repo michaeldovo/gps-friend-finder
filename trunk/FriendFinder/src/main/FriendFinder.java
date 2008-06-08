@@ -40,11 +40,11 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private java.util.Hashtable __previousDisplayables = new java.util.Hashtable();
     private Form startForm;
-    private ImageItem imageItem;
-    private ImageItem imageItem1;
-    private ImageItem imageItem2;
     private Spacer spacer;
     private Spacer spacer1;
+    private ImageItem imageItem1;
+    private ImageItem imageItem2;
+    private ImageItem imageItem;
     private TextField numberItem;
     private WaitScreen waitForSMSscreen;
     private PIMBrowser pimBrowser;
@@ -60,8 +60,8 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private Alert errorMessageScreen;
     private WaitScreen waitForMessageSentScreen;
     private Alert alertConnectionLost;
-    private SplashScreen startSplashScreen;
     private List gpsDataList;
+    private SplashScreen startSplashScreen;
     private Command exitCommand;
     private Command contactsCommand;
     private Command okCommand;
@@ -86,9 +86,9 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private Command stopCommand2;
     private Command cancelCommand6;
     private Command okCommand6;
-    private Command findCommand;
-    private Command contactsCommand1;
     private Command backCommand2;
+    private Command contactsCommand1;
+    private Command findCommand;
     private SimpleCancellableTask sendSMSTask;
     private Ticker waitForConfirmMessage;
     private SimpleCancellableTask waitForConfirmTask;
@@ -98,11 +98,11 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
     private SimpleCancellableTask waitForServerTask;
     private SimpleCancellableTask sendMessageTask;
     private Ticker messageTicker;
-    private SimpleCancellableTask task;
     private Image splashImage;
-    private Image Logo;
-    private Image btnFind;
+    private SimpleCancellableTask task;
     private Image btnContacts;
+    private Image btnFind;
+    private Image Logo;
     private Image waitImage;
     //</editor-fold>//GEN-END:|fields|0|
 
@@ -786,6 +786,8 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                     int lastDirection = 0; // because arrow start top-down-direction;
                     while (P2PConnection.getInstance().isConnectionEstablished() && !updateGuideTask.isCancelled()) {
                         try {
+                            System.out.println("Person me: "+ Person.me().getPosition().toString());
+                            System.out.println("Person other: "+ Person.other().getPosition().toString());
                             // send and read server-data about every 30 seconds
                             if (cycle++ % 6 == 0) {
                                 cycle = 1;
@@ -794,7 +796,9 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                             }
                             int newDirection = cycle*20;//GPScalculations.getDirection();
                             System.out.println("New Direction: "+newDirection+"°");
-                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
+                            //FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
+                            
+                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
                             lastDirection = newDirection;
                         } catch (Exception e) {
                             e.printStackTrace();

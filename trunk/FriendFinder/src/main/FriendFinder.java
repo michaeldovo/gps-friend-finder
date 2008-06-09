@@ -794,11 +794,12 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
                                 P2PConnection.getInstance().writeUpdate();
                                 P2PConnection.getInstance().readUpdate();
                             }
-                            int newDirection = cycle*20;//GPScalculations.getDirection();
+                            int newDirection =GPScalculations.getDirection();
+                            lastDirection=360-lastDirection;
                             System.out.println("New Direction: "+newDirection+"°");
-                            //FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection - lastDirection, GPScalculations.getDistance()));                            
+                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(newDirection + lastDirection, GPScalculations.getDistance()));                            
                             
-                            FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
+                            //FFGuideScreen.invokeAndWaitSafely(new updateGuideScreen(GPScalculations.getDirection(), GPScalculations.getDistance()));
                             lastDirection = newDirection;
                         } catch (Exception e) {
                             e.printStackTrace();

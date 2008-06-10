@@ -23,12 +23,12 @@ public class GPScalculations {
     //Initialisierung von targetpos und currentpos
     public static void start() {
         bt = new BTConnection(listen);
-        bt.start();
+        bt.startConnection();
         test= new TestData();
 
-        if (Person.me().getPosition() == null) {
-            setCurrentPosition();
-        }
+//        if (Person.me().getPosition() == null) {
+//            setCurrentPosition();
+//        }
     }
 
     private static GPSposition getLocationAPI() {
@@ -76,6 +76,9 @@ public class GPScalculations {
      * von der Laufrichtung
      */
     public static short getDirection() {
+        if(Person.me().getPosition()==null){
+            setCurrentPosition();
+        }
         oldpos = Person.me().getPosition();
         setCurrentPosition();
         if (oldpos.getLatitude() != Person.me().getPosition().getLatitude() && oldpos.getLongitude() != Person.me().getPosition().getLongitude()) {

@@ -2,6 +2,7 @@ package io;
 
 /* TODO Hier arbeitet Boris, oder? */
 
+import gps.GPScalculations;
 import main.Property;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class BTConnection extends Thread implements DiscoveryListener   {
                 connectToDevice();
 //                listener.printMsg("Connection established!");
             }
-            
+            GPScalculations.getPosition();
         } catch (BluetoothStateException ex) {
             ex.printStackTrace();
         }

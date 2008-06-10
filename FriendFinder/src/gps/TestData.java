@@ -19,11 +19,11 @@ public class TestData {
         else
             counter++;
         if(Person.other().getMobilenumber() !=null){
-        if(Person.other().getMobilenumber().equals("0222")){
+        if(Person.other().getMobilenumber().equals("0111")){
             System.out.println("Other Tel: " + Person.other().getMobilenumber());
-        return ownpos[counter-1];    
+        return ownpos[20-counter];    
         }
-        else return ownpos[20-counter];
+        else return ownpos[counter-1];
         }
         else return ownpos[counter-1];
     }
@@ -49,9 +49,9 @@ public class TestData {
         14.3850);
         ownpos[5]=new GPSposition(51.2160,
         14.3349);
-        ownpos[6]=new GPSposition(51.2178,
+        ownpos[6]=new GPSposition(51.2148,
         14.1448);
-        ownpos[7]=new GPSposition(51.2197,
+        ownpos[7]=new GPSposition(51.2137,
         14.0747);
         ownpos[8]=new GPSposition(51.1715,
         14.0046);

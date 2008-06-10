@@ -57,7 +57,7 @@ public class GPScalculations {
    }
 
     //Überprüfung ob Ziel erreicht
-    public boolean targetreached() {
+    public static boolean targetreached() {
         if (Person.me().getPosition().getLatitude() == Person.other().getPosition().getLatitude() && Person.me().getPosition().getLongitude() == Person.other().getPosition().getLongitude()) {
             return true;
         } else {
@@ -65,7 +65,7 @@ public class GPScalculations {
         }
     }
 
-    public GPSposition getPosition() {
+    public static GPSposition getPosition() {
         setCurrentPosition();
         return Person.me().getPosition();
     }

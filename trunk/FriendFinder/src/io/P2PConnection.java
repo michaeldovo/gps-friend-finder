@@ -143,7 +143,7 @@ public class P2PConnection {
     }
     
     private static String createSessionId() {
-        return "3311699840746862459";
+        return "1234567890";
         //return new Random().nextLong()+"";
         
         /* We don't need a real Hash, do we?

@@ -100,6 +100,9 @@ public class BTConnection extends Thread implements DiscoveryListener   {
 //        listener.printMsg("Start reading data");
         while (readOn) {
             try {
+                if(input_stream==null){
+                    return "0";
+                }
                 while ((input = input_stream.read()) != 13) {
                     strData += (char) input;
                 }

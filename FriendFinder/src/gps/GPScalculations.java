@@ -123,6 +123,13 @@ public class GPScalculations {
         return posGPS;
     }
     
+    public static boolean hasData() {
+        if(bt.readGPSData().equals("0")){
+            return false;
+        }
+        else return true;
+    }
+    
     private static GPSposition initBT() {
         GPSposition posGPS = new GPSposition(0,0);
         double latitude;

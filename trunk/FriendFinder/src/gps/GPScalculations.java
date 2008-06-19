@@ -3,6 +3,7 @@ package gps;
 import io.BTConnection;
 import io.Listener;
 import javax.microedition.location.Coordinates;
+import javax.microedition.location.Criteria;
 import javax.microedition.location.LocationException;
 import javax.microedition.location.LocationProvider;
 import main.Person;
@@ -19,32 +20,49 @@ public class GPScalculations {
     private static String btString;
     private static BTConnection bt;
     private static Listener listen;
-
+    private static LocationProvider lp = null;
+    
+    
     //Initialisierung von targetpos und currentpos
-    public static void start() {
+    public static void startBT() {
         bt = new BTConnection(listen);
         bt.startConnection();
-        test= new TestData();
 
 //        if (Person.me().getPosition() == null) {
 //            setCurrentPosition();
 //        }
     }
+    
+    public static void startDummy() {
+        test = new TestData();
+    }
 
     private static GPSposition getLocationAPI() {
+        if (lp==null) {
+            Criteria highQuality = new Criteria();
+            highQuality.setHorizontalAccuracy(25); // 25m
+            highQuality.setVerticalAccuracy(25); // 25m
+            highQuality.setPreferredResponseTime(Criteria.NO_REQUIREMENT);
+            highQuality.setPreferredPowerConsumption(Criteria.POWER_USAGE_HIGH);
+            highQuality.setCostAllowed(false);
+            highQuality.setSpeedAndCourseRequired(true);
+            highQuality.setAltitudeRequired(true);
+            highQuality.setAddressInfoRequired(true);
+            try {
+            lp = LocationProvider.getInstance(highQuality);
+            } catch (LocationException e) {
+                e.printStackTrace();
+            }
+        }
         GPSposition gpsPos = new GPSposition(0,0);
-        LocationProvider lp = null;
         javax.microedition.location.Location location = null;
 
-        try {
-            lp = LocationProvider.getInstance(null);
-        } catch (LocationException e) {
-            e.printStackTrace();
-        }
+        
 
         try {
             //timeout 
-            location = lp.getLocation(20);
+            location = lp.getLocation(60);
+            if (!location.isValid()) return null;
             Coordinates coordinates = location.getQualifiedCoordinates();
              gpsPos.setLatitude(coordinates.getLatitude());
              gpsPos.setLongitude(coordinates.getLongitude());
@@ -124,10 +142,14 @@ public class GPScalculations {
     }
     
     public static boolean hasData() {
-        if(bt.readGPSData().equals("0")){
-            return false;
+        switch (Property.GPS_MODE) {
+            case Property.GPS_LOCATION_API:
+                return getLocationAPI()!=null;
+            case Property.GPS_TEST:            
+                return true;
+            default:
+                return !bt.readGPSData().equals("0");
         }
-        else return true;
     }
     
     private static GPSposition initBT() {

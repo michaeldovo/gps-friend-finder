@@ -154,8 +154,9 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
 //GEN-LINE:|0-initialize|1|0-postInitialize
         new Thread(new _Fill2Contacts()).start();
         // start GPS-Test-Code
-        System.out.println("Version 5");
-        GPScalculations.start();
+        System.out.println("Version 6");
+        GPScalculations.startDummy();
+        if (Property.GPS_MODE == Property.GPS_BT) GPScalculations.startBT();
         // try to add SMSService to PUSH-registry
         SMSservice.register();
         try {
@@ -976,10 +977,9 @@ public class FriendFinder extends MIDlet implements CommandListener, MessageList
 //                        // try to confirm the connection
                         P2PConnection.getInstance().confirm();
                         // then wait
-                        int counter = 20;
-                        while (!P2PConnection.getInstance().isConnectionEstablished() && !waitForServerTask.isCancelled()) {
-                            waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden, "+
-                                    "\n bis die Serververbindung aufgebaut ist.");
+                        int counter = 60;
+                        while ((!P2PConnection.getInstance().isConnectionEstablished() || !GPScalculations.hasData()) && !waitForServerTask.isCancelled()) {
+                            waitForServerConnectionScreen.setText("Bitte warten Sie noch " + (counter--) + " Sekunden,\nbis die Serververbindung aufgebaut ist\nund GPS-Daten vorliegen.");
                             // ask P2PConnection to look for incoming data
                              P2PConnection.getInstance().readUpdate();
                             if (counter <= 1)

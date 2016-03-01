@@ -1,0 +1,2 @@
+Two friends want to meet (e.g. in a city) but can't agree on a meeting point due to some restrictions (like one of the two is from another city), or just because they don't want to spend time on discussing a meeting point.
+Starting by one person who wants to find the other, this person selects the desired contact in his/her addressbook which results in a verifying-request at the other person's mobile. After confirmation both mobiles will show direction and distance to the other person (line of sight), enabling one or both of them to move towards each other.
